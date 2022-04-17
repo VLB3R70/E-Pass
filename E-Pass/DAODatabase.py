@@ -1,7 +1,7 @@
 import sqlite3
 
-from Decryptor import Decryptor
-from Encryptor import Encryptor
+from .Decryptor import Decryptor
+from .Encryptor import Encryptor
 
 
 class DAO:
@@ -25,7 +25,7 @@ class DAO:
                                'VALUES(?)'
 
         with self.connection:
-            self.connection.execute(insertMasterPassword, (encryptedPass))
+            self.connection.execute(insertMasterPassword, (encryptedPass,))
         # self.connection.commit()
 
     def getMasterPassword(self):
@@ -42,21 +42,49 @@ class DAO:
 
         with self.connection:
             encryptedPassword = self.encryptor.encrypt(newPassword)
-            self.connection.execute(updateMasterPassword, (encryptedPassword))
+            self.connection.execute(updateMasterPassword, (encryptedPassword,))
         # self.connection.commit()
+
+    ########################################################################################
 
     def createUserDataTable(self):
         SQLUserData = \
             'CREATE TABLE IF NOT EXISTS UserData(Site_name VARCHAR(100), Username VARCHAR(50), Password TEXT)'
 
-    def saveUserData(self):
-        pass
+    def saveUserData(self, siteName, userName, password):
+        encryptedPassword = self.encryptor.encrypt(password)
+        insertUserData = 'INSERT INTO UserData(Site_name, Username, Password)' \
+                         'VALUES (?,?,?)'
 
-    def getUserPassword(self):
-        pass
+        with self.connection:
+            self.connection.execute(insertUserData, (siteName, userName, encryptedPassword))
 
-    def updateUsername(self):
-        pass
+    def getUserPassword(self, siteName):
+        selectUserPassword = 'SELECT Password FROM UserData WHERE Site_name LIKE ?'
 
-    def updateUserPassword(self):
-        pass
+        with self.connection:
+            userPassword = self.connection.execute(selectUserPassword, (siteName,))
+            decryptedPassword = self.decryptor.decrypt(userPassword)
+
+        return decryptedPassword
+
+    def getUserName(self, siteName):
+        selectUserName = 'SELECT Username FROM UserData WHERE Site_name LIKE ?'
+
+        with self.connection:
+            userName = self.connection.execute(selectUserName, (siteName,))
+
+        return userName
+
+    def updateUsername(self, siteName, newUserName):
+        updateUserName = 'UPDATE UserData SET Username = ? WHERE Site_name = ?'
+
+        with self.connection:
+            self.connection.execute(updateUserName, (newUserName, siteName))
+
+    def updateUserPassword(self, siteName, newPassword):
+        updateUserPassword = 'UPDATE UsreData SET Password=? WHERE Site_name=?'
+
+        with self.connection:
+            encryptedPassword = self.encryptor.encrypt(newPassword)
+            self.connection.execute(updateUserPassword, (encryptedPassword, siteName))
