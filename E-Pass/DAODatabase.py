@@ -1,15 +1,19 @@
 import sqlite3
+from pathlib import Path
 
-from .Decryptor import Decryptor
-from .Encryptor import Encryptor
+from Decryptor import Decryptor
+from Encryptor import Encryptor
 
 
 class DAO:
-    encryptor = Encryptor
-    decryptor = Decryptor
+    encryptor = Encryptor()
+    decryptor = Decryptor()
 
-    def __int__(self):
-        self.connection = sqlite3.connect("")
+    databasePath = str(Path.home())
+    databaseName = '.e-pass.db'
+
+    def __init__(self):
+        self.connection = sqlite3.connect(self.databaseName)
 
     def createMasterPassTable(self):
         SQLMasterTable = \
@@ -20,7 +24,7 @@ class DAO:
         # self.connection.commit()
 
     def saveMasterPassword(self, masterPassword):
-        encryptedPass = self.encryptor.encrypt(masterPassword)
+        encryptedPass = self.encryptor.encrypt(password=masterPassword)
         insertMasterPassword = 'INSERT INTO MasterPassword(Master_Password)' \
                                'VALUES(?)'
 
@@ -50,6 +54,9 @@ class DAO:
     def createUserDataTable(self):
         SQLUserData = \
             'CREATE TABLE IF NOT EXISTS UserData(Site_name VARCHAR(100), Username VARCHAR(50), Password TEXT)'
+
+        with self.connection:
+            self.connection.execute(SQLUserData)
 
     def saveUserData(self, siteName, userName, password):
         encryptedPassword = self.encryptor.encrypt(password)
@@ -83,7 +90,7 @@ class DAO:
             self.connection.execute(updateUserName, (newUserName, siteName))
 
     def updateUserPassword(self, siteName, newPassword):
-        updateUserPassword = 'UPDATE UsreData SET Password=? WHERE Site_name=?'
+        updateUserPassword = 'UPDATE UserData SET Password=? WHERE Site_name=?'
 
         with self.connection:
             encryptedPassword = self.encryptor.encrypt(newPassword)
