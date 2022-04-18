@@ -1,8 +1,7 @@
 import sqlite3
 from pathlib import Path
 
-from Decryptor import Decryptor
-from Encryptor import Encryptor
+from Encryption import Encryptor, Decryptor
 
 
 class DAO:
@@ -21,7 +20,6 @@ class DAO:
 
         with self.connection:
             self.connection.execute(SQLMasterTable)
-        # self.connection.commit()
 
     def saveMasterPassword(self, masterPassword):
         encryptedPass = self.encryptor.encrypt(password=masterPassword)
@@ -30,15 +28,13 @@ class DAO:
 
         with self.connection:
             self.connection.execute(insertMasterPassword, (encryptedPass,))
-        # self.connection.commit()
 
     def getMasterPassword(self):
         selectMasterPassword = 'SELECT * FROM MasterPassword'
 
         with self.connection:
-            result = self.connection.execute(selectMasterPassword)
-            # self.connection.commit()
-            decryptedPassword = self.decryptor.decrypt(result)
+            result = self.connection.execute(selectMasterPassword).fetchone()
+            decryptedPassword = self.decryptor.decrypt(password=result[0])
         return decryptedPassword
 
     def updateMasterPassword(self, newPassword):
@@ -47,7 +43,6 @@ class DAO:
         with self.connection:
             encryptedPassword = self.encryptor.encrypt(newPassword)
             self.connection.execute(updateMasterPassword, (encryptedPassword,))
-        # self.connection.commit()
 
     ########################################################################################
 
@@ -59,7 +54,7 @@ class DAO:
             self.connection.execute(SQLUserData)
 
     def saveUserData(self, siteName, userName, password):
-        encryptedPassword = self.encryptor.encrypt(password)
+        encryptedPassword = self.encryptor.encrypt(password=password)
         insertUserData = 'INSERT INTO UserData(Site_name, Username, Password)' \
                          'VALUES (?,?,?)'
 
@@ -70,8 +65,8 @@ class DAO:
         selectUserPassword = 'SELECT Password FROM UserData WHERE Site_name LIKE ?'
 
         with self.connection:
-            userPassword = self.connection.execute(selectUserPassword, (siteName,))
-            decryptedPassword = self.decryptor.decrypt(userPassword)
+            userPassword = self.connection.execute(selectUserPassword, (siteName,)).fetchone()
+            decryptedPassword = self.decryptor.decrypt(password=userPassword[0])
 
         return decryptedPassword
 
@@ -79,9 +74,9 @@ class DAO:
         selectUserName = 'SELECT Username FROM UserData WHERE Site_name LIKE ?'
 
         with self.connection:
-            userName = self.connection.execute(selectUserName, (siteName,))
+            userName = self.connection.execute(selectUserName, (siteName,)).fetchone()
 
-        return userName
+        return userName[0]
 
     def updateUsername(self, siteName, newUserName):
         updateUserName = 'UPDATE UserData SET Username = ? WHERE Site_name = ?'
