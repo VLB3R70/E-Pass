@@ -1,5 +1,5 @@
-from .TUI.UIManager import login
 from .TUI.UIManager import TUIHelp
+from .TUI.UIManager import login
 
 
 def main():
@@ -8,6 +8,7 @@ def main():
 
 def help():
     TUIHelp()
+
 
 """if __name__ == '__main__':
     import sys

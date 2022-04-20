@@ -1,22 +1,24 @@
+import os
 import sqlite3
 from pathlib import Path
 
-from Encryption import Encryptor, Decryptor
+from .Encryption import Encryptor, Decryptor
 
 
 class DAO:
+    DATABASE_NAME = os.path.join(Path.home(), ".epass.db")
+
     encryptor = Encryptor()
     decryptor = Decryptor()
 
-    databasePath = str(Path.home())
-    databaseName = '.e-pass.db'
-
     def __init__(self):
-        self.connection = sqlite3.connect(self.databaseName)
+        self.connection = sqlite3.connect(self.DATABASE_NAME)
+        self.createMasterPassTable()
+        self.createUserDataTable()
 
     def createMasterPassTable(self):
         SQLMasterTable = \
-            'CREATE TABLE IF NOT EXISTS MasterPassword(Master_Password TEXT)'
+            'CREATE TABLE IF NOT EXISTS MasterPassword(Master_Password TEXT, EMail VARCHAR(50))'
 
         with self.connection:
             self.connection.execute(SQLMasterTable)
@@ -48,7 +50,7 @@ class DAO:
 
     def createUserDataTable(self):
         SQLUserData = \
-            'CREATE TABLE IF NOT EXISTS UserData(Site_name VARCHAR(100), Username VARCHAR(50), Password TEXT)'
+            'CREATE TABLE IF NOT EXISTS UserData(ID INTEGER primary key , Site_name VARCHAR(100), Username VARCHAR(50), Password TEXT)'
 
         with self.connection:
             self.connection.execute(SQLUserData)
