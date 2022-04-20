@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../E-Pass/.idea/E-Pass.iml" filepath="$PROJECT_DIR$/../E-Pass/.idea/E-Pass.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../EPass/.idea/EPass.iml" filepath="$PROJECT_DIR$/../EPass/.idea/EPass.iml" />
     </modules>
   </component>
 </project>

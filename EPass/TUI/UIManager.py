@@ -1,7 +1,9 @@
 from rich import print as nicePrint
 from rich.console import Console
+from rich.markdown import Markdown
 from rich.prompt import Prompt
 from rich.table import Table
+from .TUIHelp import HELP
 
 
 # from EPass.DAODatabase import DAO
@@ -31,6 +33,7 @@ def mainMenu():
             # saveUserData(siteName=newSiteName, userName=newUserName, password=newPassword)
             nicePrint("[green]Succesfully added a new entry to the database!")
         elif selection == 'exit':
+            nicePrint("[magenta][bold]Goodbye! 👋")
             break
 
 
@@ -48,7 +51,6 @@ def login():
 
     nicePrint(logo + description)
     election = Prompt.ask(prompt='1. Login with master password. \n2. Create a new user\n', choices=['1', '2'])
-
     if election == '1':
         masterPassword = Prompt.ask(prompt='[magenta]Enter the master password', default="", password=True)
 
@@ -66,6 +68,10 @@ def login():
             newMasterPassword = Prompt.ask(prompt="Introduce the new master password", default="", password=True)
             console.log("[bold][italic][red]New master password created and all previous data deleted.")
 
+def TUIHelp():
+    markdown = Markdown(HELP)
+    nicePrint(markdown)
+    pass
 
 def createUserDataMenu():
     menu = Table(show_lines=True)
@@ -89,6 +95,3 @@ def createMainMenu():
     menu.add_row('exit', '[yellow]Exit')
 
     return menu
-
-
-login()
