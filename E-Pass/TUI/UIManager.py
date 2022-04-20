@@ -7,7 +7,6 @@ from rich.table import Table
 # from EPass.DAODatabase import DAO
 
 def mainMenu():
-
     optionMenu = createMainMenu()
     nicePrint(optionMenu)
 
@@ -27,7 +26,7 @@ def mainMenu():
         elif selection == '3':
             newSiteName = Prompt.ask("Enter the site name", default="")
             newUserName = Prompt.ask("Enter your username of the site given", default="")
-            newPassword = Prompt.ask("Enter the password of te site given", default="",password=True)
+            newPassword = Prompt.ask("Enter the password of te site given", default="", password=True)
 
             # saveUserData(siteName=newSiteName, userName=newUserName, password=newPassword)
             nicePrint("[green]Succesfully added a new entry to the database!")
@@ -67,6 +66,7 @@ def login():
             newMasterPassword = Prompt.ask(prompt="Introduce the new master password", default="", password=True)
             console.log("[bold][italic][red]New master password created and all previous data deleted.")
 
+
 def createUserDataMenu():
     menu = Table(show_lines=True)
     menu.add_column("Site name")
@@ -74,19 +74,21 @@ def createUserDataMenu():
 
     return menu
 
+
 def createMainMenu():
     menu = Table(show_lines=True)
     menu.add_column("Selection number")
     menu.add_column("Description")
-    menu.add_row('0','Show menu')
+    menu.add_row('0', 'Show menu')
     menu.add_row('1.', 'List user data')
     menu.add_row('2', 'Select a password')
     menu.add_row('3', 'Add new entry')
     menu.add_row('4', 'Update password')
     menu.add_row('5', 'Update user name')
     menu.add_row('6', '[bold][red]Delete an entry')
-    menu.add_row('exit','[yellow]Exit')
+    menu.add_row('exit', '[yellow]Exit')
 
     return menu
+
 
 login()
