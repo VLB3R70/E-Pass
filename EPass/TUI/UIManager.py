@@ -43,10 +43,11 @@ def mainMenu():
             id = Prompt.ask("[cyan]Enter the ID of the username yo want to update")
             newUserName = Prompt.ask("[cyan]Enter the new username")
 
-            dao.updateUsername(ID=id,newUserName=newUserName)
+            dao.updateUsername(ID=id, newUserName=newUserName)
             nicePrint("[green]Username succesfully updated!")
         elif selection == '6':
-            deleteSelection = Prompt.ask("[orange]Do you want to delete one entry or more",default="",choices=['one','more'])
+            deleteSelection = Prompt.ask("[orange]Do you want to delete one entry or more", default="",
+                                         choices=['one', 'more'])
 
             if deleteSelection == 'one':
                 id = Prompt.ask("[cyan]Enter the ID of the password")
@@ -56,7 +57,7 @@ def mainMenu():
                 id = Prompt.ask("[cyan]Enter the ID's of the passwords you want to delete.\n"
                                 "[yellow]To enter more than one ID just simply enter the number and leave a blank space")
 
-                IDList = list(id.replace(' ',''))
+                IDList = list(id.replace(' ', ''))
                 dao.deleteManyPasswords(IDList=IDList)
                 nicePrint("[green]Succesfully deleted all passwords!")
 
@@ -73,7 +74,7 @@ def login():
 |   ___|  |___|  |  _____| / _` |    / __/  / __/
 |   |___         |  |      |(_| |  __\ \  __\ \ 
 |_______|        |__|      \__,_| |____/ |____/"""
-    description = "\n\n[bold][blue]Welcome to a fast and smart password manager for the linux terminal lovers.😘"
+    description = "\n\n[bold][blue]Welcome to a fast and smart password manager for the linux terminal lovers."
 
     console = Console()
 
