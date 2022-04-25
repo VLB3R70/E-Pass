@@ -138,9 +138,13 @@ def TUIHelp():
 
 
 def createUserDataMenu():
-    menu = Table("ID", "Site name", "User name", show_lines=True)
+    menu = Table(show_lines=True)
+    menu.add_column("ID",style="orange1")
+    menu.add_column("Site name", style="purple3")
+    menu.add_column("User name",style="green1")
+    menu.add_column("Password")
     for row in dao.getUserData():
-        menu.add_row(str(row[0]), row[1], row[2])
+        menu.add_row(str(row[0]), row[1], row[2], "*******")
 
     return menu
 
