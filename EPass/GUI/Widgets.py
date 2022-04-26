@@ -1,6 +1,6 @@
 from tkinter import *
 
-from EPass.EPass.DAODatabase import DAO
+from EPass.API.DAODatabase import DAO
 
 # modifyButtonStyle = Style()
 # modifyButtonStyle.configure("ModifyButton", background='#6b00ff')

@@ -4,7 +4,7 @@ from rich.markdown import Markdown
 from rich.prompt import Prompt
 from rich.table import Table
 
-from EPass.EPass.DAODatabase import DAO
+from EPass.API.DAODatabase import DAO
 from .TUIHelp import HELP
 
 dao = DAO()
