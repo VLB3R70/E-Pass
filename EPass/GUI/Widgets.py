@@ -9,13 +9,13 @@ dao = DAO()
 
 class EntriesTable:
     def __init__(self, root):
-        for i in range(total_rows):
-            for j in range(total_columns):
-                self.e = Entry(root, width=20, fg='blue',
+        for i in range(len(dao.getUserData())):
+            for j in range(3):
+                self.e = Entry(root, width=20,
                                font=('Arial', 16, 'bold'))
 
                 self.e.grid(row=i, column=j)
-                self.e.insert(END, lst[i][j])
+                self.e.insert(END, dao.getUserData()[i][j])
 
 class Entries:
     def __init__(self, root):
@@ -30,10 +30,7 @@ class Entries:
 
 
 root = Tk()
-entriesList = []
-for row in dao.getUserData():
-    entriesList.append(Entries(root).newEntry(row[1], row[2]))
 
-print(entriesList)
+table = EntriesTable(root)
 
 root.mainloop()
