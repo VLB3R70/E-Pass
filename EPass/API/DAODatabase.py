@@ -13,6 +13,15 @@ class DAO:
     def __init__(self):
         self.connection = sqlite3.connect(data.DATABASE_PATH)
         self.setupDataBase()
+        
+    def checkDataBase(self):
+        with self.connection:
+            isEmpty = self.connection.execute(data.SQL_COUNT).fetchall()
+            
+            if len(isEmpty) == 0:
+                return True
+            else:
+                return False
 
     def setupDataBase(self):
         with self.connection:

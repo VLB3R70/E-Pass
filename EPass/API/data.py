@@ -8,6 +8,8 @@ class Data:
     KEY_FILE_PATH = os.path.join(DATA_DIRECTORY, KEY_FILE_NAME)
 
     DATABASE_PATH = os.path.join(DATA_DIRECTORY, ".epass.db")
+    
+    SQL_COUNT = 'SELECT COUNT(*) FROM MasterPassword'
 
     SQL_START = """
             CREATE TABLE IF NOT EXISTS MasterPassword(
