@@ -1,7 +1,9 @@
 import sqlite3
 
-import data
 from .Encryption import Encryptor, Decryptor
+from .data import Data
+
+data = Data()
 
 
 class DAO:

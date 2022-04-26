@@ -1,6 +1,6 @@
 from cryptography.fernet import Fernet
 
-import data
+from .data import Data as data
 
 
 class Encryptor:
