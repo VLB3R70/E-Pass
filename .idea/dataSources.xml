@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="epass" uuid="60bfc6a1-9555-4bb0-9963-734ec93b714c">
+    <data-source source="LOCAL" name="epass" uuid="fba9aa42-5d0a-4dac-bc2e-f69f2068793d">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>

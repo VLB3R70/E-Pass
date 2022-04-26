@@ -1,22 +1,24 @@
 from cryptography.fernet import Fernet
 
+import data
+
 
 class Encryptor:
     def keyGenerator(self):
         if not (self.keyCheck()):
             key = Fernet.generate_key()
-            with open("e-pass.key", "wb") as keyFile:
+            with open(data.KEY_FILE_PATH, 'wb') as keyFile:
                 keyFile.write(key)
 
     def keyCheck(self):
         try:
-            if open("e-pass.key", "rb").read():
+            if open(data.KEY_FILE_PATH, 'rb').read():
                 return True
         except FileNotFoundError:
             return False
 
     def loadKey(self):
-        return open("e-pass.key", "rb").read()
+        return open(data.KEY_FILE_PATH, 'rb').read()
 
     def encrypt(self, password):
         self.keyGenerator()
@@ -28,7 +30,7 @@ class Encryptor:
 
 class Decryptor:
     def loadKey(self):
-        return open("e-pass.key", "rb").read()
+        return open(data.KEY_FILE_PATH, 'rb').read()
 
     def decrypt(self, password):
         key = self.loadKey()
