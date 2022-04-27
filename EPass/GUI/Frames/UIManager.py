@@ -1,10 +1,16 @@
 from tkinter import *
+from tkinter.ttk import *
+from EPass.API.DAODatabase import DAO
+from LoginFrame import LoginFrame
+dao = DAO()
 
 
-def Manager():
-    def __init__(self):
-        Tk.__init__(self)
-        Tk.geometry(self,'1000x700')
-        Tk.title(self,'EPass')
-        Tk.resizable(self,width=False, height=False)
-        
+def manager():
+    root = Tk()
+    loginFrame = LoginFrame(root)
+    loginFrame.mainloop()
+
+# if database is empty    ->  show registerFrame   else     ->  show loginFrame
+
+manager()
+
