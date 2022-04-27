@@ -83,11 +83,14 @@ def login():
 |   ___|  |___|  |  _____| / _` |    / __/  / __/
 |   |___         |  |      |(_| |  __\ \  __\ \ 
 |_______|        |__|      \__,_| |____/ |____/"""
-    description = "\n\n[bold][blue]Welcome to a fast and smart password manager for the linux terminal lovers."
+    description = "\n\n[bold][blue]Welcome to a fast and smart password manager for the linux terminal lovers.\n\n\n\n"
 
     console = Console()
 
     nicePrint(logo + description)
+    if dao.databaseEmpty():
+        nicePrint("There is no user in this database. Please create a new one.")
+
     while login:
         election = Prompt.ask(
             prompt="1. Login with master password. \n2. Create a new user\n3. Remember password",

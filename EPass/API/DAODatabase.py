@@ -1,3 +1,4 @@
+import os
 import sqlite3
 
 from .Encryption import Encryptor, Decryptor
@@ -5,23 +6,29 @@ from .data import Data
 
 data = Data()
 
+databaseCreated = True
+
 
 class DAO:
     encryptor = Encryptor()
     decryptor = Decryptor()
 
     def __init__(self):
-        self.connection = sqlite3.connect(data.DATABASE_PATH)
-        self.setupDataBase()
-        
-    def checkDataBase(self):
+        try:
+            self.connection = sqlite3.connect(data.DATABASE_PATH)
+            self.setupDataBase()
+        except sqlite3.OperationalError:
+            os.mkdir(data.DATA_DIRECTORY)
+            open(data.DATABASE_PATH, 'w')
+
+    def databaseEmpty(self):
         with self.connection:
-            isEmpty = self.connection.execute(data.SQL_COUNT).fetchall()
-            
-            if len(isEmpty) == 0:
-                return True
-            else:
+            notEmpty = self.connection.execute(data.SQL_COUNT).fetchone()
+
+            if notEmpty:
                 return False
+            else:
+                return True
 
     def setupDataBase(self):
         with self.connection:
