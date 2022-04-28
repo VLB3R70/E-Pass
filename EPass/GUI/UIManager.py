@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter.ttk import *
 from EPass.API.DAODatabase import DAO
-from LoginFrame import LoginFrame
+from Frames.LoginFrame import LoginFrame
 dao = DAO()
 
 
