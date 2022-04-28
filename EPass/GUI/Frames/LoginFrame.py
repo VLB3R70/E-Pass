@@ -1,5 +1,6 @@
 import tkinter.messagebox as message
 from tkinter import *
+from tkinter.ttk import Frame
 
 from EPass.API.DAODatabase import DAO
 from .HomeFrame import HomeFrame
@@ -25,7 +26,8 @@ class LoginFrame(Frame):
         self.masterPasswordEntry.grid(column=0, row=2)
         self.masterPasswordEntry.focus()
 
-        self.accessButton = Button(self, text="Log in", bg=BUTTON_COLOR, command=lambda event: self.checkPassword())
+        self.accessButton = Button(self, text="Log in", bg=BUTTON_COLOR, activebackground="#81c784",
+                                   command=lambda: self.checkPassword())
         self.accessButton.grid(column=0, row=3, columnspan=2, rowspan=2, ipadx=30, pady=60)
 
         self.registerLabel = Label(self, text="I don't have a user. Register.",
@@ -47,7 +49,7 @@ class LoginFrame(Frame):
             message.showerror("Error", "Incorrect password. Please try again")
 
     def registerUser(self):
-        self.root.destroy()
+        self.root
         root = Tk()
         registerFrame = RegisterFrame(root)
         registerFrame.tkraise()
