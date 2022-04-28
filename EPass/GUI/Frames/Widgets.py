@@ -1,24 +1,39 @@
 from tkinter import *
+from tkinter.ttk import *
 
 from EPass.API.DAODatabase import DAO
 
-# modifyButtonStyle = Style()
-# modifyButtonStyle.configure("ModifyButton", background='#6b00ff')
 dao = DAO()
 
-class EntriesTable:
+
+class EntriesTable(Treeview):
     def __init__(self, root):
-        for i in range(len(dao.getUserData())):
-            for j in range(3):
-                self.e = Entry(root,
-                               font=('Arial', 12, 'bold'))
+        Treeview.__init__(self, root)
 
-                self.e.grid(row=i, column=j)
-                self.e.insert(END, dao.getUserData()[i][j])
+        scroll = Scrollbar(self)
+        scroll.pack(side=RIGHT, fill=Y)
 
+        scroll = Scrollbar(self, orient='horizontal')
+        scroll.pack(side=BOTTOM, fill=X)
 
-root = Tk()
+        table = Treeview(self, yscrollcommand=scroll.set, xscrollcommand=scroll.set)
+        table.pack()
 
-table = EntriesTable(root)
+        table['columns'] = ('ID', 'Site name', 'Username')
+        table.column("#0", width=0, stretch=NO)
 
-root.mainloop()
+        for i in table['columns']:
+            table.column(i, anchor=CENTER, width=60)
+
+        table.heading("#0", text="", anchor=CENTER)
+        for j in table['columns']:
+            table.heading(j, text=j, anchor=CENTER)
+
+        id = 0
+        for k in dao.getUserData():
+            table.insert(parent='', index='end', iid=str(id), text='', values=k)
+            id += 1
+
+        table.pack()
+
+        self.pack()
