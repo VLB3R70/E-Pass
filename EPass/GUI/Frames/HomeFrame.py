@@ -4,16 +4,35 @@ from tkinter.ttk import *
 from .Widgets import EntriesTable
 
 
-class HomeFrame(PanedWindow):
+class HomeFrame(Frame):
 
     def __init__(self, root):
-        PanedWindow.__init__(self, root)
+        Frame.__init__(self, root)
+        self.option_add('*tearOff', FALSE)
 
-        window = PanedWindow(root, orient=VERTICAL)
-        self.pack(fill=BOTH, expand=1)
+        # window = PanedWindow(root, orient=VERTICAL)
         table = EntriesTable(self)
-        self.add(table)
+        table.grid(column=0, row=0, pady=40)
 
         root.title("Home")
-        root.minsize(1000, 600)
+        root.config(menu=self.createMenuBar())
         self.pack()
+
+    def createMenuBar(self):
+        menubar = Menu(self, foreground='black', activebackground='white',
+                       activeforeground='black')
+
+        add = Menu(menubar, tearoff=1, foreground='black')
+        add.add_command(label="New password")
+        menubar.add_cascade(label="Add", menu=add)
+
+        modify = Menu(menubar, tearoff=1, foreground='black')
+        modify.add_command(label="Selected password")
+        modify.add_command(label="More than one password")
+        menubar.add_cascade(label="Modify", menu=modify)
+
+        delete = Menu(menubar, tearoff=1, foreground='black')
+        delete.add_command(label="Selected passwords")
+        menubar.add_cascade(label="Delete", menu=delete)
+
+        return menubar

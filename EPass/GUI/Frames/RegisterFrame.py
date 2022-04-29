@@ -1,8 +1,6 @@
 import tkinter.messagebox as message
 from tkinter import *
 
-from EPass.GUI.Frames.LoginFrame import LoginFrame
-
 from EPass.API.DAODatabase import DAO
 
 dao = DAO()
@@ -25,7 +23,8 @@ class RegisterFrame(Frame):
         self.emailEntry.grid(column=1, row=1)
         self.emailEntry.bind("<Return>", lambda event: self.registerUser())
 
-        self.registerButton = Button(self, text="Register", bg="#4CAF50", activebackground="#81c784", command=lambda: self.registerUser())
+        self.registerButton = Button(self, text="Register", bg="#4CAF50", activebackground="#81c784",
+                                     command=lambda: self.registerUser())
         self.registerButton.grid(column=0, row=2, columnspan=2, rowspan=2, ipadx=30, pady=40)
 
         self.root.title("Registration")

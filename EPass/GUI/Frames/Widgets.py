@@ -6,24 +6,23 @@ from EPass.API.DAODatabase import DAO
 dao = DAO()
 
 
-class EntriesTable(Treeview):
+class EntriesTable(LabelFrame):
     def __init__(self, root):
-        Treeview.__init__(self, root)
+        LabelFrame.__init__(self, root)
 
-        scroll = Scrollbar(self)
+        scroll = Scrollbar(self, orient=VERTICAL)
         scroll.pack(side=RIGHT, fill=Y)
 
-        scroll = Scrollbar(self, orient='horizontal')
-        scroll.pack(side=BOTTOM, fill=X)
-
-        table = Treeview(self, yscrollcommand=scroll.set, xscrollcommand=scroll.set)
+        table = Treeview(self)
+        table.config(yscrollcommand=scroll.set)
+        scroll.config(command=table.yview())
         table.pack()
 
         table['columns'] = ('ID', 'Site name', 'Username')
-        table.column("#0", width=0, stretch=NO)
+        table.column("#0", width=0, stretch=YES)
 
         for i in table['columns']:
-            table.column(i, anchor=CENTER, width=60)
+            table.column(i, anchor=CENTER, width=200)
 
         table.heading("#0", text="", anchor=CENTER)
         for j in table['columns']:
@@ -31,9 +30,8 @@ class EntriesTable(Treeview):
 
         id = 0
         for k in dao.getUserData():
-            table.insert(parent='', index='end', iid=str(id), text='', values=k)
+            table.insert(parent='', index=id, iid=str(id), text='', values=k)
             id += 1
 
-        table.pack()
-
+        self.config(text="Password tables")
         self.pack()
