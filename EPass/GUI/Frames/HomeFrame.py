@@ -1,18 +1,19 @@
 from tkinter import *
-from tkinter.ttk import *
 
-from .Widgets import EntriesTable
+from .Widgets import EntriesTable, ButtonPanel
 
 
-class HomeFrame(Frame):
+class HomeFrame(PanedWindow):
 
     def __init__(self, root):
-        Frame.__init__(self, root)
+        PanedWindow.__init__(self, root)
         self.option_add('*tearOff', FALSE)
 
-        # window = PanedWindow(root, orient=VERTICAL)
         table = EntriesTable(self)
-        table.grid(column=0, row=0, pady=40)
+        self.add(table)
+
+        buttons = ButtonPanel(self)
+        self.add(buttons)
 
         root.title("Home")
         root.config(menu=self.createMenuBar())
