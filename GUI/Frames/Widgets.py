@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter.ttk import Treeview
 
-from EPass.API.DAODatabase import DAO
+from API.DAODatabase import DAO
 
 dao = DAO()
 

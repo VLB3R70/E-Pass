@@ -2,7 +2,7 @@ import tkinter.messagebox as message
 from tkinter import *
 from tkinter.ttk import Frame
 
-from EPass.API.DAODatabase import DAO
+from API.DAODatabase import DAO
 from .HomeFrame import HomeFrame
 from .RegisterFrame import RegisterFrame
 

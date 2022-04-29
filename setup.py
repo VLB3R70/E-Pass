@@ -5,6 +5,6 @@ setup(name='EPass',
       packages=find_packages(include=['EPass', 'EPass.*'], exclude=['GUI']),
       install_requires=[],
       entry_points={
-          'console_scripts': ['epass=EPass.TUI.__main__:main',
-                              'epass-help=EPass.TUI.__main__:help']
+          'console_scripts': ['epass=TUI.__main__:main',
+                              'epass-help=TUI.__main__:help']
       })

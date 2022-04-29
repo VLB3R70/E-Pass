@@ -1,7 +1,7 @@
 import tkinter.messagebox as message
 from tkinter import *
 
-from EPass.API.DAODatabase import DAO
+from API.DAODatabase import DAO
 
 dao = DAO()
 
