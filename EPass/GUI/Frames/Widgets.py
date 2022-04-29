@@ -40,16 +40,20 @@ class EntriesTable(PanedWindow):
 
 
 class ButtonPanel(PanedWindow):
+
     def __init__(self, root):
         PanedWindow.__init__(self, root)
-
         addPass = Button(self, text="Add", bg='green', fg='black')
-        addPass.pack(anchor=N, pady=10, padx=20, ipadx=40)
-
         modifyPass = Button(self, text="Modify", bg='yellow', fg='black', state=DISABLED)
-        modifyPass.pack(anchor=CENTER, pady=10, padx=20, ipadx=30)
-
         deletePass = Button(self, text="Delete", bg='red', fg='black', state=DISABLED)
+
+        addPass.pack(anchor=N, pady=10, padx=20, ipadx=40)
+        modifyPass.pack(anchor=CENTER, pady=10, padx=20, ipadx=30)
         deletePass.pack(anchor=S, pady=10, padx=20, ipadx=30)
 
         self.pack()
+
+
+class Filter(PanedWindow):
+    def __init__(self, root):
+        PanedWindow.__init__(self, root)
