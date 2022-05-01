@@ -6,20 +6,17 @@ from API.DAODatabase import DAO
 dao = DAO()
 
 
-class EntriesTable(PanedWindow):
+class EntriesTable(Frame):
     def __init__(self, root):
-        PanedWindow.__init__(self, root)
+        Frame.__init__(self, root)
 
         labelFrame = LabelFrame(self, text="Database passwords")
-        labelFrame.pack()
 
-        scroll = Scrollbar(self, orient=VERTICAL)
-        scroll.pack(side=RIGHT, fill=Y)
+        scroll = Scrollbar(labelFrame, orient=VERTICAL)
 
         table = Treeview(labelFrame, height=10)
         table.config(yscrollcommand=scroll.set)
         scroll.config(command=table.yview())
-        table.pack()
 
         table['columns'] = ('ID', 'Site name', 'Username')
         table.column("#0", width=0, stretch=NO)
@@ -36,13 +33,16 @@ class EntriesTable(PanedWindow):
             table.insert(parent='', index=id, iid=str(id), text='', values=k)
             id += 1
 
+        scroll.pack(side=RIGHT, fill=Y)
+        table.pack()
+        labelFrame.pack()
         self.pack(padx=40, pady=40)
 
 
-class ButtonPanel(PanedWindow):
+class ButtonPanel(Frame):
 
     def __init__(self, root):
-        PanedWindow.__init__(self, root)
+        Frame.__init__(self, root)
         addPass = Button(self, text="Add", bg='green', fg='black')
         modifyPass = Button(self, text="Modify", bg='yellow', fg='black', state=DISABLED)
         deletePass = Button(self, text="Delete", bg='red', fg='black', state=DISABLED)
@@ -54,6 +54,19 @@ class ButtonPanel(PanedWindow):
         self.pack()
 
 
-class Filter(PanedWindow):
+"""class Filter(Frame):
     def __init__(self, root):
-        PanedWindow.__init__(self, root)
+        Frame.__init__(self, root)
+        labelSiteName = Label(self, text="Site name:")
+        entrySiteName = Entry(self)
+        entrySiteName.grid(column=1, row=0)
+        labelSiteName.grid(column=0, row=0)
+
+        labelUsername = Label(self, text="Username:")
+        entryUsername = Entry(self)
+        labelUsername.grid(column=0, row=1)
+        entryUsername.grid(column=1, row=1)
+
+        
+
+        self.pack()"""

@@ -7,17 +7,19 @@ class HomeFrame(PanedWindow):
 
     def __init__(self, root):
         PanedWindow.__init__(self, root)
-        self.option_add('*tearOff', FALSE)
 
         table = EntriesTable(self)
+        table.pack(side=TOP)
         self.add(table)
 
         buttons = ButtonPanel(self)
+        buttons.pack(side=LEFT)
         self.add(buttons)
 
         root.title("Home")
         root.config(menu=self.createMenuBar())
         self.pack()
+
 
     def createMenuBar(self):
         menubar = Menu(self, foreground='black', activebackground='white',
