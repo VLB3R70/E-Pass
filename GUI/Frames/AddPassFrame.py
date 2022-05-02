@@ -9,6 +9,8 @@ dao = DAO()
 class AddPassFrame(Frame):
     def __init__(self, root):
         Frame.__init__(self, root)
+        self.root = root
+
         self.labelSiteName = Label(self, text="Site name:", anchor=E)
         self.entrySiteName = Entry(self)
 
@@ -34,9 +36,7 @@ class AddPassFrame(Frame):
         self.entryPassword2.grid(column=1, row=3, pady=10)
 
         self.addPassword.grid(column=0, row=4, columnspan=2, ipadx=30)
-
-        root.title("Add new password")
-
+        self.root.title("Add new password")
         self.pack()
 
     def checkPassword(self):
@@ -46,4 +46,7 @@ class AddPassFrame(Frame):
         else:
             message.showerror("Wrong password", "You must introduce the same password twice. Please try again")
 
-        #self.destroy()
+        self.root.destroy()
+        home = self.root.tkraise()
+        self.destroy()
+

@@ -1,8 +1,7 @@
 from tkinter import *
-from tkinter.ttk import Treeview
-import tkinter.messagebox as message
-from .Widgets import EntriesTable, ButtonPanel
+
 from API.DAODatabase import DAO
+from .Widgets import EntriesTable, ButtonPanel
 
 dao = DAO()
 
@@ -12,9 +11,11 @@ class HomeFrame(Frame):
     def __init__(self, root):
         Frame.__init__(self, root)
         self.root = root
+
         self.labelFrame = EntriesTable(self)
         self.labelFrame.grid(column=0, row=0, rowspan=3)
         self.buttonPanel = ButtonPanel(self)
+
         root.title("Home")
         root.config(menu=self.createMenuBar())
         self.pack()
