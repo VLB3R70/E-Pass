@@ -1,20 +1,18 @@
 from tkinter import *
 from tkinter.ttk import Treeview
-
+from .AddPassFrame import AddPassFrame
 from API.DAODatabase import DAO
 
 dao = DAO()
 
 
-class EntriesTable(Frame):
+class EntriesTable(LabelFrame):
     def __init__(self, root):
-        Frame.__init__(self, root)
+        LabelFrame.__init__(self, root)
 
-        labelFrame = LabelFrame(self, text="Database passwords")
+        scroll = Scrollbar(self, orient=VERTICAL)
 
-        scroll = Scrollbar(labelFrame, orient=VERTICAL)
-
-        table = Treeview(labelFrame, height=10)
+        table = Treeview(self, height=10)
         table.config(yscrollcommand=scroll.set)
         scroll.config(command=table.yview())
 
@@ -35,16 +33,27 @@ class EntriesTable(Frame):
 
         scroll.pack(side=RIGHT, fill=Y)
         table.pack()
-        labelFrame.pack()
+        self.config(text="Database passwords")
         self.pack(padx=40, pady=40)
 
 
-class ButtonPanel(Frame):
+class ButtonPanel(PanedWindow):
 
     def __init__(self, root):
-        Frame.__init__(self, root)
+        PanedWindow.__init__(self, root)
+        self.addPass = Button(root, text="Add", bg='green', fg='black', activebackground='light green',
+                              command=lambda: self.addNewPassword())
+        self.modifyPass = Button(root, text="Modify", bg='yellow', fg='black', state=DISABLED)
+        self.deletePass = Button(root, text="Delete", bg='red', fg='black', state=DISABLED)
 
-        self.pack()
+        self.addPass.grid(column=3, row=0, pady=10, padx=20, ipadx=40)
+        self.modifyPass.grid(column=3, row=1, pady=10, padx=20, ipadx=30)
+        self.deletePass.grid(column=3, row=2, pady=10, padx=20, ipadx=30)
+
+    def addNewPassword(self):
+        addPasswordFrame = AddPassFrame(self)
+        addPasswordFrame.tkraise()
+
 
 
 """class Filter(Frame):

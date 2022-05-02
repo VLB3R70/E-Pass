@@ -21,7 +21,7 @@ class AddPassFrame(Frame):
         self.entryPassword2 = Entry(self, show="*")
 
         self.addPassword = Button(self, text="Add", bg='green', activebackground='light green',
-                                  command=lambda: self.checkPassword(root))
+                                  command=lambda: self.checkPassword())
 
         self.labelSiteName.grid(column=0, row=0, pady=10)
         self.labelUsername.grid(column=0, row=1, pady=10)
@@ -39,11 +39,11 @@ class AddPassFrame(Frame):
 
         self.pack()
 
-    def checkPassword(self, root):
+    def checkPassword(self):
         if self.entryPassword.get() == self.entryPassword2.get():
             dao.saveUserData(siteName=self.entrySiteName.get(), userName=self.entryUsername.get(),
                              password=self.entryPassword.get())
         else:
             message.showerror("Wrong password", "You must introduce the same password twice. Please try again")
 
-        root.destroy()
+        #self.destroy()
