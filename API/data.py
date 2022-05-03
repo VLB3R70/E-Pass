@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+
 class Data:
     DATA_DIRECTORY = os.path.join(Path.home(), '.EPass/')
 
@@ -8,7 +9,7 @@ class Data:
     KEY_FILE_PATH = os.path.join(DATA_DIRECTORY, KEY_FILE_NAME)
 
     DATABASE_PATH = os.path.join(DATA_DIRECTORY, ".epass.db")
-    
+
     SQL_COUNT = 'SELECT Master_Password FROM MasterPassword'
 
     SQL_START = """

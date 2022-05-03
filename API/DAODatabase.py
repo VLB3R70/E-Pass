@@ -15,7 +15,7 @@ class DAO:
 
     def __init__(self):
         try:
-            self.connection = sqlite3.connect(data.DATABASE_PATH)
+            self.connection = sqlite3.connect(data.DATABASE_PATH, check_same_thread=False)
             self.setupDataBase()
         except sqlite3.OperationalError:
             os.mkdir(data.DATA_DIRECTORY)
