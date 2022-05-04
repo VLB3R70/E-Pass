@@ -22,19 +22,19 @@ def insertUserData():
     return jsonify(result)
 
 
-@app.route('/user/pass/<id>', methods=['GET'])
+@app.route('/user/data/pass/<id>', methods=['GET'])
 def getUserPassword(ID):
     result = dao.getUserPassword(ID)
     return jsonify(result)
 
 
-@app.route('/user/name/<id>', methods=['GET'])
+@app.route('/user/data/name/<id>', methods=['GET'])
 def getUserName(ID):
     result = dao.getUserName(ID)
     return jsonify(result)
 
 
-@app.route('/user/name/', methods=['PUT'])
+@app.route('/user/data/name/', methods=['PUT'])
 def updateUsername():
     userDetails = request.get_json()
     id = userDetails['ID']
@@ -43,7 +43,7 @@ def updateUsername():
     return jsonify(result)
 
 
-@app.route('/user/pass/', methods=['PUT'])
+@app.route('/user/data/pass/', methods=['PUT'])
 def updateUserPassword():
     userDetails = request.get_json()
     id = userDetails['ID']
@@ -52,11 +52,11 @@ def updateUserPassword():
     return jsonify(result)
 
 
-@app.route('/user/pass/<id>', methods=['DELETE'])
+@app.route('/user/data/del_pass/<id>', methods=['DELETE'])
 def deletePassword(ID):
     result = dao.deleteOnePassword(ID)
     return jsonify(result)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

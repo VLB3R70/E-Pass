@@ -24,8 +24,8 @@ class Encryptor:
         self.keyGenerator()
         key = self.loadKey()
         f = Fernet(key)
-        encryptedPassword = f.encrypt(password.encode("utf-8"))
-        return encryptedPassword
+        encryptedPassword = f.encrypt(password.encode('utf-8'))
+        return encryptedPassword.decode('utf-8')
 
 
 class Decryptor:
@@ -35,5 +35,5 @@ class Decryptor:
     def decrypt(self, password):
         key = self.loadKey()
         f = Fernet(key)
-        decryptedPassword = f.decrypt(password)
+        decryptedPassword = f.decrypt(password.encode('utf-8'))
         return decryptedPassword.decode("utf-8")
