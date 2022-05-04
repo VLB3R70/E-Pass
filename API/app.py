@@ -15,22 +15,24 @@ def getUserData():
 @app.route('/user/add', methods=['POST'])
 def insertUserData():
     userData = request.get_json()
-    siteName = userData["site name"]
+    siteName = userData["sitename"]
     userName = userData["username"]
     password = userData["password"]
     result = dao.saveUserData(siteName, userName, password)
     return jsonify(result)
 
 
-@app.route('/user/data/pass/<id>', methods=['GET'])
-def getUserPassword(ID):
-    result = dao.getUserPassword(ID)
+@app.route('/user/data/pass/', methods=['GET'])
+def getUserPassword():
+    id = request.args["id"]
+    result = dao.getUserPassword(id)
     return jsonify(result)
 
 
-@app.route('/user/data/name/<id>', methods=['GET'])
-def getUserName(ID):
-    result = dao.getUserName(ID)
+@app.route('/user/data/name/', methods=['GET'])
+def getUserName():
+    id = request.args["id"]
+    result = dao.getUserName(id)
     return jsonify(result)
 
 
@@ -46,15 +48,15 @@ def updateUsername():
 @app.route('/user/data/pass/', methods=['PUT'])
 def updateUserPassword():
     userDetails = request.get_json()
-    id = userDetails['ID']
+    id = userDetails['id']
     password = userDetails['password']
     result = dao.updateUserPassword(id, password)
     return jsonify(result)
 
 
-@app.route('/user/data/del_pass/<id>', methods=['DELETE'])
-def deletePassword(ID):
-    result = dao.deleteOnePassword(ID)
+@app.route('/user/data/delpass/<id>', methods=['DELETE'])
+def deletePassword(id):
+    result = dao.deleteOnePassword(id)
     return jsonify(result)
 
 
