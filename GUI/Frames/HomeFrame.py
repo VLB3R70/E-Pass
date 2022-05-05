@@ -14,7 +14,7 @@ class HomeFrame(Frame):
 
         self.labelFrame = EntriesTable(self)
         self.labelFrame.grid(column=0, row=0, rowspan=3)
-        self.buttonPanel = ButtonPanel(self)
+        self.buttonPanel = ButtonPanel(self, self.root)
 
         root.title("Home")
         root.config(menu=self.createMenuBar())

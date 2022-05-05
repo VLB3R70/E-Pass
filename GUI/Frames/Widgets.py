@@ -39,8 +39,9 @@ class EntriesTable(LabelFrame):
 
 class ButtonPanel(PanedWindow):
 
-    def __init__(self, root):
+    def __init__(self, root, master):
         PanedWindow.__init__(self, root)
+        self.master = master
         self.root = root
         self.addPass = Button(root, text="Add", bg='green', fg='black', activebackground='light green',
                               command=lambda: self.addNewPassword())
@@ -52,8 +53,7 @@ class ButtonPanel(PanedWindow):
         self.deletePass.grid(column=3, row=2, pady=10, padx=20, ipadx=30)
 
     def addNewPassword(self):
-        root = Tk()
-        addPasswordFrame = AddPassFrame(root)
+        addPasswordFrame = AddPassFrame(self.master)
         addPasswordFrame.tkraise()
 
 

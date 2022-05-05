@@ -2,13 +2,12 @@ import tkinter.messagebox as message
 from tkinter import *
 
 from API.DAODatabase import DAO
-
 dao = DAO()
 
 
-class AddPassFrame(Frame):
+class AddPassFrame(Toplevel):
     def __init__(self, root):
-        Frame.__init__(self, root)
+        Toplevel.__init__(self, root)
         self.root = root
 
         self.labelSiteName = Label(self, text="Site name:", anchor=E)
@@ -36,8 +35,7 @@ class AddPassFrame(Frame):
         self.entryPassword2.grid(column=1, row=3, pady=10)
 
         self.addPassword.grid(column=0, row=4, columnspan=2, ipadx=30)
-        self.root.title("Add new password")
-        self.pack()
+        self.title("Add new password")
 
     def checkPassword(self):
         if self.entryPassword.get() == self.entryPassword2.get():
@@ -46,7 +44,5 @@ class AddPassFrame(Frame):
         else:
             message.showerror("Wrong password", "You must introduce the same password twice. Please try again")
 
-        self.root.destroy()
-        home = self.root.tkraise()
         self.destroy()
 
