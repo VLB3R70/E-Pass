@@ -11,10 +11,11 @@ dao = DAO()
 class EntriesTable(LabelFrame):
     def __init__(self, root):
         LabelFrame.__init__(self, root)
+        self.idList = []
 
         self.scroll = Scrollbar(self, orient=VERTICAL)
 
-        self.table = Treeview(self, height=10)
+        self.table = Treeview(self, height=10, selectmode="extended")
         self.table.config(yscrollcommand=self.scroll.set)
         self.scroll.config(command=self.table.yview())
 
@@ -33,10 +34,16 @@ class EntriesTable(LabelFrame):
             self.table.insert(parent='', index=id, iid=str(id), text='', values=k)
             id += 1
 
+        self.table.bind('<<TreeviewSelect>>', lambda event: self.addIdToList())
+
         self.scroll.pack(side=RIGHT, fill=Y)
         self.table.pack()
         self.config(text="Database passwords")
         self.pack(padx=40, pady=40)
+
+    def addIdToList(self):
+        selected = self.table.item(self.table.selection()[0], 'values')[0]
+        self.idList.append(selected)
 
 
 class ButtonPanel(PanedWindow):
@@ -62,13 +69,29 @@ class ButtonPanel(PanedWindow):
 
     def deletePassword(self):
         try:
-            selected = self.root.labelFrame.table.item(self.root.labelFrame.table.selection()[0], 'values')[0]
-            ask = message.askyesno("Deleting password", "Are you sure you want to delete this password?")
-            if ask:
-                dao.deleteOnePassword(ID=selected)
-                self.root.refreshTable(self.master)
+            if len(self.root.labelFrame.table.selection()) == 1:
+                selected = self.root.labelFrame.table.item(self.root.labelFrame.table.selection()[0], 'values')[0]
+                ask = message.askyesno("Deleting password", "Are you sure you want to delete this password?")
+                if ask:
+                    dao.deleteOnePassword(ID=selected)
+                    self.root.refreshTable(self.master)
+            else:
+                ask = message.askyesno("Deleting password", "Are you sure you want to delete this passwords?")
+                if ask:
+                    dao.deleteManyPasswords(self.root.labelFrame.idList)
+                    self.root.refreshTable(self.master)
+
         except IndexError:
             message.showerror("Error", "You have to select an entry of the table to delete it")
+
+    # try:
+    #     selected = self.root.labelFrame.table.item(self.root.labelFrame.table.selection()[0], 'values')[0]
+    #     ask = message.askyesno("Deleting password", "Are you sure you want to delete this password?")
+    #     if ask:
+    #         dao.deleteOnePassword(ID=selected)
+    #         self.root.refreshTable(self.master)
+    # except IndexError:
+    #     message.showerror("Error", "You have to select an entry of the table to delete it")
 
     def modifyPassword(self):
         try:
