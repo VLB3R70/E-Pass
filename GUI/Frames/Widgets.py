@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter.ttk import Treeview
 from .AddPassFrame import AddPassFrame
+from .ModifyPassFrame import ModifyPassFrame
 from API.DAODatabase import DAO
 import tkinter.messagebox as message
 
@@ -46,7 +47,7 @@ class ButtonPanel(PanedWindow):
         self.root = root
         self.addPass = Button(root, text="Add", bg='green', fg='black', activebackground='light green',
                               command=lambda: self.addNewPassword())
-        self.modifyPass = Button(root, text="Modify", bg='yellow', fg='black')
+        self.modifyPass = Button(root, text="Modify", bg='yellow', fg='black', command=self.modifyPassword)
         self.deletePass = Button(root, text="Delete", bg='red', fg='black', command=self.deletePassword)
 
         self.addPass.grid(column=3, row=0, pady=10, padx=20, ipadx=40)
@@ -66,6 +67,14 @@ class ButtonPanel(PanedWindow):
                 self.root.refreshTable(self.master)
         except IndexError:
             message.showerror("Error", "You have to select an entry of the table to delete it")
+
+    def modifyPassword(self):
+        try:
+            selected = self.root.labelFrame.table.item(self.root.labelFrame.table.selection()[0], 'values')[0]
+            modifyPasswordFrame = ModifyPassFrame(root=self.root, master=self.master, passwordId=selected)
+            modifyPasswordFrame.tkraise()
+        except IndexError:
+            message.showerror("Error", "You need to select first an entry to modify it")
 
 
 """class Filter(Frame):

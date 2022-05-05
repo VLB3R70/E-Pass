@@ -81,6 +81,10 @@ class DAO:
 
         return userName[0]
 
+    def updateSitename(self, ID, newSitename):
+        with self.connection:
+            self.connection.execute(data.UPDATE_USER_SITENAME, (newSitename, ID))
+
     def updateUsername(self, ID, newUserName):
         with self.connection:
             self.connection.execute(data.UPDATE_USER_NAME, (newUserName, ID))
