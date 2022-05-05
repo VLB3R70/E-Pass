@@ -7,6 +7,8 @@ from rich.table import Table
 from API.DAODatabase import DAO
 from .TUIHelp import HELP
 
+import pyperclip as pc
+
 dao = DAO()
 
 
@@ -23,8 +25,8 @@ def mainMenu():
             nicePrint(createUserDataMenu())
         elif selection == "2":
             id = Prompt.ask("[cyan]Enter the ID of the password you want to get")
-            dao.getUserPassword(ID=id)
-            # copy the password to the clipboard
+            password = dao.getUserPassword(ID=id)
+            pc.copy(password)
             nicePrint("[green]Password succesfully copied to the clipboard")
         elif selection == "3":
             newSiteName = Prompt.ask("[cyan]Enter the site name", default="")
