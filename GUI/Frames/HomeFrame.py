@@ -14,10 +14,11 @@ class HomeFrame(Frame):
 
         self.labelFrame = EntriesTable(self)
         self.labelFrame.grid(column=0, row=0, rowspan=3)
-        self.buttonPanel = ButtonPanel(self, self.root)
+        self.buttonPanel = ButtonPanel(self, root)
 
         root.title("Home")
         root.config(menu=self.createMenuBar())
+        root.resizable(width=False, height=False)
         self.pack()
 
     def createMenuBar(self):
@@ -37,4 +38,12 @@ class HomeFrame(Frame):
         delete.add_command(label="Selected passwords")
         menubar.add_cascade(label="Delete", menu=delete)
 
+        refresh = Menu(menubar, foreground='black')
+        refresh.add_command(label="Refresh table", command=lambda: self.refreshTable(self.root))
+        menubar.add_cascade(label="Refresh", menu=refresh)
+
         return menubar
+
+    def refreshTable(self, root):
+        self.destroy()
+        self.__init__(root)

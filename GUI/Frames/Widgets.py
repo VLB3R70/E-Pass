@@ -57,7 +57,6 @@ class ButtonPanel(PanedWindow):
         addPasswordFrame.tkraise()
 
 
-
 """class Filter(Frame):
     def __init__(self, root):
         Frame.__init__(self, root)
