@@ -6,8 +6,9 @@ dao = DAO()
 
 
 class AddPassFrame(Toplevel):
-    def __init__(self, root):
+    def __init__(self, root, master):
         Toplevel.__init__(self, root)
+        self.master = master
         self.root = root
 
         self.labelSiteName = Label(self, text="Site name:", anchor=E)
@@ -44,5 +45,6 @@ class AddPassFrame(Toplevel):
         else:
             message.showerror("Wrong password", "You must introduce the same password twice. Please try again")
 
+        self.root.refreshTable(self.master)
         self.destroy()
 

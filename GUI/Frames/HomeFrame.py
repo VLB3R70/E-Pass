@@ -38,10 +38,6 @@ class HomeFrame(Frame):
         delete.add_command(label="Selected passwords")
         menubar.add_cascade(label="Delete", menu=delete)
 
-        refresh = Menu(menubar, foreground='black')
-        refresh.add_command(label="Refresh table", command=lambda: self.refreshTable(self.root))
-        menubar.add_cascade(label="Refresh", menu=refresh)
-
         return menubar
 
     def refreshTable(self, root):
