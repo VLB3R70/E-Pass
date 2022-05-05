@@ -2,6 +2,7 @@ import tkinter.messagebox as message
 from tkinter import *
 
 from API.DAODatabase import DAO
+
 dao = DAO()
 
 
@@ -22,7 +23,7 @@ class AddPassFrame(Toplevel):
         self.entryPassword = Entry(self, show="*")
         self.entryPassword2 = Entry(self, show="*")
 
-        self.addPassword = Button(self, text="Add", bg='green', activebackground='light green',
+        self.addPassword = Button(self, text="Add", bg='green3', activebackground='green1',
                                   command=lambda: self.checkPassword())
 
         self.labelSiteName.grid(column=0, row=0, pady=10)
@@ -47,4 +48,3 @@ class AddPassFrame(Toplevel):
 
         self.root.refreshTable(self.master)
         self.destroy()
-

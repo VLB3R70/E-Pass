@@ -22,7 +22,7 @@ class ModifyPassFrame(Toplevel):
         self.entryOldPassword = Entry(self, show="*")
         self.entryNewPassword = Entry(self, show="*")
 
-        self.modifyPassword = Button(self, text="Modify", bg='yellow', activebackground='light yellow',
+        self.modifyPassword = Button(self, text="Modify", bg='orange3', activebackground='orange1',
                                      command=self.modifyPassword)
 
         self.labelSiteName.grid(column=0, row=0, pady=10)

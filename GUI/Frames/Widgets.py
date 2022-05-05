@@ -45,10 +45,12 @@ class ButtonPanel(PanedWindow):
         PanedWindow.__init__(self, root)
         self.master = master
         self.root = root
-        self.addPass = Button(root, text="Add", bg='green', fg='black', activebackground='light green',
+        self.addPass = Button(root, text="Add", bg='green3', fg='black', activebackground='green1',
                               command=lambda: self.addNewPassword())
-        self.modifyPass = Button(root, text="Modify", bg='yellow', fg='black', command=self.modifyPassword)
-        self.deletePass = Button(root, text="Delete", bg='red', fg='black', command=self.deletePassword)
+        self.modifyPass = Button(root, text="Modify", bg='orange3', activebackground='orange1', fg='black',
+                                 command=self.modifyPassword)
+        self.deletePass = Button(root, text="Delete", bg='red3', activebackground='red1', fg='black',
+                                 command=self.deletePassword)
 
         self.addPass.grid(column=3, row=0, pady=10, padx=20, ipadx=40)
         self.modifyPass.grid(column=3, row=1, pady=10, padx=20, ipadx=30)
