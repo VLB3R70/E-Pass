@@ -6,15 +6,21 @@ from rich.table import Table
 
 from API.DAODatabase import DAO
 from .TUIHelp import HELP
-
+import signal
 import pyperclip as pc
 
 dao = DAO()
 
 
+def handler(signum, frame):
+    nicePrint("\n[magenta][bold]Goodbye! 👋")
+    exit(1)
+
+
 def mainMenu():
     optionMenu = createMainMenu()
     nicePrint(optionMenu)
+    signal.signal(signal.SIGINT, handler)
 
     while True:
         selection = Prompt.ask("[magenta]Enter one of the options given")
@@ -91,7 +97,7 @@ def login():
 
     nicePrint(logo + description)
     if dao.databaseEmpty():
-        nicePrint("There is no user in this database. Please create a new one.")
+        nicePrint("[red]There is no user in this database. Please create a new one.\n\n")
 
     while login:
         election = Prompt.ask(
@@ -140,9 +146,9 @@ def TUIHelp():
 
 def createUserDataMenu():
     menu = Table(show_lines=True)
-    menu.add_column("ID",style="orange1")
+    menu.add_column("ID", style="orange1")
     menu.add_column("Site name", style="purple3")
-    menu.add_column("User name",style="green1")
+    menu.add_column("User name", style="green1")
     menu.add_column("Password")
     for row in dao.getUserData():
         menu.add_row(str(row[0]), row[1], row[2], "*******")
