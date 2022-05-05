@@ -1,7 +1,8 @@
 from tkinter import *
-
+import tkinter.messagebox as message
 from API.DAODatabase import DAO
 from .Widgets import EntriesTable, ButtonPanel
+import pyperclip as pc
 
 dao = DAO()
 
@@ -15,6 +16,9 @@ class HomeFrame(Frame):
         self.labelFrame = EntriesTable(self)
         self.labelFrame.grid(column=0, row=0, rowspan=3)
         self.buttonPanel = ButtonPanel(self, root)
+        self.copyToClipboard = Button(self, text="Copy to clipboard", bg='purple3', activebackground='purple2',
+                                      command=self.copyToClipboard)
+        self.copyToClipboard.grid(column=0, row=7, rowspan=2, ipadx=50, padx=80)
 
         root.title("Home")
         root.config(menu=self.createMenuBar())
@@ -43,3 +47,12 @@ class HomeFrame(Frame):
     def refreshTable(self, root):
         self.destroy()
         self.__init__(root)
+
+    def copyToClipboard(self):
+        try:
+            selected = self.labelFrame.table.item(self.labelFrame.table.selection()[0], 'values')[0]
+            password = dao.getUserPassword(selected)
+            pc.copy(password)
+            message.showinfo("Copied", "Password successfully copied to clipboard")
+        except IndexError:
+            message.showerror("Error", "You need to select an entry of the table")
