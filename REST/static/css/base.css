@@ -1,0 +1,14 @@
+@font-face {
+    font-family: Smile;
+    src: url("Name Smile.otf");
+}
+
+header{
+    background-color: #ba68c8;
+    text-align: center;
+}
+
+.app_name{
+    font-size: 40px;
+    font-family: Smile;
+}
