@@ -43,11 +43,11 @@ class DAO:
         encryptedPass = self.encryptor.encrypt(password=masterPassword)
 
         with self.connection:
-            self.connection.execute(data.INSERT_MASTER_PASSWORD, (encryptedPass, email))
+            self.connection.execute(data.INSERT_NEW_USER, (encryptedPass, email))
 
     def getMasterPassword(self):
         with self.connection:
-            result = self.connection.execute(data.SELECT_MASTER_PASSWORD).fetchone()
+            result = self.connection.execute(data.SELECT_USER_MASTER_PASSWORD).fetchone()
             decryptedPassword = self.decryptor.decrypt(password=result[0])
         return decryptedPassword
 
