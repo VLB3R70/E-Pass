@@ -11,13 +11,76 @@ import pyperclip as pc
 
 dao = DAO()
 
+USER = ''
+
 
 def handler(signum, frame):
     nicePrint("\n[magenta][bold]Goodbye! 👋")
     exit(1)
 
 
+def login():
+    global USER
+    login = True
+    logo = """[bold][magenta]________         ________      
+|   ____|        |   __  |     
+|   |__    ___   |  |__| |  __ _      ____   ____
+|   ___|  |___|  |  _____| / _` |    / __/  / __/
+|   |___         |  |      |(_| |  __\ \  __\ \ 
+|_______|        |__|      \__,_| |____/ |____/"""
+    description = "\n\n[bold][blue]Welcome to a fast and smart password manager for the linux terminal lovers.\n\n\n\n"
+    signal.signal(signal.SIGINT, handler)
+    console = Console()
+
+    nicePrint(logo + description)
+    if dao.databaseEmpty():
+        nicePrint("[red]There is no user in this database. Please create a new one.\n\n")
+
+    while login:
+        election = Prompt.ask(
+            prompt="1. Login. \n2. Create a new user\n3. Remember password",
+            choices=["1", "2", "3"],
+        )
+        if election == "1":
+            username = Prompt.ask(
+                prompt="[magenta]Enter your username:", default=""
+            )
+            masterPassword = Prompt.ask(
+                prompt="[magenta]Enter the master password:", default="", password=True
+            )
+            USER = username
+            for i in dao.getUsers():
+                if username in i and masterPassword == dao.getMasterPassword(user=USER):
+                    nicePrint("[green]Succesful login!")
+                    mainMenu()
+                    login = False
+                else:
+                    nicePrint("[bold][red]Wrong password![yellow]Nice try[/yellow] 😉")
+        elif election == "2":
+            # securityChoice = Prompt.ask(
+            #     "[bold][yellow]WARNING\n[red]If you have a previous user with a master
+            #     password all the data will be deleted. Are you sure you want to create a new one?",
+            #     choices=["y", "n"],
+            # )
+            dao.resetDataBase()
+            newUsername = Prompt.ask(prompt="[cyan]Enter the username:", default="")
+            newMasterPassword = Prompt.ask(
+                prompt="[cyan]Enter the new master password",
+                default="",
+                password=True,
+            )
+            newEmail = Prompt.ask("[cyan]Enter your email", default="")
+            dao.newUser(username=newUsername, masterPassword=newMasterPassword, email=newEmail)
+            console.log(
+                "[bold][italic][red]New master password created and all previous data deleted."
+            )
+        elif election == "3":
+            # send an email with the password
+            pass
+
+
 def mainMenu():
+    global USER
     optionMenu = createMainMenu()
     nicePrint(optionMenu)
     signal.signal(signal.SIGINT, handler)
@@ -31,7 +94,7 @@ def mainMenu():
             nicePrint(createUserDataMenu())
         elif selection == "2":
             id = Prompt.ask("[cyan]Enter the ID of the password you want to get")
-            password = dao.getUserPassword(ID=id)
+            password = dao.getUserPassword(id=id)
             pc.copy(password)
             nicePrint("[green]Password succesfully copied to the clipboard")
         elif selection == "3":
@@ -44,7 +107,7 @@ def mainMenu():
             )
 
             dao.saveUserData(
-                siteName=newSiteName, userName=newUserName, password=newPassword
+                user=USER, siteName=newSiteName, userName=newUserName, password=newPassword
             )
             nicePrint("[green]Succesfully added a new entry to the database!")
         elif selection == "4":
@@ -53,13 +116,13 @@ def mainMenu():
                 "[cyan]Enter the new password", default="", password=True
             )
 
-            dao.updateUserPassword(ID=id, newPassword=newPassword)
+            dao.updateUserPassword(id=id, newPassword=newPassword)
             nicePrint("[green]Password succesfully updated!")
         elif selection == "5":
             id = Prompt.ask("[cyan]Enter the ID of the username yo want to update")
             newUserName = Prompt.ask("[cyan]Enter the new username")
 
-            dao.updateUsername(ID=id, newUserName=newUserName)
+            dao.updateUsername(id=id, newUserName=newUserName)
             nicePrint("[green]Username succesfully updated!")
         elif selection == '6':
             deleteSelection = Prompt.ask("[orange]Do you want to delete one entry or more", default="",
@@ -67,7 +130,7 @@ def mainMenu():
 
             if deleteSelection == 'one':
                 id = Prompt.ask("[cyan]Enter the ID of the password")
-                dao.deleteOnePassword(ID=id)
+                dao.deleteOnePassword(id=id)
                 nicePrint("[green]Password successfully deleted")
             elif deleteSelection == "more":
                 id = Prompt.ask(
@@ -83,61 +146,6 @@ def mainMenu():
             break
 
 
-def login():
-    login = True
-    logo = """[bold][magenta]________         ________      
-|   ____|        |   __  |     
-|   |__    ___   |  |__| |  __ _      ____   ____
-|   ___|  |___|  |  _____| / _` |    / __/  / __/
-|   |___         |  |      |(_| |  __\ \  __\ \ 
-|_______|        |__|      \__,_| |____/ |____/"""
-    description = "\n\n[bold][blue]Welcome to a fast and smart password manager for the linux terminal lovers.\n\n\n\n"
-
-    console = Console()
-
-    nicePrint(logo + description)
-    if dao.databaseEmpty():
-        nicePrint("[red]There is no user in this database. Please create a new one.\n\n")
-
-    while login:
-        election = Prompt.ask(
-            prompt="1. Login with master password. \n2. Create a new user\n3. Remember password",
-            choices=["1", "2", "3"],
-        )
-        if election == "1":
-            masterPassword = Prompt.ask(
-                prompt="[magenta]Enter the master password", default="", password=True
-            )
-
-            if masterPassword == dao.getMasterPassword():
-                nicePrint("[green]Succesful login!")
-                mainMenu()
-                login = False
-            else:
-                nicePrint("[bold][red]Wrong password![yellow]Nice try[/yellow] 😉")
-        elif election == "2":
-            securityChoice = Prompt.ask(
-                "[bold][yellow]WARNING\n[red]If you have a previous user with a master password all the data will be deleted. Are you sure you want to create a new one?",
-                choices=["y", "n"],
-            )
-
-            if securityChoice == "y":
-                dao.resetDataBase()
-                newMasterPassword = Prompt.ask(
-                    prompt="[cyan]Enter the new master password",
-                    default="",
-                    password=True,
-                )
-                newEmail = Prompt.ask("[cyan]Enter your email", default="")
-                dao.saveMasterPassword(masterPassword=newMasterPassword, email=newEmail)
-                console.log(
-                    "[bold][italic][red]New master password created and all previous data deleted."
-                )
-        elif election == "3":
-            # send an email with the password
-            pass
-
-
 def TUIHelp():
     markdown = Markdown(HELP)
     nicePrint(markdown)
@@ -150,8 +158,8 @@ def createUserDataMenu():
     menu.add_column("Site name", style="purple3")
     menu.add_column("User name", style="green1")
     menu.add_column("Password")
-    for row in dao.getUserData():
-        menu.add_row(str(row[0]), row[1], row[2], "*******")
+    for row in dao.getUserData(user=USER):
+        menu.add_row(str(row[0]), row[2], row[3], "*******")
 
     return menu
 

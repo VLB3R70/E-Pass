@@ -23,7 +23,7 @@ class DAO:
 
     def databaseEmpty(self):
         with self.connection:
-            notEmpty = self.connection.execute(data.SQL_COUNT).fetchone()
+            notEmpty = self.connection.execute(data.USER_COUNT).fetchone()
 
             if notEmpty:
                 return False
@@ -39,64 +39,69 @@ class DAO:
             self.connection.executescript(data.SQL_RESET)
             self.setupDataBase()
 
-    def saveMasterPassword(self, masterPassword, email):
+    def newUser(self, username, masterPassword, email):
         encryptedPass = self.encryptor.encrypt(password=masterPassword)
 
         with self.connection:
-            self.connection.execute(data.INSERT_NEW_USER, (encryptedPass, email))
+            self.connection.execute(data.INSERT_NEW_USER, (username, encryptedPass, email))
 
-    def getMasterPassword(self):
+    def getUsers(self):
         with self.connection:
-            result = self.connection.execute(data.SELECT_USER_MASTER_PASSWORD).fetchone()
+            users = self.connection.execute(data.USER_COUNT).fetchall()
+            return users
+
+    def getMasterPassword(self, user):
+        with self.connection:
+            result = self.connection.execute(data.SELECT_USER_MASTER_PASSWORD, (user,)).fetchone()
             decryptedPassword = self.decryptor.decrypt(password=result[0])
         return decryptedPassword
 
-    def updateMasterPassword(self, newPassword):
+    def updateMasterPassword(self, newPassword, user):
         with self.connection:
             encryptedPassword = self.encryptor.encrypt(newPassword)
-            self.connection.execute(data.UPDATE_MASTER_PASSWORD, (encryptedPassword,))
+            self.connection.execute(data.UPDATE_MASTER_PASSWORD, (encryptedPassword, user))
 
     ########################################################################################
 
-    def saveUserData(self, siteName, userName, password):
+    def saveUserData(self, user, siteName, userName, password):
         encryptedPassword = self.encryptor.encrypt(password=password)
         with self.connection:
-            self.connection.execute(data.INSERT_USER_DATA, (siteName, userName, encryptedPassword))
+            self.connection.execute(data.INSERT_USER_DATA, (user, userName, siteName, encryptedPassword))
 
-    def getUserData(self):
+    def getUserData(self, user):
         with self.connection:
-            userData = self.connection.execute(data.SELECT_USER_DATA).fetchall()
+            userData = self.connection.execute(data.SELECT_USER_DATA, (user,)).fetchall()
         return userData
 
-    def getUserPassword(self, ID):
+    def getUserPassword(self, id):
         with self.connection:
-            userPassword = self.connection.execute(data.SELECT_USER_PASSWORD, (ID,)).fetchone()
+            userPassword = self.connection.execute(data.SELECT_USER_PASSWORD, (id,)).fetchone()
             decryptedPassword = self.decryptor.decrypt(password=userPassword[0])
 
         return decryptedPassword
 
-    def getUserName(self, ID):
+    def getUserName(self, id):
         with self.connection:
-            userName = self.connection.execute(data.SELECT_USER_NAME, (ID,)).fetchone()
+            userName = self.connection.execute(data.SELECT_USER_NAME, (id,)).fetchone()
 
         return userName[0]
 
-    def updateSitename(self, ID, newSitename):
+    def updateSitename(self, id, newSitename):
         with self.connection:
-            self.connection.execute(data.UPDATE_USER_SITENAME, (newSitename, ID))
+            self.connection.execute(data.UPDATE_USER_SITENAME, (newSitename, id))
 
-    def updateUsername(self, ID, newUserName):
+    def updateUsername(self, id, newUserName):
         with self.connection:
-            self.connection.execute(data.UPDATE_USER_NAME, (newUserName, ID))
+            self.connection.execute(data.UPDATE_USER_NAME, (newUserName, id))
 
-    def updateUserPassword(self, ID, newPassword):
+    def updateUserPassword(self, id, newPassword):
         with self.connection:
             encryptedPassword = self.encryptor.encrypt(newPassword)
-            self.connection.execute(data.UPDATE_USER_PASSWORD, (encryptedPassword, ID))
+            self.connection.execute(data.UPDATE_USER_PASSWORD, (encryptedPassword, id))
 
-    def deleteOnePassword(self, ID):
+    def deleteOnePassword(self, id):
         with self.connection:
-            self.connection.execute(data.DELETE_ONE_PASSWORD, (ID,))
+            self.connection.execute(data.DELETE_ONE_PASSWORD, (id,))
 
     def deleteManyPasswords(self, IDList):
         with self.connection:

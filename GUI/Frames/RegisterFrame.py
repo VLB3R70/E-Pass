@@ -41,7 +41,7 @@ class RegisterFrame(Frame):
                                    "If you have a previous user with a master password all the data will be deleted. Are you sure you want to create a new one?")
             if ask:
                 dao.resetDataBase()
-                dao.saveMasterPassword(self.masterPasswordEntry.get(), self.emailEntry.get())
+                dao.newUser(self.masterPasswordEntry.get(), self.emailEntry.get())
                 info = message.showinfo("Success", "User created successfully")
                 self.root.destroy()
             else:
