@@ -7,19 +7,23 @@ import tkinter.messagebox as message
 
 dao = DAO()
 
+USER = ''
+
 
 class EntriesTable(LabelFrame):
-    def __init__(self, root):
+
+    def __init__(self, root, user):
         LabelFrame.__init__(self, root)
         self.idList = []
-
+        global USER
+        USER = user
         self.scroll = Scrollbar(self, orient=VERTICAL)
 
         self.table = Treeview(self, height=10, selectmode="extended")
         self.table.config(yscrollcommand=self.scroll.set)
         self.scroll.config(command=self.table.yview())
 
-        self.table['columns'] = ('ID', 'Site name', 'Username')
+        self.table['columns'] = ('ID', 'User', 'Site name', 'Username')
         self.table.column("#0", width=0, stretch=NO)
 
         for i in self.table['columns']:
@@ -30,7 +34,7 @@ class EntriesTable(LabelFrame):
             self.table.heading(j, text=j, anchor=W)
 
         id = 0
-        for k in dao.getUserData():
+        for k in dao.getUserData(USER):
             self.table.insert(parent='', index=id, iid=str(id), text='', values=k)
             id += 1
 
@@ -64,7 +68,7 @@ class ButtonPanel(PanedWindow):
         self.deletePass.grid(column=3, row=2, pady=10, padx=20, ipadx=30)
 
     def addNewPassword(self):
-        addPasswordFrame = AddPassFrame(root=self.root, master=self.master)
+        addPasswordFrame = AddPassFrame(root=self.root, master=self.master, user=USER)
         addPasswordFrame.tkraise()
 
     def deletePassword(self):
@@ -73,13 +77,13 @@ class ButtonPanel(PanedWindow):
                 selected = self.root.labelFrame.table.item(self.root.labelFrame.table.selection()[0], 'values')[0]
                 ask = message.askyesno("Deleting password", "Are you sure you want to delete this password?")
                 if ask:
-                    dao.deleteOnePassword(ID=selected)
+                    dao.deleteOnePassword(id=selected)
                     self.root.refreshTable(self.master)
             else:
                 ask = message.askyesno("Deleting password", "Are you sure you want to delete this passwords?")
                 if ask:
                     dao.deleteManyPasswords(self.root.labelFrame.idList)
-                    self.root.refreshTable(self.master)
+                    self.root.refreshTable(self.master, USER)
 
         except IndexError:
             message.showerror("Error", "You have to select an entry of the table to delete it")
@@ -96,7 +100,7 @@ class ButtonPanel(PanedWindow):
     def modifyPassword(self):
         try:
             selected = self.root.labelFrame.table.item(self.root.labelFrame.table.selection()[0], 'values')[0]
-            modifyPasswordFrame = ModifyPassFrame(root=self.root, master=self.master, passwordId=selected)
+            modifyPasswordFrame = ModifyPassFrame(root=self.root, master=self.master, passwordId=selected, user=USER)
             modifyPasswordFrame.tkraise()
         except IndexError:
             message.showerror("Error", "You need to select first an entry to modify it")

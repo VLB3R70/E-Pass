@@ -7,10 +7,11 @@ dao = DAO()
 
 
 class AddPassFrame(Toplevel):
-    def __init__(self, root, master):
+    def __init__(self, root, master, user):
         Toplevel.__init__(self, root)
         self.master = master
         self.root = root
+        self.user = user
 
         self.labelSiteName = Label(self, text="Site name:", anchor=E)
         self.entrySiteName = Entry(self)
@@ -41,10 +42,10 @@ class AddPassFrame(Toplevel):
 
     def checkPassword(self):
         if self.entryPassword.get() == self.entryPassword2.get():
-            dao.saveUserData(siteName=self.entrySiteName.get(), userName=self.entryUsername.get(),
+            dao.saveUserData(user=self.user, siteName=self.entrySiteName.get(), userName=self.entryUsername.get(),
                              password=self.entryPassword.get())
         else:
             message.showerror("Wrong password", "You must introduce the same password twice. Please try again")
 
-        self.root.refreshTable(self.master)
+        self.root.refreshTable(self.master, self.user)
         self.destroy()

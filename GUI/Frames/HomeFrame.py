@@ -9,11 +9,12 @@ dao = DAO()
 
 class HomeFrame(Frame):
 
-    def __init__(self, root):
+    def __init__(self, root, user):
         Frame.__init__(self, root)
         self.root = root
+        self.user = user
 
-        self.labelFrame = EntriesTable(self)
+        self.labelFrame = EntriesTable(self, self.user)
         self.labelFrame.grid(column=0, row=0, rowspan=3)
         self.buttonPanel = ButtonPanel(self, root)
         self.copyToClipboard = Button(self, text="Copy to clipboard", bg='purple3', activebackground='purple2',
@@ -44,9 +45,9 @@ class HomeFrame(Frame):
 
         return menubar
 
-    def refreshTable(self, root):
+    def refreshTable(self, root, user):
         self.destroy()
-        self.__init__(root)
+        self.__init__(root, user)
 
     def copyToClipboard(self):
         try:

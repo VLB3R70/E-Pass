@@ -6,11 +6,12 @@ dao = DAO()
 
 
 class ModifyPassFrame(Toplevel):
-    def __init__(self, root, master, passwordId):
+    def __init__(self, root, master, passwordId, user):
         Toplevel.__init__(self, root)
         self.root = root
         self.master = master
         self.passwordId = passwordId
+        self.user = user
 
         self.labelSiteName = Label(self, text="Enter the new site name")
         self.labelUsername = Label(self, text="Enter the new username")
@@ -41,15 +42,15 @@ class ModifyPassFrame(Toplevel):
 
     def modifyPassword(self):
         if self.entrySiteName.get() != "":
-            dao.updateSitename(ID=self.passwordId, newSitename=self.entrySiteName.get())
-            self.root.refreshTable(self.master)
+            dao.updateSitename(id=self.passwordId, newSitename=self.entrySiteName.get())
+            self.root.refreshTable(self.master, self.user)
         elif self.entryUsername.get() != "":
             dao.updateUsername(self.passwordId, self.entryUsername.get())
-            self.root.refreshTable(self.master)
+            self.root.refreshTable(self.master, self.user)
         elif self.entryNewPassword.get() != "":
             if self.entryOldPassword.get() == dao.getUserPassword(self.passwordId):
                 dao.updateUserPassword(self.passwordId, self.entryNewPassword.get())
-                self.root.refreshTable(self.master)
+                self.root.refreshTable(self.master, self.user)
             else:
                 message.showerror("Error", "The old password doesn't matches with the given")
         else:
