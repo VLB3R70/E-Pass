@@ -1,6 +1,5 @@
 .login_form{
     margin: auto;
-    border: 2px solid black;
     padding: 80px;
     text-align: center;
     height: 150px;
@@ -12,9 +11,6 @@ input{
 }
 
 .log_in{
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding: 5px;
     background-color: forestgreen;
 }

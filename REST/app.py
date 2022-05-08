@@ -28,13 +28,13 @@ def login():
             db_user = User.query.filter_by(name=user).first()
             if password == decryptor.decrypt(password=db_user.master_password):
                 print('Successful login')
-                return redirect(url_for('user'))
+                return redirect(url_for('user', username=db_user.name))
     return render_template('login.html', form=form)
 
 
 @app.route('/user/<username>')
-def user():
-    pass
+def user(username):
+    return render_template('home.html', user=username)
 
 
 if __name__ == '__main__':
