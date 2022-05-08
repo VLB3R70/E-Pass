@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %} Login {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+<div class="div_form">
+    <form class="login_form" method="post">
+        {{ form.hidden_tag() }}
+        <p>{{form.user_name.label}}<br>
+            {{form.user_name(size=32)}}<br>
+        </p>
+        <p>{{form.master_password.label}}<br>
+            {{form.master_password(size=32)}}<br>
+        </p>
+        <p>{{ form.login() }}</p>
+    </form>
+</div>
+{% endblock %}
