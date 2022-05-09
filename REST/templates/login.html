@@ -9,11 +9,18 @@
         {{ form.hidden_tag() }}
         <p>{{form.user_name.label}}<br>
             {{form.user_name(size=32)}}<br>
+            {% for error in form.user_name.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
         </p>
         <p>{{form.master_password.label}}<br>
             {{form.master_password(size=32)}}<br>
+            {% for error in form.master_password.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
         </p>
         <p>{{ form.login() }}</p>
     </form>
+    <div>Don't have an account? <a href="{{ url_for('register') }}">Register</a></div>
 </div>
 {% endblock %}

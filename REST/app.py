@@ -1,8 +1,8 @@
 from datetime import timedelta
 
-from flask import Flask, render_template, redirect, url_for, abort
+from flask import Flask, render_template, redirect, url_for, abort, request
 from flask_sqlalchemy import SQLAlchemy
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm
 from REST.config import Config
 from API.Encryption import Encryptor, Decryptor
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
@@ -36,6 +36,27 @@ def login():
                 login_user(db_user)
                 return redirect(url_for('user', username=db_user.name))
     return render_template('login.html', form=form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+
+@app.route('/registration', methods=["GET", "POST"])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user_exists = User.query.filter_by(username=form.user_name.data).first()
+        if user_exists is None:
+            user = User()
+            form.populate_obj(user)
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('user', username=user.name))
+        form.user_name.errors.append('That user exists.')
+    return render_template('register.html', form=form)
 
 
 @app.route('/user/<username>', methods=["GET", "POST"])
