@@ -1,10 +1,10 @@
 from flask import session, redirect
 
 
-def login_user(User):
-    session["name"] = User.name
-    session["master_password"] = User.master_password
-    session["email"] = User.email
+def login_user(user):
+    session["name"] = user.name
+    session["master_password"] = user.master_password
+    session["email"] = user.email
 
 
 def logout_user():

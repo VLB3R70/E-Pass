@@ -1,17 +1,25 @@
-from .app import db, LOGIN_MANAGER
-from sqlalchemy import VARCHAR, ForeignKey, Column
-
-
-@LOGIN_MANAGER.user_loader
-def load_user(name):
-    return User.query.get(name)
+from .app import db, login_manager
+from sqlalchemy import VARCHAR, ForeignKey, Column, Integer
 
 
 class User(db.Model):
     __tablename__ = 'User'
-    name = Column(VARCHAR(50), primary_key=True, nullable=False)
+    id = Column(Integer, primary_key=True)
+    name = Column(VARCHAR(50), nullable=False)
     master_password = Column(VARCHAR(100), nullable=False)
     email = Column(VARCHAR(100))
+
+    def is_authenticated(self):
+        return False
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
 
 
 class Data(db.Model):

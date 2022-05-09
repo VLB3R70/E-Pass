@@ -12,6 +12,7 @@ import pyperclip as pc
 dao = DAO()
 
 USER = ''
+USER_ID = 0
 
 
 def handler(signum, frame):
@@ -21,6 +22,7 @@ def handler(signum, frame):
 
 def login():
     global USER
+    global USER_ID
     login = True
     logo = """[bold][magenta]________         ________      
 |   ____|        |   __  |     
@@ -51,6 +53,7 @@ def login():
             USER = username
             for i in dao.getUsers():
                 if username in i and masterPassword == dao.getMasterPassword(user=USER):
+                    USER_ID = dao.getUserId(username=USER)
                     nicePrint("[green]Succesful login!")
                     mainMenu()
                     login = False
@@ -107,7 +110,7 @@ def mainMenu():
             )
 
             dao.saveUserData(
-                user=USER, siteName=newSiteName, userName=newUserName, password=newPassword
+                user_id=USER_ID, siteName=newSiteName, userName=newUserName, password=newPassword
             )
             nicePrint("[green]Succesfully added a new entry to the database!")
         elif selection == "4":
@@ -158,7 +161,7 @@ def createUserDataMenu():
     menu.add_column("Site name", style="purple3")
     menu.add_column("User name", style="green1")
     menu.add_column("Password")
-    for row in dao.getUserData(user=USER):
+    for row in dao.getUserData(user_id=USER_ID):
         menu.add_row(str(row[0]), row[2], row[3], "*******")
 
     return menu

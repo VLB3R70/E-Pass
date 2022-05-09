@@ -12,23 +12,24 @@ class Data:
 
     USER_COUNT = 'SELECT name FROM User'
 
-    SQL_START = """
-            CREATE TABLE IF NOT EXISTS User (
-            name            VARCHAR (50)  NOT NULL
-                                  PRIMARY KEY,
-            master_password VARCHAR (100) NOT NULL,
-            email           VARCHAR (100) 
+    SQL_START = '''
+            CREATE TABLE IF NOT EXISTS "User" (
+            "name"	VARCHAR(50) NOT NULL,
+            "master_password"	VARCHAR(100) NOT NULL,
+            "email"	VARCHAR(100),
+            "id"	INTEGER,
+            PRIMARY KEY("id")
             );
-            CREATE TABLE IF NOT EXISTS Data (
-            id        INTEGER       PRIMARY KEY,
-            user      VARCHAR (50)  NOT NULL
-                                    CONSTRAINT fk_user REFERENCES User (name) ON DELETE CASCADE
-                                                                              ON UPDATE CASCADE,
-            site_name VARCHAR (100) NOT NULL,
-            username  VARCHAR (100) NOT NULL,
-            password  VARCHAR (100) NOT NULL
-            );
-            """
+            
+            CREATE TABLE IF NOT EXISTS "Data" (
+            "id"	INTEGER,
+            "user_id"	INTEGER NOT NULL,
+            "site_name"	VARCHAR(100) NOT NULL,
+            "username"	VARCHAR(100) NOT NULL,
+            "password"	VARCHAR(100) NOT NULL,
+            PRIMARY KEY("id"),
+            CONSTRAINT "fk_user" FOREIGN KEY("user_id") REFERENCES "User"("name") ON DELETE CASCADE ON UPDATE CASCADE
+            );'''
 
     SQL_RESET = """
             DROP TABLE IF EXISTS User;
@@ -41,9 +42,11 @@ class Data:
 
     UPDATE_MASTER_PASSWORD = 'UPDATE User SET master_password = ? WHERE name = ?;'
 
-    INSERT_USER_DATA = 'INSERT INTO Data (user,username,site_name, password) VALUES (?,?, ?, ?);'
+    SELECT_USER_ID = 'SELECT id FROM User WHERE name=?'
 
-    SELECT_USER_DATA = 'SELECT * FROM Data WHERE user = ?;'
+    INSERT_USER_DATA = 'INSERT INTO Data (user_id,username,site_name, password) VALUES (?,?, ?, ?);'
+
+    SELECT_USER_DATA = 'SELECT * FROM Data WHERE user_id = ?;'
 
     SELECT_USER_PASSWORD = 'SELECT password FROM Data WHERE id = ?;'
 
