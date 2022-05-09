@@ -1,5 +1,7 @@
 Flask>=2.1.2
 cryptography>=37.0.2
 pyperclip>=1.8.2
-rich>=12.3.0
+rich>=12.4.1
 setuptools>=62.1.0
+WTForms>=3.0.1
+SQLAlchemy>=1.4.36

@@ -1,13 +1,12 @@
-import os
-from pathlib import Path
+from API.data import Data
+from flask_login import LoginManager
+
+data = Data()
 
 
 class Config(object):
     SECRET_KEY = 'wUn8McRT13KDVjXVO3eT5fHvfopq6FpbDXkuznt5_rhpYSMWoeBana7xPWnxAtjC4-8Ql1ihvVHMTiqUBU2VaQ'
 
-    DATA_DIRECTORY = os.path.join(Path.home(), '.EPass/')
-    DATABASE_PATH = os.path.join(DATA_DIRECTORY, ".epass.sqlite")
-
-    DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///{}/.epass.sqlite'.format(DATA_DIRECTORY)
+    DEBUG = 'True'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///{}'.format(data.DATABASE_PATH)
     SQLALCHEMY_TRACK_MODIFICATIONS = False

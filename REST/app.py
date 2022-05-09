@@ -1,13 +1,17 @@
 from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from .forms import LoginForm
-from .config import Config
+from REST.config import Config
 from API.Encryption import Encryptor, Decryptor
+from flask_login import LoginManager
 
 app = Flask(__name__)
 app.config.from_object(Config)
+LOGIN_MANAGER = LoginManager(app)
 db = SQLAlchemy(app)
 decryptor = Decryptor()
+
+from .login import login_user, logout_user
 
 
 @app.route('/')
@@ -27,15 +31,11 @@ def login():
         if User.query.filter_by(name=user).first():
             db_user = User.query.filter_by(name=user).first()
             if password == decryptor.decrypt(password=db_user.master_password):
-                print('Successful login')
+                login_user(db_user)
                 return redirect(url_for('user', username=db_user.name))
     return render_template('login.html', form=form)
 
 
-@app.route('/user/<username>')
+@app.route('/user/<username>', methods=["GET"])
 def user(username):
     return render_template('home.html', user=username)
-
-
-if __name__ == '__main__':
-    app.run()

@@ -1,6 +1,10 @@
-from .app import db
-from sqlalchemy import VARCHAR, Integer, ForeignKey, Column
-from sqlalchemy.orm import relationship
+from .app import db, LOGIN_MANAGER
+from sqlalchemy import VARCHAR, ForeignKey, Column
+
+
+@LOGIN_MANAGER.user_loader
+def load_user(name):
+    return User.query.get(name)
 
 
 class User(db.Model):
@@ -13,7 +17,7 @@ class User(db.Model):
 class Data(db.Model):
     __tablename__ = 'Data'
     id = Column(db.Integer, primary_key=True)
-    user = Column(db.VARCHAR(50), ForeignKey('User.name'), nullable=False)
+    user = Column(db.VARCHAR(50), ForeignKey('User.name', ondelete='cascade', onupdate='cascade'), nullable=False)
     site_name = Column(db.VARCHAR(100), nullable=False)
     username = Column(db.VARCHAR(100), nullable=False)
     password = Column(db.VARCHAR(100), nullable=False)
