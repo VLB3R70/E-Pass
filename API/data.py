@@ -12,31 +12,25 @@ class Data:
 
     USER_COUNT = 'SELECT name FROM User'
 
-    SQL_START = '''
-            CREATE TABLE IF NOT EXISTS "User" (
-            "name"	VARCHAR(50) NOT NULL,
-            "master_password"	VARCHAR(100) NOT NULL,
-            "email"	VARCHAR(100),
-            "id"	INTEGER,
-            PRIMARY KEY("id")
-            );
-            
-            CREATE TABLE IF NOT EXISTS "Data" (
-            "id"	INTEGER,
-            "user_id"	INTEGER NOT NULL,
-            "site_name"	VARCHAR(100) NOT NULL,
-            "username"	VARCHAR(100) NOT NULL,
-            "password"	VARCHAR(100) NOT NULL,
-            PRIMARY KEY("id"),
-            CONSTRAINT "fk_user" FOREIGN KEY("user_id") REFERENCES "User"("name") ON DELETE CASCADE ON UPDATE CASCADE
-            );'''
+    SQL_START = '''CREATE TABLE IF NOT EXISTS [User] (
+                    [id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    [name] TEXT NOT NULL UNIQUE,
+                    [master_password] TEXT NOT NULL,
+                    [email] TEXT NOT NULL);
+
+                    CREATE TABLE IF NOT EXISTS [Data] (
+                    [id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    [user_id] INTEGER NOT NULL,[site_name] TEXT NOT NULL,
+                    [username] TEXT NOT NULL,[password] TEXT NOT NULL,
+                    FOREIGN KEY([user_id]) REFERENCES [User]([id]) ON DELETE CASCADE ON UPDATE CASCADE);
+                    '''
 
     SQL_RESET = """
             DROP TABLE IF EXISTS User;
             DROP TABLE IF EXISTS Data;
             """
 
-    INSERT_NEW_USER = 'INSERT INTO User (name, master_password, email) VALUES (?, ?, ?);'
+    INSERT_NEW_USER = 'INSERT INTO User(name, master_password, email) VALUES(?, ?, ?);'
 
     SELECT_USER_MASTER_PASSWORD = 'SELECT master_password FROM User WHERE name = ?;'
 

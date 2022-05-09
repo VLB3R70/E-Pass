@@ -60,12 +60,6 @@ def login():
                 else:
                     nicePrint("[bold][red]Wrong password![yellow]Nice try[/yellow] 😉")
         elif election == "2":
-            # securityChoice = Prompt.ask(
-            #     "[bold][yellow]WARNING\n[red]If you have a previous user with a master
-            #     password all the data will be deleted. Are you sure you want to create a new one?",
-            #     choices=["y", "n"],
-            # )
-            dao.resetDataBase()
             newUsername = Prompt.ask(prompt="[cyan]Enter the username:", default="")
             newMasterPassword = Prompt.ask(
                 prompt="[cyan]Enter the new master password",
