@@ -5,8 +5,17 @@
 {% block content %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/home.css')}}">
 <ul class="nav_bar">
-    <li><a href="#">Add new password</a></li>
-    <li><a href="#">Modify password</a></li>
-    <li><a href="#">Delete password</a></li>
+    <li class="add_password">
+        <a class="add" href="#">Add new password</a>
+    </li>
+    <li class="modify_password">
+        <a class="modify" href="#">Modify password</a>
+    </li>
+    <li class="delete_password">
+        <a class="delete" href="#">Delete password</a>
+    </li>
+    <li style="float:right">
+        <a class="logout" href="#">Log out</a>
+    </li>
 </ul>
 {% endblock %}

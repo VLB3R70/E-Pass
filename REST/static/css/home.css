@@ -1,10 +1,37 @@
-.nav_bar {
+ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    text-align: center;
+    overflow: hidden;
+    position: relative;
 }
 
 li {
-    display: inline-block;
+    float: left;
+}
+
+li a {
+    margin-right: 10px;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border: 1px solid black;
+}
+
+.add:hover {
+    background-color: #66bb6a;
+}
+
+.modify:hover {
+    background-color: #ffee58;
+}
+
+.delete:hover{
+    background-color: #ef5350;
+}
+
+.logout:hover{
+    background-color: #b0bec5;
 }

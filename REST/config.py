@@ -9,6 +9,7 @@ data = Data()
 class Config(object):
     SECRET_KEY = secrets.token_urlsafe(64)
     PERMANENT_SESSION_LIFETIME = timedelta(minutes=30)
-    DEBUG = 'True'
+    TEMPLATES_AUTO_RELOAD = True
+    DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///{}'.format(data.DATABASE_PATH)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
