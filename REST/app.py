@@ -14,6 +14,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 db = SQLAlchemy(app)
 decryptor = Decryptor()
+encryptor = Encryptor()
 
 
 @app.route('/')
@@ -48,10 +49,12 @@ def logout():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        user_exists = User.query.filter_by(username=form.user_name.data).first()
-        if user_exists is None:
+        user_exists = User.query.filter_by(name=form.user_name.data).first()
+        if user_exists is None and form.master_password.data == form.second_password.data:
             user = User()
-            form.populate_obj(user)
+            user.name = form.user_name.data
+            user.master_password = encryptor.encrypt(form.master_password.data)
+            user.email = form.email.data
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('user', username=user.name))

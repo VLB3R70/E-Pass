@@ -1,13 +1,13 @@
 from .app import db, login_manager
-from sqlalchemy import VARCHAR, ForeignKey, Column, Integer
+from sqlalchemy import ForeignKey, Column, Integer, Text
 
 
 class User(db.Model):
     __tablename__ = 'User'
-    id = Column(Integer, primary_key=True)
-    name = Column(VARCHAR(50), nullable=False)
-    master_password = Column(VARCHAR(100), nullable=False)
-    email = Column(VARCHAR(100))
+    id = Column(Integer, primary_key=True, nullable=False)
+    name = Column(Text, nullable=False, unique=True)
+    master_password = Column(Text, nullable=False)
+    email = Column(Text, nullable=False)
 
     def is_authenticated(self):
         return False
@@ -24,8 +24,8 @@ class User(db.Model):
 
 class Data(db.Model):
     __tablename__ = 'Data'
-    id = Column(db.Integer, primary_key=True)
-    user = Column(db.VARCHAR(50), ForeignKey('User.name', ondelete='cascade', onupdate='cascade'), nullable=False)
-    site_name = Column(db.VARCHAR(100), nullable=False)
-    username = Column(db.VARCHAR(100), nullable=False)
-    password = Column(db.VARCHAR(100), nullable=False)
+    id = Column(db.Integer, primary_key=True, nullable=False)
+    user_id = Column(Integer, ForeignKey('User.id', ondelete='cascade', onupdate='cascade'), nullable=False)
+    site_name = Column(Text, nullable=False)
+    username = Column(Text, nullable=False)
+    password = Column(Text, nullable=False)
