@@ -28,10 +28,41 @@ li a {
     background-color: #ffee58;
 }
 
-.delete:hover{
+.delete:hover {
     background-color: #ef5350;
 }
 
-.logout:hover{
+.logout:hover, .profile:hover {
     background-color: #b0bec5;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+th {
+    background: #eee;
+}
+
+.data_table {
+    overflow-y: auto;
+    margin-top: 100px;
+    margin-left: 200px;
+    margin-right: 200px;
+    height: 500px;
+}
+
+.data_table thead th {
+    position: sticky;
+    top: 0;
 }

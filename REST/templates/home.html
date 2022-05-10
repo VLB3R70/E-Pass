@@ -1,21 +1,52 @@
 {% extends "base.html" %}
 
-{% block title %}{{ user }}{% endblock %}
+{% block title %}{{ username }}{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/home.css')}}">
-<ul class="nav_bar">
-    <li class="add_password">
-        <a class="add" href="#">Add new password</a>
-    </li>
-    <li class="modify_password">
-        <a class="modify" href="#">Modify password</a>
-    </li>
-    <li class="delete_password">
-        <a class="delete" href="#">Delete password</a>
-    </li>
-    <li style="float:right">
-        <a class="logout" href="{{ url_for('logout') }}">Log out</a>
-    </li>
-</ul>
+<div>
+    <ul class="nav_bar">
+        <li class="add_password">
+            <a class="add" href="#">Add new password</a>
+        </li>
+        <li class="modify_password">
+            <a class="modify" href="#">Modify password</a>
+        </li>
+        <li class="delete_password">
+            <a class="delete" href="#">Delete password</a>
+        </li>
+        <li style="float: right">
+            <a class="profile" href="#">Profile</a>
+        </li>
+        <li style="float:right">
+            <a class="logout" href="{{ url_for('logout') }}">Log out</a>
+        </li>
+    </ul>
+</div>
+<div class="data_table">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Site name</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for data in data%}
+        <tr>
+            <td>{{data.id}}</td>
+            <td>{{data.site_name}}</td>
+            <td>{{data.username}}</td>
+            <td>**************</td>
+            <td>
+                <button type="button">Copy to clipboard!</button>
+            </td>
+        </tr>
+        {%endfor%}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

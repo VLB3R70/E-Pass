@@ -22,7 +22,7 @@ def init():
     return redirect(url_for('login'))
 
 
-from .models import User
+from .models import User, Data
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -35,7 +35,7 @@ def login():
             db_user = User.query.filter_by(name=user).first()
             if password == decryptor.decrypt(password=db_user.master_password):
                 login_user(db_user)
-                return redirect(url_for('user', username=db_user.name))
+                return redirect(url_for('user', username=db_user.name, id=db_user.id, user=db_user))
     return render_template('login.html', form=form)
 
 
@@ -57,15 +57,15 @@ def register():
             user.email = form.email.data
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for('user', username=user.name))
+            return redirect(url_for('user', username=user.name, id=user.id))
         form.user_name.errors.append('That user exists.')
     return render_template('register.html', form=form)
 
 
-@app.route('/user/<username>', methods=["GET", "POST"])
+@app.route('/home/<username>/<id>', methods=["GET", "POST"])
 @login_required
-def user(username):
-    return render_template('home.html', user=username)
+def user(username, id):
+    return render_template('home.html', username=username, data=Data.query.filter_by(user_id=id))
 
 
 @login_manager.user_loader
