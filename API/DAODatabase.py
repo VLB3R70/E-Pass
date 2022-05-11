@@ -53,7 +53,8 @@ class DAO:
     def getUserId(self, username):
         with self.connection:
             id = self.connection.execute(data.SELECT_USER_ID, (username,)).fetchone()
-            return id[0]
+
+        return id[0]
 
     def getMasterPassword(self, user):
         with self.connection:
@@ -68,10 +69,10 @@ class DAO:
 
     ########################################################################################
 
-    def saveUserData(self, user_id, siteName, userName, password):
+    def saveUserData(self, id, user_id, siteName, userName, password):
         encryptedPassword = self.encryptor.encrypt(password=password)
         with self.connection:
-            self.connection.execute(data.INSERT_USER_DATA, (user_id, userName, siteName, encryptedPassword))
+            self.connection.execute(data.INSERT_USER_DATA, (id, user_id, userName, siteName, encryptedPassword))
 
     def getUserData(self, user_id):
         with self.connection:
@@ -84,6 +85,12 @@ class DAO:
             decryptedPassword = self.decryptor.decrypt(password=userPassword[0])
 
         return decryptedPassword
+
+    def getNumPasswords(self, user_id):
+        with self.connection:
+            num_passwords = self.connection.execute(data.SELECT_COUNT_PASSWORDS, (user_id,)).fetchone()
+
+        return num_passwords[0]
 
     def getUserName(self, id):
         with self.connection:

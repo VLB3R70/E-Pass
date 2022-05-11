@@ -37,9 +37,11 @@ class Data:
 
     SELECT_USER_ID = 'SELECT id FROM User WHERE name=?'
 
-    INSERT_USER_DATA = 'INSERT INTO Data (user_id,username,site_name, password) VALUES (?,?, ?, ?);'
+    INSERT_USER_DATA = 'INSERT INTO Data (id, user_id,username,site_name, password) VALUES (?,?,?, ?, ?);'
 
     SELECT_USER_DATA = 'SELECT * FROM Data WHERE user_id = ?;'
+
+    SELECT_COUNT_PASSWORDS = "SELECT count(*) FROM Data WHERE user_id = ?"
 
     SELECT_USER_PASSWORD = 'SELECT password FROM Data WHERE id = ?;'
 

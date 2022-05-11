@@ -9,12 +9,12 @@ dao = DAO()
 
 class HomeFrame(Frame):
 
-    def __init__(self, root, user):
+    def __init__(self, root, user_id):
         Frame.__init__(self, root)
         self.root = root
-        self.user = user
+        self.user_id = user_id
 
-        self.labelFrame = EntriesTable(self, self.user)
+        self.labelFrame = EntriesTable(self, self.user_id)
         self.labelFrame.grid(column=0, row=0, rowspan=3)
         self.buttonPanel = ButtonPanel(self, root)
         self.copyToClipboard = Button(self, text="Copy to clipboard", bg='purple3', activebackground='purple2',

@@ -8,9 +8,11 @@ from .RegisterFrame import RegisterFrame
 
 dao = DAO()
 BUTTON_COLOR = "#4CAF50"
+USER_ID = 0
 
 
 class LoginFrame(Frame):
+    global USER_ID
 
     def __init__(self, root):
         super().__init__(root)
@@ -45,12 +47,15 @@ class LoginFrame(Frame):
         self.pack()
 
     def checkPassword(self):
-        self.user = self.usernameEntry.get()
+        global USER_ID
+        user = self.usernameEntry.get()
+        USER_ID = dao.getUserId(username=user)
         for i in dao.getUsers():
-            if self.user in i and self.masterPasswordEntry.get() == dao.getMasterPassword(self.user):
+            if self.usernameEntry.get() in i and self.masterPasswordEntry.get() == dao.getMasterPassword(
+                    self.usernameEntry.get()):
                 self.root.destroy()
                 root = Tk()
-                homeFrame = HomeFrame(root, self.user)
+                homeFrame = HomeFrame(root, USER_ID)
                 homeFrame.tkraise()
             else:
                 message.showerror("Error", "Incorrect password or username. Please try again")

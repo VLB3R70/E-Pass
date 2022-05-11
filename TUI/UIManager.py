@@ -1,3 +1,6 @@
+import signal
+
+import pyperclip as pc
 from rich import print as nicePrint
 from rich.console import Console
 from rich.markdown import Markdown
@@ -6,8 +9,6 @@ from rich.table import Table
 
 from API.DAODatabase import DAO
 from .TUIHelp import HELP
-import signal
-import pyperclip as pc
 
 dao = DAO()
 
@@ -77,7 +78,7 @@ def login():
 
 
 def mainMenu():
-    global USER
+    global USER_ID
     optionMenu = createMainMenu()
     nicePrint(optionMenu)
     signal.signal(signal.SIGINT, handler)
@@ -102,9 +103,10 @@ def mainMenu():
             newPassword = Prompt.ask(
                 "[cyan]Enter the password of te site given", default="", password=True
             )
-
+            num_passwords = dao.getNumPasswords(USER_ID)
             dao.saveUserData(
-                user_id=USER_ID, siteName=newSiteName, userName=newUserName, password=newPassword
+                id=(num_passwords + 1), user_id=USER_ID, siteName=newSiteName, userName=newUserName,
+                password=newPassword
             )
             nicePrint("[green]Succesfully added a new entry to the database!")
         elif selection == "4":

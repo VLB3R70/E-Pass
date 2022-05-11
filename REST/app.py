@@ -98,6 +98,7 @@ def addPassword(username):
 @login_required
 def modifyPassword(username):
     form = ModifyPassForm()
+    print(Data.query.filter_by(user_id=1).count())
     if form.validate_on_submit():
         old_data = Data.query.filter_by(id=form.id.data, user_id=current_user.id).first()
         new_data = Data()

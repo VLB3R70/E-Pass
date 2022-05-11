@@ -42,7 +42,9 @@ class AddPassFrame(Toplevel):
 
     def checkPassword(self):
         if self.entryPassword.get() == self.entryPassword2.get():
-            dao.saveUserData(user=self.user, siteName=self.entrySiteName.get(), userName=self.entryUsername.get(),
+            num_passwords = dao.getNumPasswords(USER_ID)
+            dao.saveUserData(id=(num_passwords + 1), user_id=self.user, siteName=self.entrySiteName.get(),
+                             userName=self.entryUsername.get(),
                              password=self.entryPassword.get())
         else:
             message.showerror("Wrong password", "You must introduce the same password twice. Please try again")
