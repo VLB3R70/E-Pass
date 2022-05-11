@@ -25,6 +25,15 @@ class AddPassForm(FlaskForm):
     addPassword = SubmitField('Add new password')
 
 
-class DeletePasswordForm(FlaskForm):
+class DeletePassForm(FlaskForm):
     id = IntegerField('Enter the ID of the password:', validators=[DataRequired()])
     delete = SubmitField('Delete')
+
+
+class ModifyPassForm(FlaskForm):
+    id = IntegerField('Enter the ID of the password:')
+    new_site_name = StringField('Enter the new site name:')
+    new_username = StringField('Enter the new username:')
+    new_password = StringField('Enter the new password:')
+    confirm_password = StringField('Enter the password again:')
+    modify = SubmitField('Modify')

@@ -1,5 +1,6 @@
 table {
     border-collapse: collapse;
+    border: 1px solid black;
     width: 100%;
 }
 
@@ -13,11 +14,13 @@ tr:nth-child(even) {
 }
 
 th {
-    background: #eee;
+    background: #ba68c8;
+    border: 1px solid black;
 }
 
 .data_table {
     overflow-y: auto;
+    margin-top: 20px;
     margin-left: 200px;
     margin-right: 200px;
     height: 200px;

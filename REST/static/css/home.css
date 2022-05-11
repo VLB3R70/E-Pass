@@ -38,6 +38,7 @@ li a {
 
 table {
     border-collapse: collapse;
+    border: 1px solid black;
     width: 100%;
 }
 
@@ -51,7 +52,8 @@ tr:nth-child(even) {
 }
 
 th {
-    background: #eee;
+    background: #ba68c8;
+    border: 1px solid black;
 }
 
 .data_table {

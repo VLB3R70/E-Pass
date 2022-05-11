@@ -1,9 +1,10 @@
-from flask import Flask, render_template, redirect, url_for, abort, request
+from flask import Flask, render_template, redirect, url_for, abort, request, flash
 from flask_sqlalchemy import SQLAlchemy
-from .forms import LoginForm, RegisterForm, AddPassForm, DeletePasswordForm
+from .forms import LoginForm, RegisterForm, AddPassForm, DeletePassForm, ModifyPassForm
 from REST.config import Config
 from API.Encryption import Encryptor, Decryptor
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
+import pyperclip as pc
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -63,6 +64,12 @@ def register():
 @app.route('/home/<username>/', methods=["GET", "POST"])
 @login_required
 def user(username):
+    # if request.form["copy"] == "Copy to clipboard!":
+    #     data = Data.query.filter_by(id=id, user_id=current_user.id).first()
+    #     password = decryptor.decrypt(data.password)
+    #     pc.copy(password)
+    #     flash('Password successfully copied to clipboard!')
+    # else:
     return render_template('home.html', username=username, data=Data.query.filter_by(user_id=current_user.id),
                            id=current_user.id)
 
@@ -87,10 +94,42 @@ def addPassword(username):
         return render_template('addPass.html', form=form)
 
 
+@app.route('/home/<username>/modify', methods=["GET", "POST"])
+@login_required
+def modifyPassword(username):
+    form = ModifyPassForm()
+    if form.validate_on_submit():
+        old_data = Data.query.filter_by(id=form.id.data, user_id=current_user.id).first()
+        new_data = Data()
+        new_data.user_id = current_user.id
+        if form.id.data != "":
+            if form.new_site_name.data != "":
+                new_data.site_name = form.new_site_name.data
+            else:
+                new_data.site_name = old_data.site_name
+            if form.new_username.data != "":
+                new_data.username = form.new_username.data
+            else:
+                new_data.username = old_data.username
+            if form.new_password.data != "" and form.new_password.data == form.confirm_password.data:
+                new_data.password = form.new_password.data
+            elif form.new_password.data != form.confirm_password.data:
+                flash('The passwords must be the same')
+            else:
+                new_data.password = old_data.password
+            db.session.delete(old_data)
+            db.session.commit()
+            db.session.add(new_data)
+            db.session.commit()
+            return redirect(url_for('user', username=username))
+    else:
+        return render_template('modify.html', form=form, data=Data.query.filter_by(user_id=current_user.id))
+
+
 @app.route('/home/<username>/delete', methods=["GET", "POST"])
 @login_required
 def delete_password(username):
-    form = DeletePasswordForm()
+    form = DeletePassForm()
     if form.validate_on_submit():
         data = Data.query.filter_by(id=form.id.data, user_id=current_user.id).first()
         db.session.delete(data)

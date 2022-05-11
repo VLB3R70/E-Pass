@@ -10,7 +10,7 @@
             <a class="add" href="{{url_for('addPassword', username=username, id=id)}}">Add new password</a>
         </li>
         <li class="modify_password">
-            <a class="modify" href="#">Modify password</a>
+            <a class="modify" href="{{url_for('modifyPassword', username=username)}}">Modify password</a>
         </li>
         <li class="delete_password">
             <a class="delete" href="{{url_for('delete_password', username=username)}}">Delete password</a>
@@ -31,7 +31,6 @@
             <th>Site name</th>
             <th>Username</th>
             <th>Password</th>
-            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -41,12 +40,12 @@
             <td>{{data.site_name}}</td>
             <td>{{data.username}}</td>
             <td>**************</td>
-            <td>
-                <button type="button">Copy to clipboard!</button>
-            </td>
         </tr>
         {%endfor%}
         </tbody>
     </table>
+</div>
+<div>
+
 </div>
 {% endblock %}
