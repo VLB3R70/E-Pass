@@ -15,3 +15,11 @@ class RegisterForm(FlaskForm):
     second_password = PasswordField('Enter the master password again', validators=[DataRequired()])
     email = StringField('Enter your email (Optional)')
     register = SubmitField('Register me')
+
+
+class AddPassForm(FlaskForm):
+    site_name = StringField('Enter the site name:', validators=[DataRequired()])
+    username = StringField('Enter your username:')
+    password = PasswordField('Enter the password of the site:', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm the password:', validators=[DataRequired()])
+    addPassword = SubmitField('Add new password')

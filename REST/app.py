@@ -1,8 +1,6 @@
-from datetime import timedelta
-
 from flask import Flask, render_template, redirect, url_for, abort, request
 from flask_sqlalchemy import SQLAlchemy
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, AddPassForm
 from REST.config import Config
 from API.Encryption import Encryptor, Decryptor
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
@@ -57,15 +55,37 @@ def register():
             user.email = form.email.data
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for('user', username=user.name, id=user.id))
+            return redirect(url_for('user', username=user.name))
         form.user_name.errors.append('That user exists.')
     return render_template('register.html', form=form)
 
 
-@app.route('/home/<username>/<id>', methods=["GET", "POST"])
+@app.route('/home/<username>/', methods=["GET", "POST"])
 @login_required
-def user(username, id):
-    return render_template('home.html', username=username, data=Data.query.filter_by(user_id=id))
+def user(username):
+    return render_template('home.html', username=username, data=Data.query.filter_by(user_id=current_user.id), id=current_user.id)
+
+
+@app.route('/home/<username>/<id>/add', methods=["GET", "POST"])
+@login_required
+def addPassword(username, id):
+    form = AddPassForm()
+    if form.validate_on_submit():
+        print(form.password.data, form.confirm_password.data)
+        if form.password.data == form.confirm_password.data:
+            data = Data()
+            data.user_id = current_user.id
+            data.site_name = form.site_name.data
+            data.username = form.username.data
+            data.password = encryptor.encrypt(form.password.data)
+            db.session.add(data)
+            db.session.commit()
+            print(current_user.id)
+            return redirect(url_for('user', username=username))
+        else:
+            form.confirm_password.errors.append('The passwords are not the same.')
+    else:
+        return render_template('addPass.html', form=form)
 
 
 @login_manager.user_loader

@@ -1,13 +1,12 @@
 import os
-from pathlib import Path
 
 
 class Data:
-    DATA_DIRECTORY = os.path.join(Path.home(), 'EPass/')
+    DATA_DIRECTORY = os.path.abspath(os.curdir)
 
-    KEY_FILE_NAME = '.epass.key'
+    KEY_FILE_NAME = 'epass.key'
+
     KEY_FILE_PATH = os.path.join(DATA_DIRECTORY, KEY_FILE_NAME)
-
     DATABASE_PATH = os.path.join(DATA_DIRECTORY, "epass.db")
 
     USER_COUNT = 'SELECT name FROM User'
