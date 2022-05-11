@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %} Deleting {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/form.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/delete.css')}}"/>
+<div class="data_table">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Site name</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for data in data%}
+        <tr>
+            <td>{{data.id}}</td>
+            <td>{{data.site_name}}</td>
+            <td>{{data.username}}</td>
+            <td>**************</td>
+            <td>
+                <button type="button">Copy to clipboard!</button>
+            </td>
+        </tr>
+        {%endfor%}
+        </tbody>
+    </table>
+</div>
+<div class="help_text">
+    <p>To delete a password you have to enter the id of the password you want to delete and submit the election.</p>
+</div>
+<div class="delete_form">
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <p>{{form.id.label}}<br>
+            {{form.id(size=5)}}<br>
+            {% for error in form.id.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.delete() }}</p>
+    </form>
+</div>
+{% endblock %}

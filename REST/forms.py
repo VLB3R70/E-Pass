@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from wtforms.validators import DataRequired
 
 
@@ -23,3 +23,8 @@ class AddPassForm(FlaskForm):
     password = PasswordField('Enter the password of the site:', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm the password:', validators=[DataRequired()])
     addPassword = SubmitField('Add new password')
+
+
+class DeletePasswordForm(FlaskForm):
+    id = IntegerField('Enter the ID of the password:', validators=[DataRequired()])
+    delete = SubmitField('Delete')

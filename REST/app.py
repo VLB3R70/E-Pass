@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, abort, request
 from flask_sqlalchemy import SQLAlchemy
-from .forms import LoginForm, RegisterForm, AddPassForm
+from .forms import LoginForm, RegisterForm, AddPassForm, DeletePasswordForm
 from REST.config import Config
 from API.Encryption import Encryptor, Decryptor
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
@@ -33,7 +33,7 @@ def login():
             db_user = User.query.filter_by(name=user).first()
             if password == decryptor.decrypt(password=db_user.master_password):
                 login_user(db_user)
-                return redirect(url_for('user', username=db_user.name, id=db_user.id, user=db_user))
+                return redirect(url_for('user', username=db_user.name))
     return render_template('login.html', form=form)
 
 
@@ -63,15 +63,15 @@ def register():
 @app.route('/home/<username>/', methods=["GET", "POST"])
 @login_required
 def user(username):
-    return render_template('home.html', username=username, data=Data.query.filter_by(user_id=current_user.id), id=current_user.id)
+    return render_template('home.html', username=username, data=Data.query.filter_by(user_id=current_user.id),
+                           id=current_user.id)
 
 
-@app.route('/home/<username>/<id>/add', methods=["GET", "POST"])
+@app.route('/home/<username>/add', methods=["GET", "POST"])
 @login_required
-def addPassword(username, id):
+def addPassword(username):
     form = AddPassForm()
     if form.validate_on_submit():
-        print(form.password.data, form.confirm_password.data)
         if form.password.data == form.confirm_password.data:
             data = Data()
             data.user_id = current_user.id
@@ -80,12 +80,24 @@ def addPassword(username, id):
             data.password = encryptor.encrypt(form.password.data)
             db.session.add(data)
             db.session.commit()
-            print(current_user.id)
             return redirect(url_for('user', username=username))
         else:
             form.confirm_password.errors.append('The passwords are not the same.')
     else:
         return render_template('addPass.html', form=form)
+
+
+@app.route('/home/<username>/delete', methods=["GET", "POST"])
+@login_required
+def delete_password(username):
+    form = DeletePasswordForm()
+    if form.validate_on_submit():
+        data = Data.query.filter_by(id=form.id.data, user_id=current_user.id).first()
+        db.session.delete(data)
+        db.session.commit()
+        return redirect(url_for('user', username=username))
+    else:
+        return render_template('delete.html', form=form, data=Data.query.filter_by(user_id=current_user.id))
 
 
 @login_manager.user_loader
