@@ -45,9 +45,9 @@ class HomeFrame(Frame):
 
         return menubar
 
-    def refreshTable(self, root, user):
+    def refreshTable(self, root, user_id):
         self.destroy()
-        self.__init__(root, user)
+        self.__init__(root, user_id)
 
     def copyToClipboard(self):
         try:

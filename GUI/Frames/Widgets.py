@@ -68,7 +68,7 @@ class ButtonPanel(PanedWindow):
         self.deletePass.grid(column=3, row=2, pady=10, padx=20, ipadx=30)
 
     def addNewPassword(self):
-        addPasswordFrame = AddPassFrame(root=self.root, master=self.master, user=USER_ID)
+        addPasswordFrame = AddPassFrame(root=self.root, master=self.master, user_id=USER_ID)
         addPasswordFrame.tkraise()
 
     def deletePassword(self):

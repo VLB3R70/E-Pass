@@ -1,8 +1,9 @@
 import os
+from pathlib import Path
 
 
 class Data:
-    DATA_DIRECTORY = os.path.abspath(os.curdir)
+    DATA_DIRECTORY = os.path.join(Path.home(), "EPass")
 
     KEY_FILE_NAME = 'epass.key'
 

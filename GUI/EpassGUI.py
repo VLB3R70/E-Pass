@@ -12,6 +12,7 @@ def manager():
     loginFrame.mainloop()
 
 
-# if database is empty    ->  show registerFrame   else     ->  show loginFrame
+if __name__ == '__main__':
+    manager()
 
-manager()
+# if database is empty    ->  show registerFrame   else     ->  show loginFrame
