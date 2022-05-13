@@ -1,5 +1,6 @@
-from .app import db, login_manager
 from sqlalchemy import ForeignKey, Column, Integer, Text
+
+from .app import db
 
 
 class User(db.Model):
@@ -8,6 +9,7 @@ class User(db.Model):
     name = Column(Text, nullable=False, unique=True)
     master_password = Column(Text, nullable=False)
     email = Column(Text, nullable=False)
+    data = db.relationship('Data', backref='user', lazy=True)
 
     def is_authenticated(self):
         return False
@@ -25,7 +27,7 @@ class User(db.Model):
 class Data(db.Model):
     __tablename__ = 'Data'
     id = Column(db.Integer, primary_key=True, nullable=False)
-    user_id = Column(Integer, ForeignKey('User.id', ondelete='cascade', onupdate='cascade'), nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id', ondelete='cascade', onupdate='cascade'), nullable=False)
     site_name = Column(Text, nullable=False)
     username = Column(Text, nullable=False)
     password = Column(Text, nullable=False)

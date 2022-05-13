@@ -19,7 +19,7 @@ class Data:
                     [email] TEXT NOT NULL);
 
                     CREATE TABLE IF NOT EXISTS [Data] (
-                    [id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    [id] INTEGER NOT NULL,
                     [user_id] INTEGER NOT NULL,[site_name] TEXT NOT NULL,
                     [username] TEXT NOT NULL,[password] TEXT NOT NULL,
                     FOREIGN KEY([user_id]) REFERENCES [User]([id]) ON DELETE CASCADE ON UPDATE CASCADE);

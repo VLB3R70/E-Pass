@@ -1,10 +1,10 @@
-from flask import Flask, render_template, redirect, url_for, abort, request, flash
-from flask_sqlalchemy import SQLAlchemy
-from .forms import LoginForm, RegisterForm, AddPassForm, DeletePassForm, ModifyPassForm
-from REST.config import Config
-from API.Encryption import Encryptor, Decryptor
+from flask import Flask, render_template, redirect, url_for, flash
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
-import pyperclip as pc
+from flask_sqlalchemy import SQLAlchemy
+
+from API.Encryption import Encryptor, Decryptor
+from REST.config import Config
+from .forms import LoginForm, RegisterForm, AddPassForm, DeletePassForm, ModifyPassForm
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -98,7 +98,7 @@ def addPassword(username):
 @login_required
 def modifyPassword(username):
     form = ModifyPassForm()
-    print(Data.query.filter_by(user_id=1).count())
+    num_passwords = Data.query.filter_by(user_id=current_user.id).count()
     if form.validate_on_submit():
         old_data = Data.query.filter_by(id=form.id.data, user_id=current_user.id).first()
         new_data = Data()
@@ -120,6 +120,7 @@ def modifyPassword(username):
                 new_data.password = old_data.password
             db.session.delete(old_data)
             db.session.commit()
+            new_data.id = num_passwords + 1
             db.session.add(new_data)
             db.session.commit()
             return redirect(url_for('user', username=username))
