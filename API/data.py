@@ -1,8 +1,22 @@
+"""
+.. module:: data
+    :synopsis:
+
+.. moduleauthor:: Alberto Jiménez <https://github.com/VLB3R70>
+
+This module implements all the necessary data for the API to work. It only has one class named `Data`.
+"""
 import os
 from pathlib import Path
 
 
 class Data:
+    """
+    .. class:: Data
+
+    The Data class implements all necessary data in variables. They establish the data directories and the queries for
+    the database
+    """
     DATA_DIRECTORY = os.path.join(Path.home(), "EPass")
 
     KEY_FILE_NAME = 'epass.key'
