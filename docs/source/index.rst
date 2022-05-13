@@ -45,6 +45,11 @@ Encryption
 TUI
 =========
 
+UIManager
+----------
+.. automodule:: TUI.UIManager
+   :members:
+
 
 Indices and tables
 ==================

@@ -1,3 +1,12 @@
+"""
+.. module:: UIManager
+    :synopsis:
+
+This module implements the necessary functions to make a functional Terminal User Interface application. This modules uses the `rich <https://pypi.org/project/rich/>`_ package to make a prettier TUI.
+
+.. moduleauthor::
+    `Alberto Jiménez <https://github.com/VLB3R70>`_
+"""
 import signal
 
 import pyperclip as pc
@@ -22,6 +31,25 @@ def handler(signum, frame):
 
 
 def login():
+    """
+    This function is the first one to run. It shows the app logo and three decisions.
+
+    * login
+    * register
+    * remember password
+
+    The user has to select one of them by typing the number given. This function responds if the user types ``Ctrl+C``
+    and leaves the app without throwing an exception.
+
+    1. If the user decides to log in, the prompt ask for the username and the passwords. If they are correct it shows de main
+    menu; if not, it asks once again for the password.
+
+    2. If the user decides to register a new one, the prompt ask for the new username, his master password and his email.
+    Before that the prompt automatically redirects to the log in prompt again.
+
+    .. note:: The `remember password` function is under development but in resume; this function will email the user with the value of the password.
+
+    """
     global USER
     global USER_ID
     login = True
@@ -78,6 +106,10 @@ def login():
 
 
 def mainMenu():
+    """
+    This function shows a main menu with six different options that the user can select.
+    :return:
+    """
     global USER_ID
     optionMenu = createMainMenu()
     nicePrint(optionMenu)
@@ -105,7 +137,7 @@ def mainMenu():
             )
             num_passwords = dao.getNumPasswords(USER_ID)
             dao.saveUserData(
-                id=(num_passwords + 1), user_id=USER_ID, siteName=newSiteName, userName=newUserName,
+                id=str((num_passwords + 1)), user_id=str(USER_ID), siteName=newSiteName, userName=newUserName,
                 password=newPassword
             )
             nicePrint("[green]Succesfully added a new entry to the database!")
