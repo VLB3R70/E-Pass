@@ -2,9 +2,11 @@
 .. module:: DAODatabase
     :synopsis:
 
-.. moduleauthor:: Alberto Jiménez <https://github.com/VLB3R70>
-
 This module implements an object with all the necessary functions to get the data from the database.
+
+.. moduleauthor::
+    `Alberto Jiménez <https://github.com/VLB3R70>`_
+
 """
 import os
 import sqlite3
@@ -22,6 +24,7 @@ class DAO:
     .. class:: DAO
 
     It is the class which implements de Data Access Object methods.
+
     """
     encryptor = Encryptor()
     decryptor = Decryptor()
@@ -41,6 +44,7 @@ class DAO:
         :return: It returns if the database is empty
 
         :rtype: bool
+
         """
         with self.connection:
             notEmpty = self.connection.execute(data.USER_COUNT).fetchone()
@@ -53,6 +57,7 @@ class DAO:
     def setupDataBase(self):
         """
         This function executes the necessary queries to set up the database.
+
         """
         with self.connection:
             self.connection.executescript(data.SQL_START)
@@ -61,6 +66,7 @@ class DAO:
         """
         This function drops all the existing tables in the database and calls to
         :py:func:`setupDataBase()`
+
         """
         with self.connection:
             self.connection.executescript(data.SQL_RESET)
@@ -81,6 +87,7 @@ class DAO:
         :type username: str
 
         :type email: str
+
         """
         encryptedPass = self.encryptor.encrypt(password=masterPassword)
 
@@ -94,6 +101,7 @@ class DAO:
         :return: It returns a list with all the usernames
 
         :rtype: list[str]
+
         """
         with self.connection:
             users = self.connection.execute(data.USER_COUNT).fetchall()
@@ -108,6 +116,7 @@ class DAO:
         :type username: str
 
         :return: It returns the ID of the user with the same username
+
         """
         with self.connection:
             id = self.connection.execute(data.SELECT_USER_ID, (username,)).fetchone()
@@ -125,6 +134,7 @@ class DAO:
         :return: It returns the decrypted password of the user
 
         :rtype: str
+
         """
         with self.connection:
             result = self.connection.execute(data.SELECT_USER_MASTER_PASSWORD, (user,)).fetchone()
@@ -142,6 +152,7 @@ class DAO:
         :param user: Is the name of the user
 
         :type user: str
+
         """
         with self.connection:
             encryptedPassword = self.encryptor.encrypt(newPassword)
@@ -172,6 +183,7 @@ class DAO:
         :param password: Is the password used in the website or app. This password is saved with an encryption
 
         :type password: str
+
         """
         encryptedPassword = self.encryptor.encrypt(password=password)
         with self.connection:
@@ -188,6 +200,7 @@ class DAO:
         :return: It returns a list with all the entries of the database
 
         :rtype: list
+
         """
         with self.connection:
             userData = self.connection.execute(data.SELECT_USER_DATA, (user_id,)).fetchall()
@@ -204,6 +217,7 @@ class DAO:
         :return: It returns the decrypted password
 
         :rtype: str
+
         """
         with self.connection:
             userPassword = self.connection.execute(data.SELECT_USER_PASSWORD, (id,)).fetchone()
@@ -222,6 +236,7 @@ class DAO:
         :return: It returns the number of passwords saved
 
         :rtype: int
+
         """
         with self.connection:
             num_passwords = self.connection.execute(data.SELECT_COUNT_PASSWORDS, (user_id,)).fetchone()
@@ -239,6 +254,7 @@ class DAO:
         :return: It returns the username of the password
 
         :rtype: str
+
         """
         with self.connection:
             userName = self.connection.execute(data.SELECT_USER_NAME, (id,)).fetchone()
@@ -256,6 +272,7 @@ class DAO:
         :param newSitename: Is the new site name of the password selected
 
         :type newSitename: str
+
         """
         with self.connection:
             self.connection.execute(data.UPDATE_USER_SITENAME, (newSitename, id))
@@ -271,6 +288,7 @@ class DAO:
         :param newUserName: Is the new username of the password selected
 
         :type newUserName: str
+
         """
         with self.connection:
             self.connection.execute(data.UPDATE_USER_NAME, (newUserName, id))
@@ -286,6 +304,7 @@ class DAO:
         :param newPassword: Is the new password of the selected one
 
         :type newPassword: str
+
         """
         with self.connection:
             encryptedPassword = self.encryptor.encrypt(newPassword)
@@ -298,6 +317,7 @@ class DAO:
         :param id: Is the ID of the selected password
 
         :type id: int
+
         """
         with self.connection:
             self.connection.execute(data.DELETE_ONE_PASSWORD, (id,))
@@ -309,6 +329,7 @@ class DAO:
         :param IDList: Is a list with the ID's of the passwords
 
         :type IDList: list
+
         """
         with self.connection:
             for i in IDList:

@@ -1,3 +1,13 @@
+"""
+.. module:: TUIHelp
+    :synopsis:
+
+This module is used to print a simple help in the TUI.
+
+.. moduleauthor::
+    `Alberto Jiménez <https://github.com/VLB3R70>`_
+"""
+
 HELP = """
 # EPass TUI
 

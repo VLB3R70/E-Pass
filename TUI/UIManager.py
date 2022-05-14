@@ -15,7 +15,6 @@ from rich.console import Console
 from rich.markdown import Markdown
 from rich.prompt import Prompt
 from rich.table import Table
-
 from API.DAODatabase import DAO
 from .TUIHelp import HELP
 
@@ -39,10 +38,13 @@ def login():
     * remember password
 
     The user has to select one of them by typing the number given. This function responds if the user types ``Ctrl+C``
-    and leaves the app without throwing an exception.
+    and leaves the app without throwing an exception. This function implements an infinite loop and asks the user for
+    the three options. If the user fails during the login it asks about the three options again until enters the data
+    successfully.
+    When the user finish to register his account the prompt asks once again to select one of the three options.
 
-    1. If the user decides to log in, the prompt ask for the username and the passwords. If they are correct it shows de main
-    menu; if not, it asks once again for the password.
+    1. If the user decides to log in, the prompt ask for the username and the passwords. If they are correct it shows
+    the main menu, if not, it asks once again for the password.
 
     2. If the user decides to register a new one, the prompt ask for the new username, his master password and his email.
     Before that the prompt automatically redirects to the log in prompt again.
@@ -108,7 +110,26 @@ def login():
 def mainMenu():
     """
     This function shows a main menu with six different options that the user can select.
-    :return:
+    This function uses an infinite loop and the user selects one of the options given; to exit the
+    loop the user has to enter ``Crtl+C``.
+    The six options for now are this:
+
+    0. `Show menu` : this option shows again the menu with the different options
+
+    1. `List user data` : this option shows all the data of the user logged
+
+    2. `Select a password` : this options ask for the ID of the password, and then it copies the password value to the clipboard
+
+    3. `Add a new entry` : this option ask the user to enter all the necessary data for the passwords such as the username, the site name and the password
+
+    4. `Update password` : this option ask the user to enter the ID of the password that wants to update, and then it asks for the new password
+
+    5. `Update username` : this option ask the user the ID of the username that wants to update, then it asks for the new username
+
+    6. `Delete an entry` :  this option ask the user the ID of the password that wants to delete
+
+    `exit` : this option exits the infinite loop and the app
+
     """
     global USER_ID
     optionMenu = createMainMenu()
@@ -178,12 +199,24 @@ def mainMenu():
 
 
 def TUIHelp():
+    """
+    This function just simply shows a simple help for the user. It prints all the data from .. module:: TUI.TUIHelp
+    and then it exists the app
+    """
     markdown = Markdown(HELP)
     nicePrint(markdown)
     pass
 
 
 def createUserDataMenu():
+    """
+    This function prints a table with all the data of the user. This function is called by the :py:func:`mainMenu()`
+    when the user selects the option: 1. `List user data`
+
+    :return: It returns a table with all the data
+
+    :rtype: ``rich.table.Table``
+    """
     menu = Table(show_lines=True)
     menu.add_column("ID", style="orange1")
     menu.add_column("Site name", style="purple3")
@@ -196,6 +229,13 @@ def createUserDataMenu():
 
 
 def createMainMenu():
+    """
+    This function prints a table with all the options to the user. This function is called by the :py:func:`mainMenu()`
+
+    :return: It returns the table with the six options
+
+    :rtype: ``rich.table.Table``
+    """
     menu = Table(show_lines=True)
     menu.add_column("Selection number")
     menu.add_column("Description")
