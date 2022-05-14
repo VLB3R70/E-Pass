@@ -1,8 +1,12 @@
+import os
+
+import sqlalchemy.exc
 from flask import Flask, render_template, redirect, url_for, flash
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 
 from API.Encryption import Encryptor, Decryptor
+from API.data import Data as data
 from REST.config import Config
 from .forms import LoginForm, RegisterForm, AddPassForm, DeletePassForm, ModifyPassForm
 
@@ -19,9 +23,6 @@ encryptor = Encryptor()
 @app.route('/')
 def init():
     return redirect(url_for('login'))
-
-
-from .models import User, Data
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -44,8 +45,17 @@ def logout():
     return redirect(url_for('login'))
 
 
+from .models import User, Data
+
+
 @app.route('/registration', methods=["GET", "POST"])
 def register():
+    if not os.path.exists(data.DATA_DIRECTORY):
+        os.mkdir(data.DATA_DIRECTORY)
+    elif not os.path.exists(data.DATABASE_PATH):
+        open(data.DATABASE_PATH, 'w')
+        db.create_all()
+    global user
     form = RegisterForm()
     if form.validate_on_submit():
         user_exists = User.query.filter_by(name=form.user_name.data).first()
