@@ -75,22 +75,27 @@ class LoginFrame(Frame):
         global USER_ID
         user = self.username_entry.get()
         USER_ID = dao.get_user_id(username=user)
-        for i in dao.get_users():
-            if self.username_entry.get() in i and self.master_password_entry.get() == dao.get_master_password(
-                    self.username_entry.get()):
-                self.root.destroy()
-                root = Tk()
-                home_frame = HomeFrame(root, USER_ID)
-                home_frame.tkraise()
-            else:
-                message.showerror("Error", "Incorrect password or username. Please try again")
 
-    def register_user(self):
-        """
-        This functions raises the :py:mod:`GUI.RegisterFrame` to add a new user in the database. When added, the frame
-        closes and the user can log in with the new username.
+        # sqlite3 fetchall() function returns a list of tuples and this two lines convert it into a list
+        users = dao.get_users()
+        users_list = [user for i in users for user in i]
 
-        """
-        root = Tk()
-        register_frame = RegisterFrame(root)
-        register_frame.tkraise()
+        if self.username_entry.get() in users_list and self.master_password_entry.get() == dao.get_master_password(
+                self.username_entry.get()):
+            self.root.destroy()
+            root = Tk()
+            home_frame = HomeFrame(root, USER_ID)
+            home_frame.tkraise()
+        else:
+            message.showerror("Error", "Incorrect password or username. Please try again")
+
+
+def register_user(self):
+    """
+    This functions raises the :py:mod:`GUI.RegisterFrame` to add a new user in the database. When added, the frame
+    closes and the user can log in with the new username.
+
+    """
+    root = Tk()
+    register_frame = RegisterFrame(root)
+    register_frame.tkraise()
