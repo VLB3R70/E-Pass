@@ -32,8 +32,13 @@ class HomeFrame(Frame):
         self.label_frame = EntriesTable(self, self.user_id)
         self.label_frame.grid(column=0, row=0, rowspan=3)
         self.button_panel = ButtonPanel(self, root)
-        self.copy_to_clipboard = Button(self, text="Copy to clipboard", bg='purple3', activebackground='purple2',
-                                        command=self.copy_to_clipboard)
+        self.copy_to_clipboard = Button(
+            self,
+            text="Copy to clipboard",
+            bg="purple3",
+            activebackground="purple2",
+            command=self.copy_to_clipboard,
+        )
         self.copy_to_clipboard.grid(column=0, row=7, rowspan=2, ipadx=50, padx=80)
 
         root.title("Home")
@@ -54,19 +59,20 @@ class HomeFrame(Frame):
         :rtype: `tkinter.Menu`
 
         """
-        menubar = Menu(self, foreground='black', activebackground='white',
-                       activeforeground='black')
+        menubar = Menu(
+            self, foreground="black", activebackground="white", activeforeground="black"
+        )
 
-        add = Menu(menubar, tearoff=1, foreground='black')
+        add = Menu(menubar, tearoff=1, foreground="black")
         add.add_command(label="New password")
         menubar.add_cascade(label="Add", menu=add)
 
-        modify = Menu(menubar, tearoff=1, foreground='black')
+        modify = Menu(menubar, tearoff=1, foreground="black")
         modify.add_command(label="Selected password")
         modify.add_command(label="More than one password")
         menubar.add_cascade(label="Modify", menu=modify)
 
-        delete = Menu(menubar, tearoff=1, foreground='black')
+        delete = Menu(menubar, tearoff=1, foreground="black")
         delete.add_command(label="Selected passwords")
         menubar.add_cascade(label="Delete", menu=delete)
 

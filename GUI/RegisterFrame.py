@@ -37,16 +37,23 @@ class RegisterFrame(Frame):
 
         self.username_entry = Entry(self)
         self.username_entry.grid(column=1, row=1)
-        self.master_password_entry = Entry(self, show='*')
+        self.master_password_entry = Entry(self, show="*")
         self.master_password_entry.grid(column=1, row=2)
         self.master_password_entry.bind("<Return>", lambda event: self.register_user())
         self.email_entry = Entry(self)
         self.email_entry.grid(column=1, row=3)
         self.email_entry.bind("<Return>", lambda event: self.register_user())
 
-        self.register_button = Button(self, text="Register", bg="#4CAF50", activebackground="#81c784",
-                                      command=lambda: self.register_user())
-        self.register_button.grid(column=0, row=4, columnspan=2, rowspan=2, ipadx=30, pady=40)
+        self.register_button = Button(
+            self,
+            text="Register",
+            bg="#4CAF50",
+            activebackground="#81c784",
+            command=lambda: self.register_user(),
+        )
+        self.register_button.grid(
+            column=0, row=4, columnspan=2, rowspan=2, ipadx=30, pady=40
+        )
 
         self.root.title("Registration")
         self.root.configure(padx=60, pady=20)
@@ -62,12 +69,21 @@ class RegisterFrame(Frame):
 
         """
         if self.empty_entries():
-            message.showwarning("Empty values", "There are empty entries, please enter the necessary data")
+            message.showwarning(
+                "Empty values",
+                "There are empty entries, please enter the necessary data",
+            )
         else:
-            ask = message.askyesno("Caution", "Are you sure you want to create a new user?")
+            ask = message.askyesno(
+                "Caution", "Are you sure you want to create a new user?"
+            )
             if ask:
-                dao.new_user(self.username_entry.get(), self.master_password_entry.get(), self.email_entry.get())
-                info = message.showinfo("Success", "User created successfully")
+                dao.new_user(
+                    self.username_entry.get(),
+                    self.master_password_entry.get(),
+                    self.email_entry.get(),
+                )
+                message.showinfo("Success", "User created successfully")
                 self.root.destroy()
             else:
                 pass
@@ -81,7 +97,7 @@ class RegisterFrame(Frame):
         :rtype: bool
 
         """
-        if self.master_password_entry.get() == '' or self.username_entry.get() == '':
+        if self.master_password_entry.get() == "" or self.username_entry.get() == "":
             return True
         else:
             return False

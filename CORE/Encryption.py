@@ -23,7 +23,7 @@ def load_key():
 
     :rtype: str
     """
-    return open(data.KEY_FILE_PATH, 'rb').read()
+    return open(data.KEY_FILE_PATH, "rb").read()
 
 
 def key_check():
@@ -35,7 +35,7 @@ def key_check():
     :rtype: bool
     """
     try:
-        if open(data.KEY_FILE_PATH, 'rb').read():
+        if open(data.KEY_FILE_PATH, "rb").read():
             return True
     except FileNotFoundError:
         return False
@@ -48,7 +48,7 @@ def key_generator():
     """
     if not (key_check()):
         key = Fernet.generate_key()
-        with open(data.KEY_FILE_PATH, 'wb') as keyFile:
+        with open(data.KEY_FILE_PATH, "wb") as keyFile:
             keyFile.write(key)
 
 
@@ -67,8 +67,8 @@ def encrypt(password):
     key_generator()
     key = load_key()
     f = Fernet(key)
-    encrypted_password = f.encrypt(password.encode('utf-8'))
-    return encrypted_password.decode('utf-8')
+    encrypted_password = f.encrypt(password.encode("utf-8"))
+    return encrypted_password.decode("utf-8")
 
 
 def decrypt(password):
@@ -85,5 +85,5 @@ def decrypt(password):
     """
     key = load_key()
     f = Fernet(key)
-    decrypted_password = f.decrypt(password.encode('utf-8'))
+    decrypted_password = f.decrypt(password.encode("utf-8"))
     return decrypted_password.decode("utf-8")

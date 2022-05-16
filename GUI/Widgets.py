@@ -38,22 +38,22 @@ class EntriesTable(LabelFrame):
         self.table.config(yscrollcommand=self.scroll.set)
         self.scroll.config(command=self.table.yview())
 
-        self.table['columns'] = ('ID', 'User', 'Site name', 'Username')
+        self.table["columns"] = ("ID", "User", "Site name", "Username")
         self.table.column("#0", width=0, stretch=NO)
 
-        for i in self.table['columns']:
+        for i in self.table["columns"]:
             self.table.column(i, anchor=W, width=200)
 
         self.table.heading("#0", text="", anchor=CENTER)
-        for j in self.table['columns']:
+        for j in self.table["columns"]:
             self.table.heading(j, text=j, anchor=W)
 
         id = 0
         for k in dao.get_user_data(USER_ID):
-            self.table.insert(parent='', index=id, iid=str(id), text='', values=k)
+            self.table.insert(parent="", index=id, iid=str(id), text="", values=k)
             id += 1
 
-        self.table.bind('<<TreeviewSelect>>', lambda event: self.add_id_to_list())
+        self.table.bind("<<TreeviewSelect>>", lambda event: self.add_id_to_list())
 
         self.scroll.pack(side=RIGHT, fill=Y)
         self.table.pack()
@@ -66,7 +66,7 @@ class EntriesTable(LabelFrame):
         list is called by :py:meth:`.HomeFrame.copy_to_clipboard`
 
         """
-        selected = self.table.item(self.table.selection()[0], 'values')[0]
+        selected = self.table.item(self.table.selection()[0], "values")[0]
         self.idList.insert(0, selected)
 
 
@@ -82,12 +82,30 @@ class ButtonPanel(PanedWindow):
         PanedWindow.__init__(self, root)
         self.master = master
         self.root = root
-        self.add_password = Button(root, text="Add", bg='green3', fg='black', activebackground='green1',
-                                   command=lambda: self.add_new_password())
-        self.modify_password = Button(root, text="Modify", bg='orange3', activebackground='orange1', fg='black',
-                                      command=self.modify_password)
-        self.delete_password = Button(root, text="Delete", bg='red3', activebackground='red1', fg='black',
-                                      command=self.delete_password)
+        self.add_password = Button(
+            root,
+            text="Add",
+            bg="green3",
+            fg="black",
+            activebackground="green1",
+            command=lambda: self.add_new_password(),
+        )
+        self.modify_password = Button(
+            root,
+            text="Modify",
+            bg="orange3",
+            activebackground="orange1",
+            fg="black",
+            command=self.modify_password,
+        )
+        self.delete_password = Button(
+            root,
+            text="Delete",
+            bg="red3",
+            activebackground="red1",
+            fg="black",
+            command=self.delete_password,
+        )
 
         self.add_password.grid(column=3, row=0, pady=10, padx=20, ipadx=40)
         self.modify_password.grid(column=3, row=1, pady=10, padx=20, ipadx=30)
@@ -99,7 +117,9 @@ class ButtonPanel(PanedWindow):
         the :py:mod:`GUI.AddPassFrame`.
 
         """
-        add_password_frame = AddPassFrame(root=self.root, master=self.master, user_id=USER_ID)
+        add_password_frame = AddPassFrame(
+            root=self.root, master=self.master, user_id=USER_ID
+        )
         add_password_frame.tkraise()
 
     def delete_password(self):
@@ -112,19 +132,29 @@ class ButtonPanel(PanedWindow):
         """
         try:
             if len(self.root.label_frame.table.selection()) == 1:
-                selected = self.root.label_frame.table.item(self.root.label_frame.table.selection()[0], 'values')[0]
-                ask = message.askyesno("Deleting password", "Are you sure you want to delete this password?")
+                selected = self.root.label_frame.table.item(
+                    self.root.label_frame.table.selection()[0], "values"
+                )[0]
+                ask = message.askyesno(
+                    "Deleting password",
+                    "Are you sure you want to delete this password?",
+                )
                 if ask:
                     dao.delete_one_password(id=selected)
                     self.root.refresh_table(self.master)
             else:
-                ask = message.askyesno("Deleting password", "Are you sure you want to delete this passwords?")
+                ask = message.askyesno(
+                    "Deleting password",
+                    "Are you sure you want to delete this passwords?",
+                )
                 if ask:
                     dao.delete_many_passwords(self.root.label_frame.idList)
                     self.root.refresh_table(self.master, USER_ID)
 
         except IndexError:
-            message.showerror("Error", "You have to select an entry of the table to delete it")
+            message.showerror(
+                "Error", "You have to select an entry of the table to delete it"
+            )
 
     # try:
     #     selected = self.root.labelFrame.table.item(self.root.labelFrame.table.selection()[0], 'values')[0]
@@ -148,9 +178,12 @@ class ButtonPanel(PanedWindow):
 
         """
         try:
-            selected = self.root.label_frame.table.item(self.root.label_frame.table.selection()[0], 'values')[0]
-            modify_password_frame = ModifyPassFrame(root=self.root, master=self.master, password_id=selected,
-                                                    user=USER_ID)
+            selected = self.root.label_frame.table.item(
+                self.root.label_frame.table.selection()[0], "values"
+            )[0]
+            modify_password_frame = ModifyPassFrame(
+                root=self.root, master=self.master, password_id=selected, user=USER_ID
+            )
             modify_password_frame.tkraise()
         except IndexError:
             message.showerror("Error", "You need to select first an entry to modify it")

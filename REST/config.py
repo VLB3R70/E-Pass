@@ -12,5 +12,5 @@ class Config(object):
     TEMPLATES_AUTO_RELOAD = True
     DEBUG = True
 
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///{}'.format(data.DATABASE_PATH)
+    SQLALCHEMY_DATABASE_URI = "sqlite:///{}".format(data.DATABASE_PATH)
     SQLALCHEMY_TRACK_MODIFICATIONS = False

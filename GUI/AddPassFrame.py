@@ -22,6 +22,7 @@ class AddPassFrame(Toplevel):
     When submitted, the window checks if the password is correctly entered twice and if it is correct the windows
     makes a call to :py:meth:`.HomeFrame.refresh_table` and destroys itself.
     """
+
     def __init__(self, root, master, user_id):
         Toplevel.__init__(self, root)
         self.master = master
@@ -39,8 +40,13 @@ class AddPassFrame(Toplevel):
         self.entry_password = Entry(self, show="*")
         self.entry_password_2 = Entry(self, show="*")
 
-        self.add_password = Button(self, text="Add", bg='green3', activebackground='green1',
-                                   command=lambda: self.check_password())
+        self.add_password = Button(
+            self,
+            text="Add",
+            bg="green3",
+            activebackground="green1",
+            command=lambda: self.check_password(),
+        )
 
         self.label_site_name.grid(column=0, row=0, pady=10)
         self.label_user_name.grid(column=0, row=1, pady=10)
@@ -64,10 +70,18 @@ class AddPassFrame(Toplevel):
         """
         if self.entry_password.get() == self.entry_password_2.get():
             num_passwords = dao.get_num_passwords(self.user_id)
-            dao.save_user_data(id=str((num_passwords + 1)), user_id=self.user_id, site_name=self.entry_site_name.get(),
-                               username=self.entry_user_name.get(), password=self.entry_password.get())
+            dao.save_user_data(
+                id=str((num_passwords + 1)),
+                user_id=self.user_id,
+                site_name=self.entry_site_name.get(),
+                username=self.entry_user_name.get(),
+                password=self.entry_password.get(),
+            )
         else:
-            message.showerror("Wrong password", "You must introduce the same password twice. Please try again")
+            message.showerror(
+                "Wrong password",
+                "You must introduce the same password twice. Please try again",
+            )
 
         self.root.refresh_table(self.master, self.user_id)
         self.destroy()

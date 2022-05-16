@@ -8,5 +8,5 @@ def manager():
     login_frame.mainloop()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     manager()

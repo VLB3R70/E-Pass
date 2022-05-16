@@ -21,7 +21,7 @@ from .TUIHelp import HELP
 
 dao = DAO()
 
-USER = ''
+USER = ""
 USER_ID = 0
 
 
@@ -68,17 +68,25 @@ def login():
 
     nice_print(logo + description)
     if dao.database_empty():
-        nice_print("[red]There is no user in this database. Please create a new one.\n\n")
+        nice_print(
+            "[red]There is no user in this database. Please create a new one.\n\n"
+        )
 
     while log_in:
-        election = Prompt.ask(prompt="1. Login. \n2. Create a new user\n3. Remember password",
-                              choices=["1", "2", "3"], )
+        election = Prompt.ask(
+            prompt="1. Login. \n2. Create a new user\n3. Remember password",
+            choices=["1", "2", "3"],
+        )
         if election == "1":
             username = Prompt.ask(prompt="[magenta]Enter your username:", default="")
-            master_password = Prompt.ask(prompt="[magenta]Enter the master password:", default="", password=True)
+            master_password = Prompt.ask(
+                prompt="[magenta]Enter the master password:", default="", password=True
+            )
             USER = username
             for i in dao.get_users():
-                if username in i and master_password == dao.get_master_password(user=USER):
+                if username in i and master_password == dao.get_master_password(
+                    user=USER
+                ):
                     USER_ID = dao.get_user_id(username=USER)
                     nice_print("[green]Succesful login!")
                     main_menu()
@@ -87,10 +95,20 @@ def login():
                     nice_print("[bold][red]Wrong password![yellow]Nice try[/yellow] 😉")
         elif election == "2":
             new_username = Prompt.ask(prompt="[cyan]Enter the username:", default="")
-            new_master_password = Prompt.ask(prompt="[cyan]Enter the new master password", default="", password=True, )
+            new_master_password = Prompt.ask(
+                prompt="[cyan]Enter the new master password",
+                default="",
+                password=True,
+            )
             new_email = Prompt.ask("[cyan]Enter your email", default="")
-            dao.new_user(username=new_username, master_password=new_master_password, email=new_email)
-            console.log("[bold][italic][red]New master password created and all previous data deleted.")
+            dao.new_user(
+                username=new_username,
+                master_password=new_master_password,
+                email=new_email,
+            )
+            console.log(
+                "[bold][italic][red]New master password created and all previous data deleted."
+            )
         elif election == "3":
             # send an email with the password
             pass
@@ -143,15 +161,26 @@ def main_menu():
             nice_print("[green]Password succesfully copied to the clipboard")
         elif selection == "3":
             new_site_name = Prompt.ask("[cyan]Enter the site name", default="")
-            new_user_name = Prompt.ask("[cyan]Enter your username of the site given", default="")
-            new_password = Prompt.ask("[cyan]Enter the password of te site given", default="", password=True)
+            new_user_name = Prompt.ask(
+                "[cyan]Enter your username of the site given", default=""
+            )
+            new_password = Prompt.ask(
+                "[cyan]Enter the password of te site given", default="", password=True
+            )
             num_passwords = dao.get_num_passwords(USER_ID)
-            dao.save_user_data(id=str((num_passwords + 1)), user_id=str(USER_ID), site_name=new_site_name,
-                               username=new_user_name, password=new_password)
+            dao.save_user_data(
+                id=str((num_passwords + 1)),
+                user_id=str(USER_ID),
+                site_name=new_site_name,
+                username=new_user_name,
+                password=new_password,
+            )
             nice_print("[green]Succesfully added a new entry to the database!")
         elif selection == "4":
             id = Prompt.ask("[cyan]Enter the ID of the password you want to update")
-            new_password = Prompt.ask("[cyan]Enter the new password", default="", password=True)
+            new_password = Prompt.ask(
+                "[cyan]Enter the new password", default="", password=True
+            )
 
             dao.update_user_password(int(id), new_password=new_password)
             nice_print("[green]Password succesfully updated!")
@@ -161,18 +190,23 @@ def main_menu():
 
             dao.update_username(int(id), new_username=new_user_name)
             nice_print("[green]Username succesfully updated!")
-        elif selection == '6':
-            delete_selection = Prompt.ask("[orange]Do you want to delete one entry or more", default="",
-                                          choices=['one', 'more'])
+        elif selection == "6":
+            delete_selection = Prompt.ask(
+                "[orange]Do you want to delete one entry or more",
+                default="",
+                choices=["one", "more"],
+            )
 
-            if delete_selection == 'one':
+            if delete_selection == "one":
                 id = Prompt.ask("[cyan]Enter the ID of the password")
                 dao.delete_one_password(int(id))
                 nice_print("[green]Password successfully deleted")
             elif delete_selection == "more":
-                id = Prompt.ask("[cyan]Enter the ID's of the passwords you want to delete.\n"
-                                "[yellow]To enter more than one ID just simply enter the number and leave a blank space")
-                id_list = list(id.replace(' ', ''))
+                id = Prompt.ask(
+                    "[cyan]Enter the ID's of the passwords you want to delete.\n"
+                    "[yellow]To enter more than one ID just simply enter the number and leave a blank space"
+                )
+                id_list = list(id.replace(" ", ""))
                 dao.delete_many_passwords(id_list=id_list)
                 nice_print("[green]Succesfully deleted all passwords!")
 
@@ -183,7 +217,8 @@ def main_menu():
 
 def tui_help():
     """
-    This function just simply shows a simple help for the user. It prints all the data from :py:mod:`TUI.TUIHelp` and then it exists the app
+    This function just simply shows a simple help for the user. It prints all the data from :py:mod:`TUI.TUIHelp` and
+    then it exists the app
     """
     markdown = Markdown(HELP)
     nice_print(markdown)

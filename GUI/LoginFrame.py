@@ -29,6 +29,7 @@ class LoginFrame(Frame):
     the frame closes and the :py:mod:`GUI.HomeFrame` raises.
 
     """
+
     global USER_ID
 
     def __init__(self, root):
@@ -46,19 +47,31 @@ class LoginFrame(Frame):
         self.username_entry.grid(column=0, row=2)
         self.master_password_label = Label(self, text="Enter the master password:")
         self.master_password_label.grid(column=0, row=3)
-        self.master_password_entry = Entry(self, show='*')
+        self.master_password_entry = Entry(self, show="*")
         self.master_password_entry.bind("<Return>", lambda event: self.check_password())
         self.master_password_entry.grid(column=0, row=4)
         self.master_password_entry.focus()
 
-        self.access_button = Button(self, text="Log in", bg=BUTTON_COLOR, activebackground="#81c784",
-                                    command=lambda: self.check_password())
-        self.access_button.grid(column=0, row=5, columnspan=2, rowspan=2, ipadx=30, pady=60)
+        self.access_button = Button(
+            self,
+            text="Log in",
+            bg=BUTTON_COLOR,
+            activebackground="#81c784",
+            command=lambda: self.check_password(),
+        )
+        self.access_button.grid(
+            column=0, row=5, columnspan=2, rowspan=2, ipadx=30, pady=60
+        )
 
-        self.register_label = Label(self, text="I don't have a user. Register.", font=("Helveticabold", 9, "underline"),
-                                    foreground='blue', cursor='hand2')
+        self.register_label = Label(
+            self,
+            text="I don't have a user. Register.",
+            font=("Helveticabold", 9, "underline"),
+            foreground="blue",
+            cursor="hand2",
+        )
         self.register_label.grid(column=0, row=6, columnspan=2, rowspan=2)
-        self.register_label.bind("<Button-1>", lambda event: self.register_user())
+        self.register_label.bind("<Button-1>", lambda event: register_user)
 
         self.root.title("Log in")
         self.root.minsize(400, 200)
@@ -80,17 +93,22 @@ class LoginFrame(Frame):
         users = dao.get_users()
         users_list = [user for i in users for user in i]
 
-        if self.username_entry.get() in users_list and self.master_password_entry.get() == dao.get_master_password(
-                self.username_entry.get()):
+        if (
+            self.username_entry.get() in users_list
+            and self.master_password_entry.get()
+            == dao.get_master_password(self.username_entry.get())
+        ):
             self.root.destroy()
             root = Tk()
             home_frame = HomeFrame(root, USER_ID)
             home_frame.tkraise()
         else:
-            message.showerror("Error", "Incorrect password or username. Please try again")
+            message.showerror(
+                "Error", "Incorrect password or username. Please try again"
+            )
 
 
-def register_user(self):
+def register_user():
     """
     This functions raises the :py:mod:`GUI.RegisterFrame` to add a new user in the database. When added, the frame
     closes and the user can log in with the new username.

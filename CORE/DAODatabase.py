@@ -11,12 +11,14 @@ This module implements an object with all the necessary functions to get the dat
 import os
 import sqlite3
 
-import CORE.Encryption as encryptor
+from CORE import Encryption
 from .data import Data
 
 data = Data()
 
 databaseCreated = True
+
+encryptor = Encryption
 
 
 class DAO:
@@ -28,11 +30,13 @@ class DAO:
 
     def __init__(self):
         try:
-            self.connection = sqlite3.connect(data.DATABASE_PATH, check_same_thread=False)
+            self.connection = sqlite3.connect(
+                data.DATABASE_PATH, check_same_thread=False
+            )
             self.setup_database()
         except sqlite3.OperationalError:
             os.mkdir(data.DATA_DIRECTORY)
-            open(data.DATABASE_PATH, 'w')
+            open(data.DATABASE_PATH, "w")
 
     def database_empty(self):
         """
@@ -75,7 +79,8 @@ class DAO:
 
         :param username: Is the username of the new user. It is used during the login
 
-        :param master_password: Is the master password of the new user. This password is saved with an encryption. It is used during the login
+        :param master_password: Is the master password of the new user. This password is saved with an encryption. It is
+            used during the login
 
         :param email: Is the email of the new user
 
@@ -89,7 +94,9 @@ class DAO:
         encrypted_pass = encryptor.encrypt(password=master_password)
 
         with self.connection:
-            self.connection.execute(data.INSERT_NEW_USER, (username, encrypted_pass, email))
+            self.connection.execute(
+                data.INSERT_NEW_USER, (username, encrypted_pass, email)
+            )
 
     def get_users(self):
         """
@@ -134,7 +141,9 @@ class DAO:
 
         """
         with self.connection:
-            result = self.connection.execute(data.SELECT_USER_MASTER_PASSWORD, (user,)).fetchone()
+            result = self.connection.execute(
+                data.SELECT_USER_MASTER_PASSWORD, (user,)
+            ).fetchone()
             decrypted_password = encryptor.decrypt(password=result[0])
         return decrypted_password
 
@@ -153,7 +162,9 @@ class DAO:
         """
         with self.connection:
             encrypted_password = encryptor.encrypt(new_password)
-            self.connection.execute(data.UPDATE_MASTER_PASSWORD, (encrypted_password, user))
+            self.connection.execute(
+                data.UPDATE_MASTER_PASSWORD, (encrypted_password, user)
+            )
 
     ########################################################################################
 
@@ -184,11 +195,15 @@ class DAO:
         """
         encrypted_password = encryptor.encrypt(password=password)
         with self.connection:
-            self.connection.execute(data.INSERT_USER_DATA, (id, user_id, username, site_name, encrypted_password))
+            self.connection.execute(
+                data.INSERT_USER_DATA,
+                (id, user_id, username, site_name, encrypted_password),
+            )
 
     def get_user_data(self, user_id):
         """
-        This function is used to get all the data of the user logged. It returns all the data with the same ID as the given
+        This function is used to get all the data of the user logged. It returns all the data with the same ID as the
+        given
 
         :param user_id: Is the ID of the user logged
 
@@ -200,7 +215,9 @@ class DAO:
 
         """
         with self.connection:
-            user_data = self.connection.execute(data.SELECT_USER_DATA, (user_id,)).fetchall()
+            user_data = self.connection.execute(
+                data.SELECT_USER_DATA, (user_id,)
+            ).fetchall()
         return user_data
 
     def get_user_password(self, id):
@@ -217,7 +234,9 @@ class DAO:
 
         """
         with self.connection:
-            user_password = self.connection.execute(data.SELECT_USER_PASSWORD, (id,)).fetchone()
+            user_password = self.connection.execute(
+                data.SELECT_USER_PASSWORD, (id,)
+            ).fetchone()
             decrypted_password = encryptor.decrypt(password=user_password[0])
 
         return decrypted_password
@@ -236,7 +255,9 @@ class DAO:
 
         """
         with self.connection:
-            num_passwords = self.connection.execute(data.SELECT_COUNT_PASSWORDS, (user_id,)).fetchone()
+            num_passwords = self.connection.execute(
+                data.SELECT_COUNT_PASSWORDS, (user_id,)
+            ).fetchone()
 
         return num_passwords[0]
 
