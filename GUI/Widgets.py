@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter.ttk import Treeview
 from .AddPassFrame import AddPassFrame
 from .ModifyPassFrame import ModifyPassFrame
-from API.DAODatabase import DAO
+from CORE.DAODatabase import DAO
 import tkinter.messagebox as message
 
 dao = DAO()
@@ -34,7 +34,7 @@ class EntriesTable(LabelFrame):
             self.table.heading(j, text=j, anchor=W)
 
         id = 0
-        for k in dao.getUserData(USER_ID):
+        for k in dao.get_user_data(USER_ID):
             self.table.insert(parent='', index=id, iid=str(id), text='', values=k)
             id += 1
 
@@ -77,13 +77,13 @@ class ButtonPanel(PanedWindow):
                 selected = self.root.labelFrame.table.item(self.root.labelFrame.table.selection()[0], 'values')[0]
                 ask = message.askyesno("Deleting password", "Are you sure you want to delete this password?")
                 if ask:
-                    dao.deleteOnePassword(id=selected)
-                    self.root.refreshTable(self.master)
+                    dao.delete_one_password(id=selected)
+                    self.root.refresh_table(self.master)
             else:
                 ask = message.askyesno("Deleting password", "Are you sure you want to delete this passwords?")
                 if ask:
-                    dao.deleteManyPasswords(self.root.labelFrame.idList)
-                    self.root.refreshTable(self.master, USER_ID)
+                    dao.delete_many_passwords(self.root.labelFrame.idList)
+                    self.root.refresh_table(self.master, USER_ID)
 
         except IndexError:
             message.showerror("Error", "You have to select an entry of the table to delete it")
@@ -100,7 +100,7 @@ class ButtonPanel(PanedWindow):
     def modifyPassword(self):
         try:
             selected = self.root.labelFrame.table.item(self.root.labelFrame.table.selection()[0], 'values')[0]
-            modifyPasswordFrame = ModifyPassFrame(root=self.root, master=self.master, passwordId=selected, user=USER_ID)
+            modifyPasswordFrame = ModifyPassFrame(root=self.root, master=self.master, password_id=selected, user=USER_ID)
             modifyPasswordFrame.tkraise()
         except IndexError:
             message.showerror("Error", "You need to select first an entry to modify it")

@@ -1,2 +1,2 @@
-REST Package
+REST
 ================

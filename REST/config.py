@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from API.data import Data
+from CORE.data import Data
 import secrets
 
 data = Data()

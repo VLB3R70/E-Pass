@@ -1,16 +1,16 @@
 from tkinter import *
 import tkinter.messagebox as message
-from API.DAODatabase import DAO
+from CORE.DAODatabase import DAO
 
 dao = DAO()
 
 
 class ModifyPassFrame(Toplevel):
-    def __init__(self, root, master, passwordId, user):
+    def __init__(self, root, master, password_id, user):
         Toplevel.__init__(self, root)
         self.root = root
         self.master = master
-        self.passwordId = passwordId
+        self.passwordId = password_id
         self.user = user
 
         self.labelSiteName = Label(self, text="Enter the new site name")
@@ -24,7 +24,7 @@ class ModifyPassFrame(Toplevel):
         self.entryNewPassword = Entry(self, show="*")
 
         self.modifyPassword = Button(self, text="Modify", bg='orange3', activebackground='orange1',
-                                     command=self.modifyPassword)
+                                     command=self.modify_password)
 
         self.labelSiteName.grid(column=0, row=0, pady=10)
         self.labelUsername.grid(column=0, row=1, pady=10)
@@ -40,17 +40,17 @@ class ModifyPassFrame(Toplevel):
 
         self.title("Modifying a password")
 
-    def modifyPassword(self):
+    def modify_password(self):
         if self.entrySiteName.get() != "":
-            dao.updateSitename(id=self.passwordId, newSitename=self.entrySiteName.get())
-            self.root.refreshTable(self.master, self.user)
+            dao.update_site_name(id=self.passwordId, new_site_name=self.entrySiteName.get())
+            self.root.refresh_table(self.master, self.user)
         elif self.entryUsername.get() != "":
-            dao.updateUsername(self.passwordId, self.entryUsername.get())
-            self.root.refreshTable(self.master, self.user)
+            dao.update_username(self.passwordId, self.entryUsername.get())
+            self.root.refresh_table(self.master, self.user)
         elif self.entryNewPassword.get() != "":
-            if self.entryOldPassword.get() == dao.getUserPassword(self.passwordId):
-                dao.updateUserPassword(self.passwordId, self.entryNewPassword.get())
-                self.root.refreshTable(self.master, self.user)
+            if self.entryOldPassword.get() == dao.get_user_password(self.passwordId):
+                dao.update_user_password(self.passwordId, self.entryNewPassword.get())
+                self.root.refresh_table(self.master, self.user)
             else:
                 message.showerror("Error", "The old password doesn't matches with the given")
         else:

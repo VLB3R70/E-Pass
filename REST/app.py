@@ -5,8 +5,8 @@ from flask import Flask, render_template, redirect, url_for, flash
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 
-from API.Encryption import Encryptor, Decryptor
-from API.data import Data as data
+from CORE.Encryption import Encryptor, Decryptor
+from CORE.data import Data as data
 from REST.config import Config
 from .forms import LoginForm, RegisterForm, AddPassForm, DeletePassForm, ModifyPassForm
 
@@ -33,7 +33,7 @@ def login():
         password = form.master_password.data
         if User.query.filter_by(name=user).first():
             db_user = User.query.filter_by(name=user).first()
-            if password == decryptor.decrypt(password=db_user.master_password):
+            if password == decrypt(password=db_user.master_password):
                 login_user(db_user)
                 return redirect(url_for('user', username=db_user.name))
     return render_template('login.html', form=form)
@@ -62,7 +62,7 @@ def register():
         if user_exists is None and form.master_password.data == form.second_password.data:
             user = User()
             user.name = form.user_name.data
-            user.master_password = encryptor.encrypt(form.master_password.data)
+            user.master_password = encrypt(form.master_password.data)
             user.email = form.email.data
             db.session.add(user)
             db.session.commit()
@@ -94,7 +94,7 @@ def addPassword(username):
             data.user_id = current_user.id
             data.site_name = form.site_name.data
             data.username = form.username.data
-            data.password = encryptor.encrypt(form.password.data)
+            data.password = encrypt(form.password.data)
             db.session.add(data)
             db.session.commit()
             return redirect(url_for('user', username=username))

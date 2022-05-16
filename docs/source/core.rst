@@ -1,4 +1,4 @@
-API Package
+CORE
 =============
 
 This package contains three modules:
@@ -13,16 +13,16 @@ the data that provides the other two modules.
 
 DAODatabase
 -----------
-.. automodule:: API.DAODatabase
+.. automodule:: CORE.DAODatabase
    :members:
 
 data
 -----------
-.. automodule:: API.data
+.. automodule:: CORE.data
    :members:
 
 Encryption
 -----------
-.. automodule:: API.Encryption
+.. automodule:: CORE.Encryption
    :members:
 

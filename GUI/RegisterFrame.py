@@ -1,7 +1,7 @@
 import tkinter.messagebox as message
 from tkinter import *
 
-from API.DAODatabase import DAO
+from CORE.DAODatabase import DAO
 
 dao = DAO()
 
@@ -44,7 +44,7 @@ class RegisterFrame(Frame):
             ask = message.askyesno("Caution",
                                    "Are you sure you want to create a new user?")
             if ask:
-                dao.newUser(self.usernameEntry.get(), self.masterPasswordEntry.get(), self.emailEntry.get())
+                dao.new_user(self.usernameEntry.get(), self.masterPasswordEntry.get(), self.emailEntry.get())
                 info = message.showinfo("Success", "User created successfully")
                 self.root.destroy()
             else:

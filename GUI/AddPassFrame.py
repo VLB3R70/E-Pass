@@ -1,12 +1,27 @@
+"""
+.. module:: AddPassFrame
+    :synopsis:
+
+This module implements one class named `AddPassFrame` that extends the :py:mod:`tkinter.TopLevel`. This module displays
+a window on the top of the one who raise it. This window displays a form to enter a new password into the database.
+When submitted, the windows calls to :py:meth:`.HomeFrame.refresh_table` and then it destroys itself.
+
+"""
+
 import tkinter.messagebox as message
 from tkinter import *
 
-from API.DAODatabase import DAO
+from CORE.DAODatabase import DAO
 
 dao = DAO()
 
 
 class AddPassFrame(Toplevel):
+    """
+    This class implements the necessary functions to display a simple form to add a new password into the database.
+    When submitted, the window checks if the password is correctly entered twice and if it is correct the windows
+    makes a call to :py:meth:`.HomeFrame.refresh_table` and destroys itself.
+    """
     def __init__(self, root, master, user_id):
         Toplevel.__init__(self, root)
         self.master = master
@@ -25,7 +40,7 @@ class AddPassFrame(Toplevel):
         self.entryPassword2 = Entry(self, show="*")
 
         self.addPassword = Button(self, text="Add", bg='green3', activebackground='green1',
-                                  command=lambda: self.checkPassword())
+                                  command=lambda: self.check_password())
 
         self.labelSiteName.grid(column=0, row=0, pady=10)
         self.labelUsername.grid(column=0, row=1, pady=10)
@@ -40,14 +55,19 @@ class AddPassFrame(Toplevel):
         self.addPassword.grid(column=0, row=4, columnspan=2, ipadx=30)
         self.title("Add new password")
 
-    def checkPassword(self):
+    def check_password(self):
+        """
+        This function checks if the password is correctly entered twice; if is correct it saves the data in the
+        database, refreshes the table in the home frame, and then it closes. If the passwords are wrong it shows an
+        error message.
+
+        """
         if self.entryPassword.get() == self.entryPassword2.get():
-            num_passwords = dao.getNumPasswords(self.user_id)
-            dao.saveUserData(id=(num_passwords + 1), user_id=self.user_id, siteName=self.entrySiteName.get(),
-                             userName=self.entryUsername.get(),
-                             password=self.entryPassword.get())
+            num_passwords = dao.get_num_passwords(self.user_id)
+            dao.save_user_data(id=str((num_passwords + 1)), user_id=self.user_id, site_name=self.entrySiteName.get(),
+                               username=self.entryUsername.get(), password=self.entryPassword.get())
         else:
             message.showerror("Wrong password", "You must introduce the same password twice. Please try again")
 
-        self.root.refreshTable(self.master, self.user_id)
+        self.root.refresh_table(self.master, self.user_id)
         self.destroy()

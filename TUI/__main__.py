@@ -1,4 +1,4 @@
-from .UIManager import TUIHelp
+from .UIManager import tui_help
 from .UIManager import login
 
 
@@ -7,4 +7,4 @@ def main():
 
 
 def help():
-    TUIHelp()
+    tui_help()

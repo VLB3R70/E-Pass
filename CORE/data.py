@@ -4,7 +4,7 @@
 
 .. moduleauthor:: Alberto Jiménez <https://github.com/VLB3R70>
 
-This module implements all the necessary data for the API to work. It only has one class named `Data`.
+This module implements all the necessary data for the CORE to work. It only has one class named `Data`.
 """
 import os
 from pathlib import Path
@@ -23,7 +23,6 @@ class Data:
 
     KEY_FILE_PATH = os.path.join(DATA_DIRECTORY, KEY_FILE_NAME)
     DATABASE_PATH = os.path.join(DATA_DIRECTORY, "epass.db")
-
 
     USER_COUNT = 'SELECT name FROM User'
 

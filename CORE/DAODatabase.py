@@ -11,7 +11,7 @@ This module implements an object with all the necessary functions to get the dat
 import os
 import sqlite3
 
-from .Encryption import Encryptor, Decryptor
+import CORE.Encryption as encryptor
 from .data import Data
 
 data = Data()
@@ -21,23 +21,20 @@ databaseCreated = True
 
 class DAO:
     """
-    .. class:: DAO
 
     It is the class which implements de Data Access Object methods.
 
     """
-    encryptor = Encryptor()
-    decryptor = Decryptor()
 
     def __init__(self):
         try:
             self.connection = sqlite3.connect(data.DATABASE_PATH, check_same_thread=False)
-            self.setupDataBase()
+            self.setup_database()
         except sqlite3.OperationalError:
             os.mkdir(data.DATA_DIRECTORY)
             open(data.DATABASE_PATH, 'w')
 
-    def databaseEmpty(self):
+    def database_empty(self):
         """
         It checks if the database is empty or not with a simple query.
 
@@ -47,14 +44,14 @@ class DAO:
 
         """
         with self.connection:
-            notEmpty = self.connection.execute(data.USER_COUNT).fetchone()
+            not_empty = self.connection.execute(data.USER_COUNT).fetchone()
 
-            if notEmpty:
+            if not_empty:
                 return False
             else:
                 return True
 
-    def setupDataBase(self):
+    def setup_database(self):
         """
         This function executes the necessary queries to set up the database.
 
@@ -62,7 +59,7 @@ class DAO:
         with self.connection:
             self.connection.executescript(data.SQL_START)
 
-    def resetDataBase(self):
+    def reset_database(self):
         """
         This function drops all the existing tables in the database and calls to
         :py:func:`setupDataBase()`
@@ -70,31 +67,31 @@ class DAO:
         """
         with self.connection:
             self.connection.executescript(data.SQL_RESET)
-            self.setupDataBase()
+            self.setup_database()
 
-    def newUser(self, username, masterPassword, email):
+    def new_user(self, username, master_password, email):
         """
         This function adds a new User in the database with the params that the user enters
 
         :param username: Is the username of the new user. It is used during the login
 
-        :param masterPassword: Is the master password of the new user. This password is saved with an encryption. It is used during the login
+        :param master_password: Is the master password of the new user. This password is saved with an encryption. It is used during the login
 
         :param email: Is the email of the new user
 
-        :type masterPassword: str
+        :type master_password: str
 
         :type username: str
 
         :type email: str
 
         """
-        encryptedPass = self.encryptor.encrypt(password=masterPassword)
+        encrypted_pass = encryptor.encrypt(password=master_password)
 
         with self.connection:
-            self.connection.execute(data.INSERT_NEW_USER, (username, encryptedPass, email))
+            self.connection.execute(data.INSERT_NEW_USER, (username, encrypted_pass, email))
 
-    def getUsers(self):
+    def get_users(self):
         """
         This function is used to get all the users in the database
 
@@ -107,7 +104,7 @@ class DAO:
             users = self.connection.execute(data.USER_COUNT).fetchall()
             return users
 
-    def getUserId(self, username):
+    def get_user_id(self, username):
         """
         This function is used to get the ID of the user
 
@@ -123,7 +120,7 @@ class DAO:
 
         return id[0]
 
-    def getMasterPassword(self, user):
+    def get_master_password(self, user):
         """
         This function is used to get the decrypted password of the user with the same name as the given
 
@@ -138,16 +135,16 @@ class DAO:
         """
         with self.connection:
             result = self.connection.execute(data.SELECT_USER_MASTER_PASSWORD, (user,)).fetchone()
-            decryptedPassword = self.decryptor.decrypt(password=result[0])
-        return decryptedPassword
+            decrypted_password = encryptor.decrypt(password=result[0])
+        return decrypted_password
 
-    def updateMasterPassword(self, newPassword, user):
+    def update_master_password(self, new_password, user):
         """
         This function is used to update the master password of the user given
 
-        :param newPassword: Is the new password of the user
+        :param new_password: Is the new password of the user
 
-        :type newPassword: str
+        :type new_password: str
 
         :param user: Is the name of the user
 
@@ -155,12 +152,12 @@ class DAO:
 
         """
         with self.connection:
-            encryptedPassword = self.encryptor.encrypt(newPassword)
-            self.connection.execute(data.UPDATE_MASTER_PASSWORD, (encryptedPassword, user))
+            encrypted_password = encryptor.encrypt(new_password)
+            self.connection.execute(data.UPDATE_MASTER_PASSWORD, (encrypted_password, user))
 
     ########################################################################################
 
-    def saveUserData(self, id, user_id, siteName, userName, password):
+    def save_user_data(self, id, user_id, site_name, username, password):
         """
         This function is used to add a new password in the database. This password is linked with the user logged
 
@@ -172,24 +169,24 @@ class DAO:
 
         :type user_id: str
 
-        :param siteName: Is the URL or the name of the website
+        :param site_name: Is the URL or the name of the website
 
-        :type siteName: str
+        :type site_name: str
 
-        :param userName: Is the username linked on the site name
+        :param username: Is the username linked on the site name
 
-        :type userName: str
+        :type username: str
 
         :param password: Is the password used in the website or app. This password is saved with an encryption
 
         :type password: str
 
         """
-        encryptedPassword = self.encryptor.encrypt(password=password)
+        encrypted_password = encryptor.encrypt(password=password)
         with self.connection:
-            self.connection.execute(data.INSERT_USER_DATA, (id, user_id, userName, siteName, encryptedPassword))
+            self.connection.execute(data.INSERT_USER_DATA, (id, user_id, username, site_name, encrypted_password))
 
-    def getUserData(self, user_id):
+    def get_user_data(self, user_id):
         """
         This function is used to get all the data of the user logged. It returns all the data with the same ID as the given
 
@@ -203,10 +200,10 @@ class DAO:
 
         """
         with self.connection:
-            userData = self.connection.execute(data.SELECT_USER_DATA, (user_id,)).fetchall()
-        return userData
+            user_data = self.connection.execute(data.SELECT_USER_DATA, (user_id,)).fetchall()
+        return user_data
 
-    def getUserPassword(self, id):
+    def get_user_password(self, id):
         """
         This function is used to get the password of the selected one by the ID
 
@@ -220,12 +217,12 @@ class DAO:
 
         """
         with self.connection:
-            userPassword = self.connection.execute(data.SELECT_USER_PASSWORD, (id,)).fetchone()
-            decryptedPassword = self.decryptor.decrypt(password=userPassword[0])
+            user_password = self.connection.execute(data.SELECT_USER_PASSWORD, (id,)).fetchone()
+            decrypted_password = encryptor.decrypt(password=user_password[0])
 
-        return decryptedPassword
+        return decrypted_password
 
-    def getNumPasswords(self, user_id):
+    def get_num_passwords(self, user_id):
         """
         This function is used to get the number of passwords saved by the logged user
 
@@ -243,7 +240,7 @@ class DAO:
 
         return num_passwords[0]
 
-    def getUserName(self, id):
+    def get_username(self, id):
         """
         This function is used to get the username of the password saved by the logged user
 
@@ -257,11 +254,11 @@ class DAO:
 
         """
         with self.connection:
-            userName = self.connection.execute(data.SELECT_USER_NAME, (id,)).fetchone()
+            user_name = self.connection.execute(data.SELECT_USER_NAME, (id,)).fetchone()
 
-        return userName[0]
+        return user_name[0]
 
-    def updateSitename(self, id, newSitename):
+    def update_site_name(self, id, new_site_name):
         """
         This function is used to update the site name of the password selected by it ID
 
@@ -269,15 +266,15 @@ class DAO:
 
         :type id: int
 
-        :param newSitename: Is the new site name of the password selected
+        :param new_site_name: Is the new site name of the password selected
 
-        :type newSitename: str
+        :type new_site_name: str
 
         """
         with self.connection:
-            self.connection.execute(data.UPDATE_USER_SITENAME, (newSitename, id))
+            self.connection.execute(data.UPDATE_USER_SITENAME, (new_site_name, id))
 
-    def updateUsername(self, id, newUserName):
+    def update_username(self, id, new_username):
         """
         This function is used to update the username of the password selected by it ID
 
@@ -285,15 +282,15 @@ class DAO:
 
         :type id: int
 
-        :param newUserName: Is the new username of the password selected
+        :param new_username: Is the new username of the password selected
 
-        :type newUserName: str
+        :type new_username: str
 
         """
         with self.connection:
-            self.connection.execute(data.UPDATE_USER_NAME, (newUserName, id))
+            self.connection.execute(data.UPDATE_USER_NAME, (new_username, id))
 
-    def updateUserPassword(self, id, newPassword):
+    def update_user_password(self, id, new_password):
         """
         This function is used to update the password of the selected one by it ID
 
@@ -301,16 +298,16 @@ class DAO:
 
         :type id: int
 
-        :param newPassword: Is the new password of the selected one
+        :param new_password: Is the new password of the selected one
 
-        :type newPassword: str
+        :type new_password: str
 
         """
         with self.connection:
-            encryptedPassword = self.encryptor.encrypt(newPassword)
-            self.connection.execute(data.UPDATE_USER_PASSWORD, (encryptedPassword, id))
+            encrypted_password = encryptor.encrypt(new_password)
+            self.connection.execute(data.UPDATE_USER_PASSWORD, (encrypted_password, id))
 
-    def deleteOnePassword(self, id):
+    def delete_one_password(self, id):
         """
         This function is used to delete the password selected by the user
 
@@ -322,15 +319,15 @@ class DAO:
         with self.connection:
             self.connection.execute(data.DELETE_ONE_PASSWORD, (id,))
 
-    def deleteManyPasswords(self, IDList):
+    def delete_many_passwords(self, id_list):
         """
         This function is used to delete more than one password at once
 
-        :param IDList: Is a list with the ID's of the passwords
+        :param id_list: Is a list with the ID's of the passwords
 
-        :type IDList: list
+        :type id_list: list
 
         """
         with self.connection:
-            for i in IDList:
+            for i in id_list:
                 self.connection.execute(data.DELETE_MANY_PASSWORDS, (i,))
