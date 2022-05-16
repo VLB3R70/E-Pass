@@ -28,31 +28,31 @@ class AddPassFrame(Toplevel):
         self.root = root
         self.user_id = user_id
 
-        self.labelSiteName = Label(self, text="Site name:", anchor=E)
-        self.entrySiteName = Entry(self)
+        self.label_site_name = Label(self, text="Site name:", anchor=E)
+        self.entry_site_name = Entry(self)
 
-        self.labelUsername = Label(self, text="Username:", anchor=E)
-        self.entryUsername = Entry(self)
+        self.label_user_name = Label(self, text="Username:", anchor=E)
+        self.entry_user_name = Entry(self)
 
-        self.labelPassword = Label(self, text="Enter the password:", anchor=E)
-        self.labelPassword2 = Label(self, text="Enter the password again:", anchor=E)
-        self.entryPassword = Entry(self, show="*")
-        self.entryPassword2 = Entry(self, show="*")
+        self.label_password = Label(self, text="Enter the password:", anchor=E)
+        self.label_password_2 = Label(self, text="Enter the password again:", anchor=E)
+        self.entry_password = Entry(self, show="*")
+        self.entry_password_2 = Entry(self, show="*")
 
-        self.addPassword = Button(self, text="Add", bg='green3', activebackground='green1',
-                                  command=lambda: self.check_password())
+        self.add_password = Button(self, text="Add", bg='green3', activebackground='green1',
+                                   command=lambda: self.check_password())
 
-        self.labelSiteName.grid(column=0, row=0, pady=10)
-        self.labelUsername.grid(column=0, row=1, pady=10)
-        self.labelPassword.grid(column=0, row=2, pady=10)
-        self.labelPassword2.grid(column=0, row=3, pady=10)
+        self.label_site_name.grid(column=0, row=0, pady=10)
+        self.label_user_name.grid(column=0, row=1, pady=10)
+        self.label_password.grid(column=0, row=2, pady=10)
+        self.label_password_2.grid(column=0, row=3, pady=10)
 
-        self.entrySiteName.grid(column=1, row=0, pady=10)
-        self.entryUsername.grid(column=1, row=1, pady=10)
-        self.entryPassword.grid(column=1, row=2, pady=10)
-        self.entryPassword2.grid(column=1, row=3, pady=10)
+        self.entry_site_name.grid(column=1, row=0, pady=10)
+        self.entry_user_name.grid(column=1, row=1, pady=10)
+        self.entry_password.grid(column=1, row=2, pady=10)
+        self.entry_password_2.grid(column=1, row=3, pady=10)
 
-        self.addPassword.grid(column=0, row=4, columnspan=2, ipadx=30)
+        self.add_password.grid(column=0, row=4, columnspan=2, ipadx=30)
         self.title("Add new password")
 
     def check_password(self):
@@ -62,10 +62,10 @@ class AddPassFrame(Toplevel):
         error message.
 
         """
-        if self.entryPassword.get() == self.entryPassword2.get():
+        if self.entry_password.get() == self.entry_password_2.get():
             num_passwords = dao.get_num_passwords(self.user_id)
-            dao.save_user_data(id=str((num_passwords + 1)), user_id=self.user_id, site_name=self.entrySiteName.get(),
-                               username=self.entryUsername.get(), password=self.entryPassword.get())
+            dao.save_user_data(id=str((num_passwords + 1)), user_id=self.user_id, site_name=self.entry_site_name.get(),
+                               username=self.entry_user_name.get(), password=self.entry_password.get())
         else:
             message.showerror("Wrong password", "You must introduce the same password twice. Please try again")
 

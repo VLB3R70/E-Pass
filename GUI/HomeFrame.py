@@ -29,12 +29,12 @@ class HomeFrame(Frame):
         self.root = root
         self.user_id = user_id
 
-        self.labelFrame = EntriesTable(self, self.user_id)
-        self.labelFrame.grid(column=0, row=0, rowspan=3)
-        self.buttonPanel = ButtonPanel(self, root)
-        self.copyToClipboard = Button(self, text="Copy to clipboard", bg='purple3', activebackground='purple2',
-                                      command=self.copyToClipboard)
-        self.copyToClipboard.grid(column=0, row=7, rowspan=2, ipadx=50, padx=80)
+        self.label_frame = EntriesTable(self, self.user_id)
+        self.label_frame.grid(column=0, row=0, rowspan=3)
+        self.button_panel = ButtonPanel(self, root)
+        self.copy_to_clipboard = Button(self, text="Copy to clipboard", bg='purple3', activebackground='purple2',
+                                        command=self.copy_to_clipboard)
+        self.copy_to_clipboard.grid(column=0, row=7, rowspan=2, ipadx=50, padx=80)
 
         root.title("Home")
         root.config(menu=self.create_menu_bar())
@@ -76,7 +76,8 @@ class HomeFrame(Frame):
         """
         This function refresh the main frame and all its widgets. The function destroys the frame and raise it again.
 
-        :param root: It is the `Tk <https://docs.python.org/3/library/tkinter.html?highlight=tkinter#tkinter.Tk>`_ object needed to raise a tkinter object such as a `Frame`.
+        :param root: It is the `Tk <https://docs.python.org/3/library/tkinter.html?highlight=tkinter#tkinter.Tk>`_
+            object needed to raise a tkinter object such as a `Frame`.
 
         :param user_id: Is the id of the user logged. It's used for the :doc:`core` functions
 
@@ -84,14 +85,14 @@ class HomeFrame(Frame):
         self.destroy()
         self.__init__(root, user_id)
 
-    def copyToClipboard(self):
+    def copy_to_clipboard(self):
         """
         This functions copies to the clipboard the selected password from the table. When copied it shows a message with
         a successful message. If the user clicks the button and there is no password selected it shows an error message.
 
         """
         try:
-            selected = self.labelFrame.table.item(self.labelFrame.table.selection()[0], 'values')[0]
+            selected = self.label_frame.idList[0]
             password = dao.get_user_password(selected)
             pc.copy(password)
             message.showinfo("Copied", "Password successfully copied to clipboard")
