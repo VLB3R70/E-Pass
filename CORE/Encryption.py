@@ -7,6 +7,7 @@
 This module uses the `cryptography <https://pypi.org/project/cryptography/>`_ package for the encryption. There are two
 main methods :py:func:`encrypt` and :py:func:`decrypt`. These methods are the ones which encrypts and decrypts the
 passwords from the database.
+
 """
 from cryptography.fernet import Fernet
 
@@ -33,6 +34,7 @@ def key_check():
     :return: It returns `True` or `False`
 
     :rtype: bool
+
     """
     try:
         if open(data.KEY_FILE_PATH, "rb").read():
@@ -45,6 +47,7 @@ def key_generator():
     """
     This method generates a file with the necessary key to encrypt and decrypt the passwords if there is non.
     The name of the file and it's directory is designated by the :py:mod:`data` module.
+
     """
     if not (key_check()):
         key = Fernet.generate_key()
@@ -63,6 +66,7 @@ def encrypt(password):
     :return: It returns the value of the encrypted password
 
     :rtype: str
+
     """
     key_generator()
     key = load_key()
@@ -82,6 +86,7 @@ def decrypt(password):
     :return: It returns the decrypted value of the password
 
     :rtype: str
+
     """
     key = load_key()
     f = Fernet(key)

@@ -2,10 +2,10 @@
 .. module:: DAODatabase
     :synopsis:
 
-This module implements an object with all the necessary functions to get the data from the database.
-
 .. moduleauthor::
     `Alberto Jiménez <https://github.com/VLB3R70>`_
+
+This module implements an object with all the necessary functions to get the data from the database.
 
 """
 import os
