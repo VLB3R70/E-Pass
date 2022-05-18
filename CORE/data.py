@@ -53,7 +53,7 @@ class Data:
 
     SELECT_USER_ID = "SELECT id FROM User WHERE name=?"
 
-    INSERT_USER_DATA = "INSERT INTO Data (id, user_id,username,site_name, password) VALUES (?,?,?, ?, ?);"
+    INSERT_USER_DATA = "INSERT INTO Data (id, user_id,username,site_name, password) VALUES (?, ?, ?, ?, ?);"
 
     SELECT_USER_DATA = "SELECT * FROM Data WHERE user_id = ?;"
 

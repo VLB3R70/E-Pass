@@ -101,12 +101,12 @@ def addPassword(username):
     form = AddPassForm()
     if form.validate_on_submit():
         if form.password.data == form.confirm_password.data:
-            data = Data()
-            data.user_id = current_user.id
-            data.site_name = form.site_name.data
-            data.username = form.username.data
-            data.password = encryptor.encrypt(form.password.data)
-            db.session.add(data)
+            user_data = Data()
+            user_data.user_id = current_user.id
+            user_data.site_name = form.site_name.data
+            user_data.username = form.username.data
+            user_data.password = encryptor.encrypt(form.password.data)
+            db.session.add(user_data)
             db.session.commit()
             return redirect(url_for("user", username=username))
         else:
