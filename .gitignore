@@ -239,3 +239,4 @@ cython_debug/
 
 *.db
 *.key
+Android/
