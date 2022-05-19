@@ -24,3 +24,10 @@ sphinxcontrib-qthelp==1.0.3
 sphinxcontrib-serializinghtml==1.1.5
 urllib3==1.26.9
 zipp==3.8.0
+pyperclip>=1.8.2
+rich>=12.4.1
+cryptography>=37.0.2
+Flask>=2.1.2
+WTForms>=3.0.1
+SQLAlchemy>=1.4.36
+setuptools>=62.2.0
