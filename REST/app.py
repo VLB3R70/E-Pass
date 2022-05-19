@@ -125,7 +125,7 @@ def user(username):
     #     flash('Password successfully copied to clipboard!')
     # else:
     return render_template("home.html", username=username, data=Data.query.filter_by(user_id=current_user.id),
-        id=current_user.id, )
+                           id=current_user.id, )
 
 
 @app.route("/home/<username>/add", methods=["GET", "POST"])
@@ -161,7 +161,7 @@ def add_password(username):
 
 @app.route("/home/<username>/modify", methods=["GET", "POST"])
 @login_required
-def modifyPassword(username):
+def modify_password(username):
     """
     This function renders the template to modify a password of the database. This view displays the table with all the
     data and a simple form to modify the values. In order to modify a password the user first need to select the ID of
