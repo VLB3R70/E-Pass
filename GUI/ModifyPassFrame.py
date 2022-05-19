@@ -16,6 +16,8 @@ dao = DAO()
 
 class ModifyPassFrame(Toplevel):
     """
+    .. class:: ModifyPassFrame
+
     This class implements the necessary widgets to display a simple form to modify the password. When the user submits
     the data it calls to :py:meth:`.modify_password`.
 
@@ -62,6 +64,7 @@ class ModifyPassFrame(Toplevel):
 
     def modify_password(self):
         """
+
         When the user submits the data from the form this function is called. It checks if the entries are empty or not
         since the user will probably want to modify only the password and not the other entries. If all the entries are
         empty it will show an error message.

@@ -18,9 +18,12 @@ dao = DAO()
 
 class AddPassFrame(Toplevel):
     """
+    .. class:: AddPassFrame
+
     This class implements the necessary functions to display a simple form to add a new password into the database.
     When submitted, the window checks if the password is correctly entered twice and if it is correct the windows
     makes a call to :py:meth:`.HomeFrame.refresh_table` and destroys itself.
+
     """
 
     def __init__(self, root, master, user_id):
@@ -63,6 +66,7 @@ class AddPassFrame(Toplevel):
 
     def check_password(self):
         """
+
         This function checks if the password is correctly entered twice; if is correct it saves the data in the
         database, refreshes the table in the home frame, and then it closes. If the passwords are wrong it shows an
         error message.

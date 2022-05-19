@@ -30,6 +30,7 @@ encryptor = Encryption
 @app.route("/")
 def init():
     """
+
     This function defines a route for the app. When the user is in the ``/`` view it will be redirected to the
     ``/login`` view.
 
@@ -41,6 +42,7 @@ def init():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """
+
     This function renders the ``login`` template of the app. In this view a simple login form is displayed; the user has
     to enter his username and master password -both stored in the database- to login. This view also offers a direct
     link to the :py:meth:`.register` function to display a form of registration.
@@ -63,9 +65,11 @@ def login():
 @app.route("/logout")
 def logout():
     """
+
     This function simply logs out the user and redirects it to the :py:meth:`.login` route.
 
     :return: Redirects the user to the login view
+
     """
     logout_user()
     return redirect(url_for("login"))
@@ -77,12 +81,14 @@ from .models import User, Data
 @app.route("/registration", methods=["GET", "POST"])
 def register():
     """
+
     This function renders the ``registration`` template of the app. This template displays a simple form of
     registration. This form ask the user for his `username`, `master password` and `email`. When submitted, the function
     adds a new user into the database and redirects the user to the login view. If the user exists it prompts an error
     message.
 
     :return: It returns the rendered template of the registration
+
     """
     if not os.path.exists(data.DATA_DIRECTORY):
         os.mkdir(data.DATA_DIRECTORY)
@@ -109,6 +115,7 @@ def register():
 @login_required
 def user(username):
     """
+
     This function renders the ``home`` template. This template displays a table with all the data of the user like in
     the :doc:`tui` and :doc:`gui` packages. It also has the three buttons for adding, modifying and deleting passwords.
     The information of the table depends on the user logged so the `User 1` can't see the information of the `User 2`
@@ -117,6 +124,7 @@ def user(username):
     :param username: Is the username of the user logged
 
     :return: It returns the rendered template of ``home``
+
     """
     # if request.form["copy"] == "Copy to clipboard!":
     #     data = Data.query.filter_by(id=id, user_id=current_user.id).first()
@@ -132,6 +140,7 @@ def user(username):
 @login_required
 def add_password(username):
     """
+
     This function renders the template to add a new password into the database. This view displays a form who ask for
     the data needed to add a new password, to be the `site name`, the `username` and the `password`. When submitted, the
     function will redirect the user to the ``home page`` (:py:meth:`.user`). This function also checks if the user has
@@ -163,6 +172,7 @@ def add_password(username):
 @login_required
 def modify_password(username):
     """
+
     This function renders the template to modify a password of the database. This view displays the table with all the
     data and a simple form to modify the values. In order to modify a password the user first need to select the ID of
     the password. That ID is displayed in the database. It also checks if all the entries are empty, if they are, it
@@ -209,6 +219,7 @@ def modify_password(username):
 @login_required
 def delete_password(username):
     """
+
     This function returns the rendered template to delete a password. This view displays a table with all the data of
     the user logged and a form to enter the ID of the password wanted to delete. When submitted, the function deletes
     the password of the database and redirects the user to the ``home page``.
@@ -216,6 +227,7 @@ def delete_password(username):
     :param username: Is the username of the user logged
 
     :return: It returns the rendered template to delete passwords
+
     """
     form = DeletePassForm()
     if form.validate_on_submit():
@@ -230,6 +242,7 @@ def delete_password(username):
 @login_manager.user_loader
 def load_user(name):
     """
+
     This function is needed when user logs in. The ``LoginManager`` object from the ``flask_login`` package is used to
     hold all the settings of a user during its session.
 

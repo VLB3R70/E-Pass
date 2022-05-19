@@ -13,6 +13,7 @@ from pathlib import Path
 
 class Data:
     """
+    .. class:: Data
 
     The Data class implements all necessary data in variables. They establish the data directories and the queries for
     the database

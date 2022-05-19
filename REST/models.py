@@ -15,6 +15,7 @@ from .app import db
 
 class User(db.Model):
     """
+    .. class:: User
 
     This class represents the table ``User`` from the database and has the same properties. To be, an `id`, the `name`
     of the user, the `master password` and the `email`. When doing queries, the `ORM` uses the properties from the class
@@ -29,6 +30,7 @@ class User(db.Model):
 
     def is_authenticated(self):
         """
+
         This function checks if the user is authenticated and returns its value. By default the user isn't authenticated
         so the value will be ``False`` but when the user logs in the value change to ``True``
 
@@ -63,6 +65,7 @@ class User(db.Model):
 
 class Data(db.Model):
     """
+    .. class:: Data
 
     This class represents the table ``Data`` from the database and has the same properties. To be, the `id`, the
     `user id`, the `site name`, the `username` and the `pasword`.

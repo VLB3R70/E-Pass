@@ -20,8 +20,11 @@ dao = DAO()
 
 class HomeFrame(Frame):
     """
+    .. class:: HomeFrame
+
     This class implements the necessary functions to show to the user a simple table with all his data and four optional
     buttons. It also implements a menu bar with the same functions as the buttons.
+
     """
 
     def __init__(self, root, user_id):
@@ -48,6 +51,7 @@ class HomeFrame(Frame):
 
     def create_menu_bar(self):
         """
+
         This function creates and displays a menu bar with different options in the main frame. The options are:
 
         * Add
@@ -80,6 +84,7 @@ class HomeFrame(Frame):
 
     def refresh_table(self, root, user_id):
         """
+
         This function refresh the main frame and all its widgets. The function destroys the frame and raise it again.
 
         :param root: It is the `Tk <https://docs.python.org/3/library/tkinter.html?highlight=tkinter#tkinter.Tk>`_
@@ -93,6 +98,7 @@ class HomeFrame(Frame):
 
     def copy_to_clipboard(self):
         """
+
         This functions copies to the clipboard the selected password from the table. When copied it shows a message with
         a successful message. If the user clicks the button and there is no password selected it shows an error message.
 

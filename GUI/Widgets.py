@@ -20,6 +20,8 @@ USER_ID = 0
 
 class EntriesTable(LabelFrame):
     """
+    .. class:: EntriesTable
+
     This class is used to display a custom table with all the data from the user logged. The label frame contains a
     `Treeview widget <https://tkdocs.com/tutorial/tree.html>`_ which is used to create a table since tkinter does not
     have a table widget implemented. The data is requested to the database and then is entered into the ``Treeview``
@@ -62,6 +64,7 @@ class EntriesTable(LabelFrame):
 
     def add_id_to_list(self):
         """
+
         This method is called when the user clicks into a table row and adds the id of the password to the list. This
         list is called by :py:meth:`.HomeFrame.copy_to_clipboard`
 
@@ -72,6 +75,8 @@ class EntriesTable(LabelFrame):
 
 class ButtonPanel(PanedWindow):
     """
+    .. class:: ButtonPanel
+
     This class is used to display a custom panel with three buttons. These buttons are the ones to `add`, `modify` and
     `delete` passwords. When these buttons are pressed they raise their respective frames to perform the actions
     except to delete a password.
@@ -113,6 +118,7 @@ class ButtonPanel(PanedWindow):
 
     def add_new_password(self):
         """
+
         This function is called when the user clicks the ``Add password`` button. When called, this function raises
         the :py:mod:`GUI.AddPassFrame`.
 
@@ -124,11 +130,13 @@ class ButtonPanel(PanedWindow):
 
     def delete_password(self):
         """
+
         This function is called when the user clicks the ``Delete password`` button. To delete a password the user
         just needs to select the row wanted and press the button. This function will check the id of the password
         selected and delete it after the user confirms the questions.
 
         :except: This function excepts an ``IndexError`` if the user did not select any row from the table
+
         """
         try:
             if len(self.root.label_frame.table.selection()) == 1:
@@ -167,6 +175,7 @@ class ButtonPanel(PanedWindow):
 
     def modify_password(self):
         """
+
         This function is called when the user clicks the ``Modify password`` button. To modify a password the user
         has to select the password wanted in the database and then click the button.
 

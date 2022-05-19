@@ -23,6 +23,7 @@ encryptor = Encryption
 
 class DAO:
     """
+    .. class:: DAO
 
     It is the class which implements de Data Access Object methods.
 

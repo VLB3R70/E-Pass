@@ -32,6 +32,7 @@ def handler(signum, frame):
 
 def login():
     """
+
     This function is the first one to run. It shows the app logo and three decisions.
 
     * login
@@ -52,6 +53,7 @@ def login():
 
     .. note:: The `remember password` function is under development but in resume; this function will email the user
             with the value of the password.
+
     """
     global USER
     global USER_ID
@@ -116,6 +118,7 @@ def login():
 
 def main_menu():
     """
+
     This function shows a main menu with six different options that the user can select.
     This function uses an infinite loop and the user selects one of the options given; to exit the
     loop the user has to enter ``Crtl+C``.
@@ -217,8 +220,10 @@ def main_menu():
 
 def tui_help():
     """
+
     This function just simply shows a simple help for the user. It prints all the data from :py:mod:`TUI.TUIHelp` and
     then it exists the app
+
     """
     markdown = Markdown(HELP)
     nice_print(markdown)
@@ -227,12 +232,14 @@ def tui_help():
 
 def create_user_data_menu():
     """
+
     This function prints a table with all the data of the user. This function is called by the :py:func:`mainMenu()`
     when the user selects the option: 1. `List user data`
 
     :return: It returns a table with all the data
 
     :rtype: ``rich.table.Table``
+
     """
     menu = Table(show_lines=True)
     menu.add_column("ID", style="orange1")
@@ -247,11 +254,13 @@ def create_user_data_menu():
 
 def create_main_menu():
     """
+
     This function prints a table with all the options to the user. This function is called by the :py:func:`mainMenu()`
 
     :return: It returns the table with the six options
 
     :rtype: ``rich.table.Table``
+
     """
     menu = Table(show_lines=True)
     menu.add_column("Selection number")

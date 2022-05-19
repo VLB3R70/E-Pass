@@ -18,6 +18,8 @@ dao = DAO()
 
 class RegisterFrame(Frame):
     """
+    .. class:: RegisterFrame
+
     This class implements the necessary widgets from `Tkinter
     <https://docs.python.org/3/library/tkinter.html?highlight=tkinter#module-tkinter>`_ to display a simple registration
     form. This frame will ask for the `username`, the `master password` and the `email`. When submitted, it checks if
@@ -63,6 +65,7 @@ class RegisterFrame(Frame):
 
     def register_user(self):
         """
+
         This function is called when the user submits the form, it also calls the :py:meth:`.empty_entries` method to
         check if either the master password or the username entry are empty. When is checked, this function adds a new
         user in the database with the data submitted.
@@ -90,6 +93,7 @@ class RegisterFrame(Frame):
 
     def empty_entries(self):
         """
+
         This function checks if the value of the entries equals a blank space or not and returns a boolean value.
 
         :return: If there are empty entries it returns ``True`` if not it returns ``False``

@@ -18,6 +18,7 @@ data = Data()
 
 def load_key():
     """
+
     This method reads the key in the file returns its value.
 
     :return: It returns the value of that key
@@ -29,6 +30,7 @@ def load_key():
 
 def key_check():
     """
+
     This method checks if the generated key exists or not.
 
     :return: It returns `True` or `False`
@@ -45,6 +47,7 @@ def key_check():
 
 def key_generator():
     """
+
     This method generates a file with the necessary key to encrypt and decrypt the passwords if there is non.
     The name of the file and it's directory is designated by the :py:mod:`data` module.
 
@@ -57,8 +60,9 @@ def key_generator():
 
 def encrypt(password):
     """
+
     This is the main method of the class. It generates a key if there is non making a call to
-    :py:func:`keyGenerator()`. Then, it reads the value of the key and generates a `Fernet` object
+    :py:meth:`keyGenerator()`. Then, it reads the value of the key and generates a `Fernet` object
     which is used to encrypt a string with the generated key.
 
     :param password: It is the password that the user wants to be encrypted
@@ -77,8 +81,9 @@ def encrypt(password):
 
 def decrypt(password):
     """
+
     This method is used to decrypt the password stored in the database.
-    It calls :py:func:`loadKey()` function to get the value of the key.
+    It calls :py:meth:`loadKey()` function to get the value of the key.
     Then, it generates a `Fernet` object which is used to decrypt the password given.
 
     :param password: It is the value of the password stored in the database

@@ -12,6 +12,7 @@ from wtforms.validators import DataRequired
 
 class LoginForm(FlaskForm):
     """
+
     This class represents the form the user will see during login. It sets up two entries: the one for the `username`,
     for the `master password` and a button to submit the data.
 
@@ -27,6 +28,7 @@ class LoginForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     """
+
     This class represents the form the user will see during a registration. It sets up four entries: the `username`, the
     `master password`, an entry to enter the `master password` once again and the `email` entry. It also implements a
     button to submit the fields.
@@ -47,6 +49,7 @@ class RegisterForm(FlaskForm):
 
 class AddPassForm(FlaskForm):
     """
+
     This class represents the form the user will see during adding a password. It sets up three entries: the `site name`
     , the `username` and the `password`. It also implements a button to submit the fields.
 
@@ -66,6 +69,7 @@ class AddPassForm(FlaskForm):
 
 class DeletePassForm(FlaskForm):
     """
+
     This class represents the form the user will see during deleting a password. It sets up one entry for the `id` of
     the password and a button to submit the data.
 
@@ -78,6 +82,7 @@ class DeletePassForm(FlaskForm):
 
 class ModifyPassForm(FlaskForm):
     """
+
     This class represents the form the user will see during modifying a password. It sets up five entries: the `id`, the
     `new site name`, the `new username`, the `new password`, a second entry to enter the `new password` and the button
     to submit the data

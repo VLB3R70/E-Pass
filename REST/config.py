@@ -14,6 +14,7 @@ data = Data()
 
 class Config(object):
     """
+
     This class implements extra configuration for the flask app to run like the URI to the database or the maximum time
     a session last.
 

@@ -23,6 +23,7 @@ USER_ID = 0
 
 class LoginFrame(Frame):
     """
+    .. class:: LoginFrame
 
     This class setups all the widgets on a `ttk.Frame` and implements two functions to check if the data entered is
     correct and the other one is to register a new user in the database. If the data that the user enters is correct,
@@ -80,6 +81,7 @@ class LoginFrame(Frame):
 
     def check_password(self):
         """
+
         This function checks if the password entered by the user is correct or not. If the username is in the database
         and the password it's correct, the function raise the :py:mod:`GUI.HomeFrame` with all the data from the
         database
@@ -110,6 +112,7 @@ class LoginFrame(Frame):
 
 def register_user():
     """
+
     This functions raises the :py:mod:`GUI.RegisterFrame` to add a new user in the database. When added, the frame
     closes and the user can log in with the new username.
 
