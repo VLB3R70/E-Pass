@@ -25,3 +25,9 @@ config
 
 .. automodule:: REST.config
     :members:
+
+login
+----------------
+
+.. automodule:: REST.login
+    :members:
