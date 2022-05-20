@@ -41,16 +41,16 @@ class User(db.Model):
         """
         return False
 
-    # def is_active(self):
-    #     """
-    #     This function is similar to previous. When a user ``is active
-    #
-    #     :return: It returns if the user is authenticated or not
-    #
-    #     :rtype: bool
-    #
-    #     """
-    #     return True
+    def is_active(self):
+        """
+        This function is similar to previous. When a user ``is active
+
+        :return: It returns if the user is authenticated or not
+
+        :rtype: bool
+
+        """
+        return True
 
     def get_id(self):
         """
