@@ -34,7 +34,7 @@ class HomeFrame(Frame):
 
         self.label_frame = EntriesTable(self, self.user_id)
         self.label_frame.grid(column=0, row=0, rowspan=3)
-        self.button_panel = ButtonPanel(self, root)
+        self.button_panel = ButtonPanel(self, root, self.user_id)
         self.copy_to_clipboard = Button(
             self,
             text="Copy to clipboard",
