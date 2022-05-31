@@ -1,3 +1,7 @@
+div {
+    display: inline;
+}
+
 ul {
     list-style-type: none;
     margin: 0;
@@ -61,7 +65,7 @@ th {
     margin-top: 100px;
     margin-left: 200px;
     margin-right: 200px;
-    height: 500px;
+    height: 275px;
 }
 
 .data_table thead th {

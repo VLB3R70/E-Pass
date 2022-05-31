@@ -4,6 +4,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/home.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/form.css')}}">
 <div>
     <ul class="nav_bar">
         <li class="add_password">
@@ -31,7 +32,6 @@
             <th>Site name</th>
             <th>Username</th>
             <th>Password</th>
-            <th>Select one to copy</th>
         </tr>
         </thead>
         <tbody>
@@ -40,14 +40,25 @@
             <td>{{data.id}}</td>
             <td>{{data.site_name}}</td>
             <td>{{data.username}}</td>
-            <td>**************</td>
-            <td><input type="checkbox"/></td>
+            {% if text != '' and data.id==form.password_id.data%}
+                <td>{{text}}</td>
+            {% else %}
+                <td>*************</td>
+            {%endif%}
         </tr>
         {%endfor%}
         </tbody>
     </table>
 </div>
 <div>
-
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <p>{{form.password_id.label}}<br>
+            {{form.password_id(size=5)}}
+        </p>
+        <p>
+            {{form.copy()}}
+        </p>
+    </form>
 </div>
 {% endblock %}

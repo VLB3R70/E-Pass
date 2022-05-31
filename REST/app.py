@@ -16,7 +16,7 @@ from flask_sqlalchemy import SQLAlchemy
 from CORE import Encryption
 from CORE.data import Data as data
 from REST.config import Config
-from .forms import LoginForm, RegisterForm, AddPassForm, DeletePassForm, ModifyPassForm
+from .forms import LoginForm, RegisterForm, AddPassForm, DeletePassForm, ModifyPassForm, ShowPasswordForm
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -121,19 +121,22 @@ def user(username):
     The information of the table depends on the user logged so the `User 1` can't see the information of the `User 2`
     even when they are in the same database and configured by the same person.
 
+    It also renders a simple form to show the password of the database. In this form the user has to enter the ID of the
+    password shown in the table, and it will change the ``*`` characters for the value of the password.
+
     :param username: Is the username of the user logged
 
     :return: It returns the rendered template of ``home``
 
     """
-    # if request.form["copy"] == "Copy to clipboard!":
-    #     data = Data.query.filter_by(id=id, user_id=current_user.id).first()
-    #     password = decryptor.decrypt(data.password)
-    #     pc.copy(password)
-    #     flash('Password successfully copied to clipboard!')
-    # else:
+    form = ShowPasswordForm()
+    if form.validate_on_submit():
+        data = Data.query.filter_by(id=form.password_id.data, user_id=current_user.id).first()
+        password = Encryption.decrypt(data.password)
+        return render_template("home.html", username=username, data=Data.query.filter_by(user_id=current_user.id),
+                               id=current_user.id, form=form, text=password)
     return render_template("home.html", username=username, data=Data.query.filter_by(user_id=current_user.id),
-                           id=current_user.id, )
+                           id=current_user.id, form=form, text='')
 
 
 @app.route("/home/<username>/add", methods=["GET", "POST"])

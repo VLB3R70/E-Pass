@@ -20,9 +20,7 @@ class LoginForm(FlaskForm):
 
     """
     user_name = StringField("Enter your username", validators=[DataRequired()])
-    master_password = PasswordField(
-        "Enter your master password", validators=[DataRequired()]
-    )
+    master_password = PasswordField("Enter your master password", validators=[DataRequired()])
     login = SubmitField("Log in")
 
 
@@ -37,12 +35,8 @@ class RegisterForm(FlaskForm):
 
     """
     user_name = StringField("Enter the username", validators=[DataRequired()])
-    master_password = PasswordField(
-        "Enter the master password", validators=[DataRequired()]
-    )
-    second_password = PasswordField(
-        "Enter the master password again", validators=[DataRequired()]
-    )
+    master_password = PasswordField("Enter the master password", validators=[DataRequired()])
+    second_password = PasswordField("Enter the master password again", validators=[DataRequired()])
     email = StringField("Enter your email (Optional)")
     register = SubmitField("Register me")
 
@@ -58,12 +52,8 @@ class AddPassForm(FlaskForm):
     """
     site_name = StringField("Enter the site name:", validators=[DataRequired()])
     username = StringField("Enter your username:")
-    password = PasswordField(
-        "Enter the password of the site:", validators=[DataRequired()]
-    )
-    confirm_password = PasswordField(
-        "Confirm the password:", validators=[DataRequired()]
-    )
+    password = PasswordField("Enter the password of the site:", validators=[DataRequired()])
+    confirm_password = PasswordField("Confirm the password:", validators=[DataRequired()])
     addPassword = SubmitField("Add new password")
 
 
@@ -96,3 +86,8 @@ class ModifyPassForm(FlaskForm):
     new_password = StringField("Enter the new password:")
     confirm_password = StringField("Enter the password again:")
     modify = SubmitField("Modify")
+
+
+class ShowPasswordForm(FlaskForm):
+    password_id = IntegerField("Enter the ID of the password:")
+    copy = SubmitField("ShowPassword")
