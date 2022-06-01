@@ -16,7 +16,7 @@ from flask_sqlalchemy import SQLAlchemy
 from CORE import Encryption
 from CORE.data import Data as data
 from REST.config import Config
-from .forms import LoginForm, RegisterForm, AddPassForm, DeletePassForm, ModifyPassForm, ShowPasswordForm
+from REST.forms import LoginForm, RegisterForm, AddPassForm, DeletePassForm, ModifyPassForm, ShowPasswordForm
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -36,6 +36,11 @@ def init():
 
     :return: It returns a redirection to the login view
     """
+    if not os.path.exists(data.DATA_DIRECTORY):
+        os.mkdir(data.DATA_DIRECTORY)
+    elif not os.path.exists(data.DATABASE_PATH):
+        open(data.DATABASE_PATH, "w")
+        db.create_all()
     return redirect(url_for("login"))
 
 
@@ -75,7 +80,7 @@ def logout():
     return redirect(url_for("login"))
 
 
-from .models import User, Data
+from REST.models import User, Data
 
 
 @app.route("/registration", methods=["GET", "POST"])
@@ -90,11 +95,6 @@ def register():
     :return: It returns the rendered template of the registration
 
     """
-    if not os.path.exists(data.DATA_DIRECTORY):
-        os.mkdir(data.DATA_DIRECTORY)
-    elif not os.path.exists(data.DATABASE_PATH):
-        open(data.DATABASE_PATH, "w")
-        db.create_all()
     global user
     form = RegisterForm()
     if form.validate_on_submit():

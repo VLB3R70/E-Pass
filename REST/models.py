@@ -10,7 +10,7 @@ the same objects as the tables in the database. In this case, the ``EPass`` data
 from sqlalchemy import ForeignKey, Column, Integer, Text
 from sqlalchemy.orm import backref
 
-from .app import db
+from REST.app import db
 
 
 class User(db.Model):
