@@ -21,6 +21,7 @@ class Config(object):
     This object is called during the instance of the app object in :py:meth:`REST.app`
 
     """
+
     SECRET_KEY = secrets.token_urlsafe(64)
     PERMANENT_SESSION_LIFETIME = timedelta(minutes=30)
     TEMPLATES_AUTO_RELOAD = True

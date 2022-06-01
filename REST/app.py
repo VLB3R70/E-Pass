@@ -10,13 +10,26 @@ is no database, it will be created a new one locally. The :doc:`tui` and :doc:`g
 import os
 
 from flask import Flask, render_template, redirect, url_for, flash
-from flask_login import (LoginManager, current_user, login_required, login_user, logout_user, )
+from flask_login import (
+    LoginManager,
+    current_user,
+    login_required,
+    login_user,
+    logout_user,
+)
 from flask_sqlalchemy import SQLAlchemy
 
 from CORE import Encryption
 from CORE.data import Data as data
 from REST.config import Config
-from REST.forms import LoginForm, RegisterForm, AddPassForm, DeletePassForm, ModifyPassForm, ShowPasswordForm
+from REST.forms import (
+    LoginForm,
+    RegisterForm,
+    AddPassForm,
+    DeletePassForm,
+    ModifyPassForm,
+    ShowPasswordForm,
+)
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -99,7 +112,10 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         user_exists = User.query.filter_by(name=form.user_name.data).first()
-        if (user_exists is None and form.master_password.data == form.second_password.data):
+        if (
+            user_exists is None
+            and form.master_password.data == form.second_password.data
+        ):
             user = User()
             user.name = form.user_name.data
             user.master_password = encryptor.encrypt(form.master_password.data)
@@ -131,12 +147,26 @@ def user(username):
     """
     form = ShowPasswordForm()
     if form.validate_on_submit():
-        data = Data.query.filter_by(id=form.password_id.data, user_id=current_user.id).first()
+        data = Data.query.filter_by(
+            id=form.password_id.data, user_id=current_user.id
+        ).first()
         password = Encryption.decrypt(data.password)
-        return render_template("home.html", username=username, data=Data.query.filter_by(user_id=current_user.id),
-                               id=current_user.id, form=form, text=password)
-    return render_template("home.html", username=username, data=Data.query.filter_by(user_id=current_user.id),
-                           id=current_user.id, form=form, text='')
+        return render_template(
+            "home.html",
+            username=username,
+            data=Data.query.filter_by(user_id=current_user.id),
+            id=current_user.id,
+            form=form,
+            text=password,
+        )
+    return render_template(
+        "home.html",
+        username=username,
+        data=Data.query.filter_by(user_id=current_user.id),
+        id=current_user.id,
+        form=form,
+        text="",
+    )
 
 
 @app.route("/home/<username>/add", methods=["GET", "POST"])
@@ -190,7 +220,9 @@ def modify_password(username):
     form = ModifyPassForm()
     num_passwords = Data.query.filter_by(user_id=current_user.id).count()
     if form.validate_on_submit():
-        old_data = Data.query.filter_by(id=form.id.data, user_id=current_user.id).first()
+        old_data = Data.query.filter_by(
+            id=form.id.data, user_id=current_user.id
+        ).first()
         new_data = Data()
         new_data.user_id = current_user.id
         if form.id.data != "":
@@ -202,7 +234,10 @@ def modify_password(username):
                 new_data.username = form.new_username.data
             else:
                 new_data.username = old_data.username
-            if (form.new_password.data != "" and form.new_password.data == form.confirm_password.data):
+            if (
+                form.new_password.data != ""
+                and form.new_password.data == form.confirm_password.data
+            ):
                 new_data.password = form.new_password.data
             elif form.new_password.data != form.confirm_password.data:
                 flash("The passwords must be the same")
@@ -215,7 +250,9 @@ def modify_password(username):
             db.session.commit()
             return redirect(url_for("user", username=username))
     else:
-        return render_template("modify.html", form=form, data=Data.query.filter_by(user_id=current_user.id))
+        return render_template(
+            "modify.html", form=form, data=Data.query.filter_by(user_id=current_user.id)
+        )
 
 
 @app.route("/home/<username>/delete", methods=["GET", "POST"])
@@ -239,7 +276,9 @@ def delete_password(username):
         db.session.commit()
         return redirect(url_for("user", username=username))
     else:
-        return render_template("delete.html", form=form, data=Data.query.filter_by(user_id=current_user.id))
+        return render_template(
+            "delete.html", form=form, data=Data.query.filter_by(user_id=current_user.id)
+        )
 
 
 @login_manager.user_loader

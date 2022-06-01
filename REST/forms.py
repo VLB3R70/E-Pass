@@ -19,8 +19,11 @@ class LoginForm(FlaskForm):
     The `username` and the `master password` are required which means that the user must enter data on that entries.
 
     """
+
     user_name = StringField("Enter your username", validators=[DataRequired()])
-    master_password = PasswordField("Enter your master password", validators=[DataRequired()])
+    master_password = PasswordField(
+        "Enter your master password", validators=[DataRequired()]
+    )
     login = SubmitField("Log in")
 
 
@@ -34,9 +37,14 @@ class RegisterForm(FlaskForm):
     The `username`, `master password` and `second password` entries are required.
 
     """
+
     user_name = StringField("Enter the username", validators=[DataRequired()])
-    master_password = PasswordField("Enter the master password", validators=[DataRequired()])
-    second_password = PasswordField("Enter the master password again", validators=[DataRequired()])
+    master_password = PasswordField(
+        "Enter the master password", validators=[DataRequired()]
+    )
+    second_password = PasswordField(
+        "Enter the master password again", validators=[DataRequired()]
+    )
     email = StringField("Enter your email (Optional)")
     register = SubmitField("Register me")
 
@@ -50,10 +58,15 @@ class AddPassForm(FlaskForm):
     The `site name`, `master password` and `username` entries are required.
 
     """
+
     site_name = StringField("Enter the site name:", validators=[DataRequired()])
     username = StringField("Enter your username:")
-    password = PasswordField("Enter the password of the site:", validators=[DataRequired()])
-    confirm_password = PasswordField("Confirm the password:", validators=[DataRequired()])
+    password = PasswordField(
+        "Enter the password of the site:", validators=[DataRequired()]
+    )
+    confirm_password = PasswordField(
+        "Confirm the password:", validators=[DataRequired()]
+    )
     addPassword = SubmitField("Add new password")
 
 
@@ -66,6 +79,7 @@ class DeletePassForm(FlaskForm):
     The `id` entry is required.
 
     """
+
     id = IntegerField("Enter the ID of the password:", validators=[DataRequired()])
     delete = SubmitField("Delete")
 
@@ -80,6 +94,7 @@ class ModifyPassForm(FlaskForm):
     None entries are required.
 
     """
+
     id = IntegerField("Enter the ID of the password:")
     new_site_name = StringField("Enter the new site name:")
     new_username = StringField("Enter the new username:")

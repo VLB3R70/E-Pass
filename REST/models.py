@@ -22,6 +22,7 @@ class User(db.Model):
     as columns of the table with the same name in the database.
 
     """
+
     __tablename__ = "User"
     id = Column(Integer, primary_key=True, nullable=False)
     name = Column(Text, nullable=False, unique=True)
@@ -73,9 +74,14 @@ class Data(db.Model):
     The ``user_id`` property indicates the relationship between the :py:class:`User` class and table in the database.
 
     """
+
     __tablename__ = "Data"
     id = Column(db.Integer, primary_key=True, nullable=False)
-    user_id = Column(Integer, ForeignKey("User.id", ondelete="cascade", onupdate="cascade"), nullable=False, )
+    user_id = Column(
+        Integer,
+        ForeignKey("User.id", ondelete="cascade", onupdate="cascade"),
+        nullable=False,
+    )
     user = db.relationship("User", backref=backref("Data", uselist=False))
     site_name = Column(Text, nullable=False)
     username = Column(Text, nullable=False)
