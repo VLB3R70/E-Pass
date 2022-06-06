@@ -93,7 +93,7 @@ def logout():
     return redirect(url_for("login"))
 
 
-from REST.models import User, Data
+from models import User, Data
 
 
 @app.route("/registration", methods=["GET", "POST"])
