@@ -16,6 +16,7 @@ from rich.console import Console
 from rich.markdown import Markdown
 from rich.prompt import Prompt
 from rich.table import Table
+
 from CORE.DAODatabase import DAO
 from .TUIHelp import HELP
 
@@ -86,14 +87,12 @@ def login():
             )
             USER = username
             for i in dao.get_users():
-                if username in i and master_password == dao.get_master_password(
-                    user=USER
-                ):
+                if (username in i) and (master_password == dao.get_master_password(user=USER)):
                     USER_ID = dao.get_user_id(username=USER)
                     nice_print("[green]Succesful login!")
                     main_menu()
                     log_in = False
-                else:
+                elif username not in i and master_password != dao.get_master_password(user=USER):
                     nice_print("[bold][red]Wrong password![yellow]Nice try[/yellow] 😉")
         elif election == "2":
             new_username = Prompt.ask(prompt="[cyan]Enter the username:", default="")
